@@ -1,0 +1,1215 @@
+[root@ansible files]# curl -vk https://webmail.ccop.dev
+
+*   Trying 192.168.110.253:443...
+
+* Connected to webmail.ccop.dev (192.168.110.253) port 443 (#0)
+
+* ALPN, offering h2
+
+* ALPN, offering http/1.1
+
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+
+* TLSv1.2 (IN), TLS header, Finished (20):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+
+* TLSv1.2 (OUT), TLS header, Finished (20):
+
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+
+* ALPN, server accepted to use h2
+
+* Server certificate:
+
+*  subject: C=US; O=U.S. Government; OU=D009; OU=DoD; CN=webmail
+
+*  start date: Sep 24 00:00:00 2025 GMT
+
+*  expire date: Dec 31 00:00:00 2030 GMT
+
+*  issuer: C=US; O=U.S. Government; OU=DNI; CN=CAD PKI Root 3
+
+*  SSL certificate verify ok.
+
+* Using HTTP2, server supports multi-use
+
+* Connection state changed (HTTP/2 confirmed)
+
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+* Using Stream ID: 1 (easy handle 0x5640d3b6d660)
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+> GET / HTTP/2
+
+> Host: webmail.ccop.dev
+
+> user-agent: curl/7.76.1
+
+> accept: */*
+
+> 
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+
+* old SSL session ID is stale, removing
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+< HTTP/2 200
+
+< server: nginx
+
+< date: Thu, 02 Oct 2025 19:24:30 GMT
+
+< content-type: text/html; charset=utf-8
+
+< vary: Accept-Encoding
+
+< set-cookie: PHPSESSID=a5300bb8da5de3cee5bca5fa092d92a6; path=/; secure; HttpOnly
+
+< expires: Thu, 19 Nov 1981 08:52:00 GMT
+
+< cache-control: no-store, no-cache, must-revalidate
+
+< pragma: no-cache
+
+< strict-transport-security: max-age=15768000;
+
+< x-content-type-options: nosniff
+
+< x-xss-protection: 1; mode=block
+
+< x-robots-tag: none
+
+< x-download-options: noopen
+
+< x-frame-options: SAMEORIGIN
+
+< x-permitted-cross-domain-policies: none
+
+< referrer-policy: strict-origin
+
+< 
+
+<!DOCTYPE html>
+
+<html lang="en-gb">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+  <meta name="theme-color" content="#F5D76E"/>
+
+  <meta http-equiv="Referrer-Policy" content="same-origin">
+
+  <title>mailcow UI</title>
+
+ 
+
+  <link rel="stylesheet" href="/cache/3c8c8b3a1c6b3ce2aa532d167f918f5d056abec5.css">
+
+  <script>
+
+    // check if darkmode is preferred by OS or set by localStorage
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("theme") !== "light" ||
+
+        localStorage.getItem("theme") === "dark") {
+
+      var head  = document.getElementsByTagName('head')[0];
+
+      var link  = document.createElement('link');
+
+      link.id   = 'dark-mode-theme';
+
+      link.rel  = 'stylesheet';
+
+      link.type = 'text/css';
+
+      link.href = '/css/themes/mailcow-darkmode.css';
+
+      head.appendChild(link);
+
+    }
+
+  </script>
+
+ 
+
+  <link rel="shortcut icon" href="/favicon.png" type="image/png">
+
+  <link rel="icon" href="/favicon.png" type="image/png">
+
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+ 
+
+<form action="/" method="post" id="logout"><input type="hidden" name="logout"></form>
+
+ 
+
+ 
+
+<div class="container flex-grow-1 my-4">
+
+<div class="row mb-4" style="margin-top: 60px">
+
+  <div class="col-12 col-md-7 col-lg-6 col-xl-5 ms-auto me-auto">
+
+ 
+
+    <div class="card">
+
+      <div class="card-header d-flex align-items-center text-break">
+
+        <i class="bi bi-person-fill me-2"></i> User Login
+
+        <div class="ms-auto form-check form-switch my-auto d-flex align-items-center">
+
+          <label class="form-check-label"><i class="bi bi-moon-fill"></i></label>
+
+          <input class="form-check-input ms-2" type="checkbox" id="dark-mode-toggle">
+
+        </div>
+
+                <div class="ms-4 d-grid d-sm-block">
+
+          <button type="button"  class="text-secondary btn p-0 border-0 bg-transparent ms-auto dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            <span class="flag-icon flag-icon-gb"></span>
+
+          </button>
+
+          <ul class="dropdown-menu ms-auto login">
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=bg-bg">
+
+                  <span class="flag-icon flag-icon-bg"></span>Български (Bulgarian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=cs-cz">
+
+                  <span class="flag-icon flag-icon-cz"></span>Čeština (Czech)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=da-dk">
+
+                  <span class="flag-icon flag-icon-dk"></span>Danish (Dansk)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=de-de">
+
+                  <span class="flag-icon flag-icon-de"></span>Deutsch (German)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item active" href="?lang=en-gb">
+
+                  <span class="flag-icon flag-icon-gb"></span>English
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=es-es">
+
+                  <span class="flag-icon flag-icon-es"></span>Español (Spanish)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=fi-fi">
+
+                  <span class="flag-icon flag-icon-fi"></span>Suomi (Finish)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=fr-fr">
+
+                  <span class="flag-icon flag-icon-fr"></span>Français (French)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=gr-gr">
+
+                  <span class="flag-icon flag-icon-gr"></span>Ελληνικά (Greek)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=hu-hu">
+
+                  <span class="flag-icon flag-icon-hu"></span>Magyar (Hungarian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=it-it">
+
+                  <span class="flag-icon flag-icon-it"></span>Italiano (Italian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=ja-jp">
+
+                  <span class="flag-icon flag-icon-jp"></span>日本語 (Japanese)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=ko-kr">
+
+                  <span class="flag-icon flag-icon-kr"></span>한국어 (Korean)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=lv-lv">
+
+                  <span class="flag-icon flag-icon-lv"></span>latviešu (Latvian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=lt-lt">
+
+                  <span class="flag-icon flag-icon-lt"></span>Lietuvių (Lithuanian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=nb-no">
+
+                  <span class="flag-icon flag-icon-no"></span>Norsk (Norwegian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=nl-nl">
+
+                  <span class="flag-icon flag-icon-nl"></span>Nederlands (Dutch)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=pl-pl">
+
+                  <span class="flag-icon flag-icon-pl"></span>Język Polski (Polish)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=pt-br">
+
+                  <span class="flag-icon flag-icon-br"></span>Português brasileiro (Brazilian Portuguese)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=pt-pt">
+
+                  <span class="flag-icon flag-icon-pt"></span>Português (Portuguese)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=ro-ro">
+
+                  <span class="flag-icon flag-icon-ro"></span>Română (Romanian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=ru-ru">
+
+                  <span class="flag-icon flag-icon-ru"></span>Pусский (Russian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=si-si">
+
+                  <span class="flag-icon flag-icon-si"></span>Slovenščina (Slovenian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=sk-sk">
+
+                  <span class="flag-icon flag-icon-sk"></span>Slovenčina (Slovak)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=sv-se">
+
+                  <span class="flag-icon flag-icon-se"></span>Svenska (Swedish)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=tr-tr">
+
+                  <span class="flag-icon flag-icon-tr"></span>Türkçe (Turkish)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+                <a class="dropdown-item " href="?lang=uk-ua">
+
+                  <span class="flag-icon flag-icon-ua"></span>Українська (Ukrainian)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=zh-cn">
+
+                  <span class="flag-icon flag-icon-cn"></span>简体中文 (Simplified Chinese)
+
+                </a>
+
+              </li>
+
+                          <li>
+
+                <a class="dropdown-item " href="?lang=zh-tw">
+
+                  <span class="flag-icon flag-icon-tw"></span>繁體中文 (Traditional Chinese)
+
+                </a>
+
+              </li>
+
+                      </ul>
+
+        </div>
+
+              </div>
+
+      <div class="card-body">
+
+        <div class="text-center mailcow-logo mb-4">
+
+          <img class="main-logo" src="/img/cow_mailcow.svg" alt="mailcow">
+
+          <img class="main-logo-dark" src="/img/cow_mailcow.svg" alt="mailcow-logo-dark">
+
+        </div>
+
+                <legend>mailcow UI</legend><hr />
+
+                        <form method="post" autofill="off">
+
+          <div class="d-flex mt-3">
+
+            <label class="visually-hidden" for="login_user">Username</label>
+
+            <div class="input-group">
+
+              <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+
+              <input name="login_user" autocorrect="off" autocapitalize="none" type="text" id="login_user" class="form-control" placeholder="Email address" required="" autofocus="" autocomplete="username">
+
+            </div>
+
+          </div>
+
+          <div class="d-flex mt-3">
+
+            <label class="visually-hidden" for="pass_user">Password</label>
+
+            <div class="input-group">
+
+              <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+
+              <input name="pass_user" type="password" id="pass_user" class="form-control" placeholder="Password" required="" autocomplete="current-password">
+
+            </div>
+
+          </div>
+
+          <div class="mt-2 text-muted" style="font-size: 0.9rem;">
+
+            <a href="/reset-password">&gt; Forgot Password?</a>
+
+          </div>
+
+          <div class="d-flex justify-content-between mt-4" style="position: relative">
+
+            <button type="submit" class="btn btn-xs-lg btn-success w-100 mt-2 mx-auto" style="max-width: 400px;" value="Login">Login</button>
+
+          </div>
+
+        </form>
+
+        <div class="hr-title"><strong>or login with</strong></div>
+
+                <div class="d-flex flex-column align-items-center">
+
+                              <a class="btn btn-xs-lg btn-secondary w-100 mt-2" style="max-width: 400px;" href="#" id="fido2-login"><i class="bi bi-shield-fill-check"></i> FIDO2/WebAuthn Login</a>
+
+                  </div>
+
+                <div class="my-4" id="fido2-alerts"></div>
+
+              </div>
+
+    </div>
+
+ 
+
+        <p class="text-center mt-3 text-muted" style="font-size: 0.9rem;">
+
+      Not the correct login?<br>
+
+      <a href="/admin">Log in as admin</a>      |      <a href="/domainadmin">Log in as domain admin</a>    </p>
+
+      </div>
+
+</div>
+
+</div>
+
+ 
+
+<div id="ConfirmDeleteModal" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h3 class="modal-title">Confirm deletion</h3>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p id="DeleteText">Please confirm your changes to the following object id</p>
+
+        <ul id="ItemsToDelete"></ul>
+
+        <hr>
+
+        <button class="btn btn-sm btn-xs-half d-block d-sm-inline btn-danger" id="IsConfirmed">Delete now</button>
+
+        <button class="btn btn-sm btn-xs-half d-block d-sm-inline btn-secondary" id="isCanceled">Cancel</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- version modal -->
+
+<div class="modal fade" id="showVersionModal" tabindex="-1" role="dialog" aria-hidden="true">
+
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title"></h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+      </div>
+
+      <div class="modal-body d-flex flex-column mt-2 p-4">
+
+        <div class="spinner-border mx-auto" role="status">
+
+          <span class="visually-hidden">Loading...</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div><!-- version modal -->
+
+ 
+
+<script src="/cache/b9dfd188436c902e14fa2541778f8a6650d1163d.js"></script>
+
+<script>
+
+  var lang_footer = {"cancel":"Cancel","confirm_delete":"Confirm deletion","delete_now":"Delete now","delete_these_items":"Please confirm your changes to the following object id","hibp_check":"Check against haveibeenpwned.com","hibp_nok":"Matched! This is a potentially dangerous password!","hibp_ok":"No match found.","loading":"Please wait...","nothing_selected":"Nothing selected","restart_container":"Restart container","restart_container_info":"<b>Important:<\/b> A graceful restart may take a while to complete, please wait for it to finish.","restart_now":"Restart now","restarting_container":"Restarting container, this may take a while"};
+
+  var lang_acl = {"alias_domains":"Add alias domains","app_passwds":"Manage app passwords","bcc_maps":"BCC maps","delimiter_action":"Delimiter action","domain_desc":"Change domain description","domain_relayhost":"Change relayhost for a domain","eas_reset":"Reset EAS devices","extend_sender_acl":"Allow to extend sender ACL by external addresses","filters":"Filters","login_as":"Login as mailbox user","mailbox_relayhost":"Change relayhost for a mailbox","prohibited":"Prohibited by ACL","protocol_access":"Change protocol access","pushover":"Pushover","pw_reset":"Allow to reset mailcow user password","quarantine":"Quarantine actions","quarantine_attachments":"Quarantine attachments","quarantine_category":"Change quarantine notification category","quarantine_notification":"Change quarantine notifications","ratelimit":"Rate limit","recipient_maps":"Recipient maps","smtp_ip_access":"Change allowed hosts for SMTP","sogo_access":"Allow management of SOGo access","sogo_profile_reset":"Reset SOGo profile","spam_alias":"Temporary aliases","spam_policy":"Denylist\/Allowlist","spam_score":"Spam score","syncjobs":"Sync jobs","tls_policy":"TLS policy","unlimited_quota":"Unlimited quota for mailboxes"};
+
+  var lang_tfa = {"authenticators":"Authenticators","api_register":"%s uses the Yubico Cloud API. Please get an API key for your key <a href=\"https:\/\/upgrade.yubico.com\/getapikey\/\" target=\"_blank\">here<\/a>","confirm":"Confirm","confirm_totp_token":"Please confirm your changes by entering the generated token","delete_tfa":"Disable TFA","disable_tfa":"Disable TFA until next successful login","enter_qr_code":"Your TOTP code if your device cannot scan QR codes","error_code":"Error code","init_webauthn":"Initializing, please wait...","key_id":"An identifier for your Device","key_id_totp":"An identifier for your key","none":"Deactivate","reload_retry":"- (reload browser if the error persists)","scan_qr_code":"Please scan the following code with your authenticator app or enter the code manually.","select":"Please select","set_tfa":"Set two-factor authentication method","start_webauthn_validation":"Start validation","tfa":"Two-factor authentication","tfa_token_invalid":"TFA token invalid","totp":"Time-based OTP (Google Authenticator, Authy, etc.)","u2f_deprecated":"It seems that your Key was registered using the deprecated U2F method. We will deactivate Two-Factor-Authenticaiton for you and delete your Key.","u2f_deprecated_important":"Please register your Key in the admin panel with the new WebAuthn method.","webauthn":"WebAuthn authentication","waiting_usb_auth":"<i>Waiting for USB device...<\/i><br><br>Please tap the button on your USB device now.","waiting_usb_register":"<i>Waiting for USB device...<\/i><br><br>Please enter your password above and confirm your registration by tapping the button on your USB device.","yubi_otp":"Yubico OTP authentication"};
+
+  var lang_fido2 = {"confirm":"Confirm","fido2_auth":"Login with FIDO2","fido2_success":"Device successfully reg* TLSv1.2 (IN), TLS header, Unknown (23):
+
+istered","fido2_validation_failed":"Validation failed","fn":"Friendly name","known_ids":"Known IDs","none":"Disabled","register_status":"Registration status","rename":"Rename","set_fido2":"Register FIDO2 device","set_fido2_touchid":"Register Touch ID on Apple M1","set_fn":"Set friendly name","start_fido2_validation":"Start FIDO2 validation"};
+
+  var lang_success = {"acl_saved":"ACL for object %s saved","admin_added":"Administrator %s has been added","admin_api_modified":"Changes to API have been saved","admin_modified":"Changes to administrator have been saved","admin_removed":"Administrator %s has been removed","alias_added":"Alias address %s (%d) has been added","alias_domain_removed":"Alias domain %s has been removed","alias_modified":"Changes to alias address %s have been saved","alias_removed":"Alias %s has been removed","aliasd_added":"Added alias domain %s","aliasd_modified":"Changes to alias domain %s have been saved","app_links":"Saved changes to app links","app_passwd_added":"Added new app password","app_passwd_removed":"Removed app password ID %s","bcc_deleted":"BCC map entries deleted: %s","bcc_edited":"BCC map entry %s edited","bcc_saved":"BCC map entry saved","cors_headers_edited":"CORS settings have been saved","custom_login_modified":"Login customisation was saved successfully","db_init_complete":"Database initialization completed","delete_filter":"Deleted filters ID %s","delete_filters":"Deleted filters: %s","deleted_syncjob":"Deleted syncjob ID %s","deleted_syncjobs":"Deleted syncjobs: %s","dkim_added":"DKIM key %s has been saved","domain_add_dkim_available":"A DKIM key did already exist","dkim_duplicated":"DKIM key for domain %s has been copied to %s","dkim_removed":"DKIM key %s has been removed","domain_added":"Added domain %s","domain_admin_added":"Domain administrator %s has been added","domain_admin_modified":"Changes to domain administrator %s have been saved","domain_admin_removed":"Domain administrator %s has been removed","domain_footer_modified":"Changes to domain footer %s have been saved","domain_modified":"Changes to domain %s have been saved","domain_removed":"Domain %s has been removed","dovecot_restart_success":"Dovecot was restarted successfully","eas_reset":"ActiveSync devices for user %s were reset","f2b_banlist_refreshed":"Banlist ID has been successfully refreshed.","f2b_modified":"Changes to Fail2ban parameters have been saved","forwarding_host_added":"Forwarding host %s has been added","forwarding_host_removed":"Forwarding host %s has been removed","global_filter_written":"Filter was successfully written to file","hash_deleted":"Hash deleted","iam_test_connection":"Connection successful","ip_check_opt_in_modified":"IP check was saved successfully","item_deleted":"Item %s successfully deleted","item_released":"Item %s released","items_deleted":"Item %s successfully deleted","items_released":"Selected items were released","learned_ham":"Successfully learned ID %s as ham","license_modified":"Changes to license have been saved","logged_in_as":"Logged in as %s","mailbox_added":"Mailbox %s has been added","mailbox_modified":"Changes to mailbox %s have been saved","mailbox_removed":"Mailbox %s has been removed","mailbox_renamed":"Mailbox was renamed from %s to %s","nginx_reloaded":"Nginx was reloaded","object_modified":"Changes to object %s have been saved","password_policy_saved":"Password policy was saved successfully","password_changed_success":"Password was successfully changed","pushover_settings_edited":"Pushover settings successfully set, please verify credentials.","qlearn_spam":"Message ID %s was learned as spam and deleted","queue_command_success":"Queue command completed successfully","recipient_map_entry_deleted":"Recipient map ID %s has been deleted","recipient_map_entry_saved":"Recipient map entry \"%s\" has been saved","recovery_email_sent":"Recovery email sent to %s","relayhost_added":"Map entry %s has been added","relayhost_removed":"Map entry %s has been removed","reset_main_logo":"Reset to default logo","resource_added":"Resource %s has been added","resource_modified":"Changes to mailbox %s have been saved","resource_removed":"Resource %s has been removed","rl_saved":"Rate limit for object %s saved","rspamd_ui_pw_set":"Rspamd UI password successfully set","saved_settings":"Saved settings","settings_map_added":"Added settings map entry","settings_map_removed":"Removed settings map ID %s","sogo_profile_reset":"SOGo profile for user %s was reset","template_added":"Added template %s","template_modified":"Changes to template %s have been saved","template_removed":"Template ID %s has been deleted","tls_policy_map_entry_deleted":"TLS policy map ID %s has been deleted","tls_policy_map_entry_saved":"TLS policy map entry \"%s\" has been saved","ui_texts":"Saved changes to UI texts","upload_success":"File uploaded successfully","verified_fido2_login":"Verified FIDO2 login","verified_totp_login":"Verified TOTP login","verified_webauthn_login":"Verified WebAuthn login","verified_yotp_login":"Verified Yubico OTP login"};
+
+  var lang_danger = {"access_denied":"Access denied or invalid form data","alias_domain_invalid":"Alias domain %s is invalid","alias_empty":"Alias address must not be empty","alias_goto_identical":"Alias and goto address must not be identical","alias_invalid":"Alias address %s is invalid","aliasd_targetd_identical":"Alias domain must not be equal to target domain: %s","aliases_in_use":"Max. aliases must be greater or equal to %d","app_name_empty":"App name cannot be empty","app_passwd_id_invalid":"App password ID %s invalid","authsource_in_use":"The identity provider cannot be changed or deleted as it is currently in use by one or more users.","bcc_empty":"BCC destination cannot be empty","bcc_exists":"A BCC map %s exists for type %s","bcc_must_be_email":"BCC destination %s is not a valid email address","comment_too_long":"Comment too long, max 160 chars allowed","cors_invalid_method":"Invalid Allow-Method specified","cors_invalid_origin":"Invalid Allow-Origin specified","defquota_empty":"Default quota per mailbox must not be 0.","demo_mode_enabled":"Demo Mode is enabled","description_invalid":"Resource description for %s is invalid","dkim_domain_or_sel_exists":"A DKIM key for \"%s\" exists and will not be overwritten","dkim_domain_or_sel_invalid":"DKIM domain or selector invalid: %s","domain_cannot_match_hostname":"Domain cannot match hostname","domain_exists":"Domain %s already exists","domain_invalid":"Domain name is empty or invalid","domain_not_empty":"Cannot remove non-empty domain %s","domain_not_found":"Domain %s not found","domain_quota_m_in_use":"Domain quota must be greater or equal to %s MiB","extended_sender_acl_denied":"missing ACL to set external sender addresses","extra_acl_invalid":"External sender address \"%s\" is invalid","extra_acl_invalid_domain":"External sender \"%s\" uses an invalid domain","fido2_verification_failed":"FIDO2 verification failed: %s","file_open_error":"File cannot be opened for writing","filter_type":"Wrong filter type","from_invalid":"Sender must not be empty","generic_server_error":"An unexpected server error occurred. Please contact your administrator.","global_filter_write_error":"Could not write filter file: %s","global_map_invalid":"Global map ID %s invalid","global_map_write_error":"Could not write global map ID %s: %s","goto_empty":"An alias address must contain at least one valid goto address","goto_invalid":"Goto address %s is invalid","ham_learn_error":"Ham learn error: %s","iam_test_connection":"Connection failed","imagick_exception":"Error: Imagick exception while reading image","img_dimensions_exceeded":"Image exceeds the maximum image size","img_invalid":"Cannot validate image file","img_size_exceeded":"Image exceeds the maximum file size","img_tmp_missing":"Cannot validate image file: Temporary file not found","invalid_bcc_map_type":"Invalid BCC map type","invalid_destination":"Destination format \"%s\" is invalid","invalid_filter_type":"Invalid filter type","invalid_host":"Invalid host specified: %s","invalid_mime_type":"Invalid mime type","invalid_nexthop":"Next hop format is invalid","invalid_nexthop_authenticated":"Next ho* TLSv1.2 (IN), TLS header, Unknown (23):
+
+p exists with different credentials, please update the existing credentials for this next hop first.","invalid_recipient_map_new":"Invalid new recipient specified: %s","invalid_recipient_map_old":"Invalid original recipient specified: %s","invalid_reset_token":"Invalid reset token","ip_list_empty":"List of allowed IPs cannot be empty","is_alias":"%s is already known as an alias address","is_alias_or_mailbox":"%s is already known as an alias, a mailbox or an alias address expanded from an alias domain.","is_spam_alias":"%s is already known as a temporary alias address (spam alias address)","last_key":"Last key cannot be deleted, please deactivate TFA instead.","login_failed":"Login failed","mailbox_defquota_exceeds_mailbox_maxquota":"Default quota exceeds max quota limit","mailbox_invalid":"Mailbox name is invalid","mailbox_quota_exceeded":"Quota exceeds the domain limit (max. %d MiB)","mailbox_quota_exceeds_domain_quota":"Max. quota exceeds domain quota limit","mailbox_quota_left_exceeded":"Not enough space left (space left: %d MiB)","mailboxes_in_use":"Max. mailboxes must be greater or equal to %d","malformed_username":"Malformed username","map_content_empty":"Map content cannot be empty","max_age_invalid":"Max age %s is invalid","max_alias_exceeded":"Max. aliases exceeded","max_mailbox_exceeded":"Max. mailboxes exceeded (%d of %d)","max_quota_in_use":"Mailbox quota must be greater or equal to %d MiB","maxquota_empty":"Max. quota per mailbox must not be 0.","mode_invalid":"Mode %s is invalid","mx_invalid":"MX record %s is invalid","mysql_error":"MySQL error: %s","network_host_invalid":"Invalid network or host: %s","next_hop_interferes":"%s interferes with nexthop %s","next_hop_interferes_any":"An existing next hop interferes with %s","nginx_reload_failed":"Nginx reload failed: %s","no_user_defined":"No user defined","object_exists":"Object %s already exists","object_is_not_numeric":"Value %s is not numeric","password_complexity":"Password does not meet the policy","password_empty":"Password must not be empty","password_mismatch":"Confirmation password does not match","password_reset_invalid_user":"Mailbox not found or no recovery email is set","password_reset_na":"The password recovery is currently unavailable. Please contact your administrator.","policy_list_from_exists":"A record with given name exists","policy_list_from_invalid":"Record has invalid format","private_key_error":"Private key error: %s","pushover_credentials_missing":"Pushover token and or key missing","pushover_key":"Pushover key has a wrong format","pushover_token":"Pushover token has a wrong format","quota_not_0_not_numeric":"Quota must be numeric and >= 0","recipient_map_entry_exists":"A Recipient map entry \"%s\" exists","recovery_email_failed":"Could not send a recovery email. Please contact your administrator.","redis_error":"Redis error: %s","relayhost_invalid":"Map entry %s is invalid","release_send_failed":"Message could not be released: %s","required_data_missing":"Required data %s is missing","reset_f2b_regex":"Regex filter could not be reset in time, please try again or wait a few more seconds and reload the website.","reset_token_limit_exceeded":"Reset token limit has been exceeded. Please try again later.","resource_invalid":"Resource name %s is invalid","rl_timeframe":"Rate limit time frame is incorrect","rspamd_ui_pw_length":"Rspamd UI password should be at least 6 chars long","script_empty":"Script cannot be empty","sender_acl_invalid":"Sender ACL value %s is invalid","set_acl_failed":"Failed to set ACL","settings_map_invalid":"Settings map ID %s invalid","sieve_error":"Sieve parser error: %s","spam_learn_error":"Spam learn error: %s","subject_empty":"Subject must not be empty","target_domain_invalid":"Target domain %s is invalid","targetd_not_found":"Target domain %s not found","targetd_relay_domain":"Target domain %s is a relay domain","template_exists":"Template %s already exists","template_id_invalid":"Template ID %s invalid","template_name_invalid":"Template name invalid","temp_error":"Temporary error","text_empty":"Text must not be empty","tfa_token_invalid":"TFA token invalid","tls_policy_map_dest_invalid":"Policy destination is invalid","tls_policy_map_entry_exists":"A TLS policy map entry \"%s\" exists","tls_policy_map_parameter_invalid":"Policy parameter is invalid","to_invalid":"Recipient must not be empty","totp_verification_failed":"TOTP verification failed","transport_dest_exists":"Transport destination \"%s\" exists","webauthn_verification_failed":"WebAuthn verification failed: %s","webauthn_authenticator_failed":"The selected authenticator was not found","webauthn_publickey_failed":"No public key was stored for the selected authenticator","webauthn_username_failed":"The selected authenticator belongs to another account","unknown":"An unknown error occurred","unknown_tfa_method":"Unknown TFA method","unlimited_quota_acl":"Unlimited quota prohibited by ACL","username_invalid":"Username %s cannot be used","validity_missing":"Please assign a period of validity","value_missing":"Please provide all values","version_invalid":"Version %s is invalid","yotp_verification_failed":"Yubico OTP verification failed: %s"};
+
+  var docker_timeout = 60 * 1000;
+
+  var mailcow_cc_role = '';
+
+    var mailcow_info = {
+
+    version_tag: '',
+
+    last_version_tag: '',
+
+    updatedAt: '',
+
+    project_url: '',
+
+    project_owner: '',
+
+    project_repo: '',
+
+    branch: ''
+
+  };
+
+ 
+
+$(window).scroll(function() {
+
+  sessionStorage.scrollTop = $(this).scrollTop();
+
+});
+
+// Select language and reopen active URL without POST
+
+function setLang(sel) {
+
+  $.post( '/', {lang: sel} );
+
+  window.location.href = window.location.pathname + window.location.search;
+
+}
+
+// FIDO2 functions
+
+function arrayBufferToBase64(buffer) {
+
+  let binary = '';
+
+  let bytes = new Uint8Array(buffer);
+
+  let len = bytes.byteLength;
+
+  for (let i = 0; i < len; i++) {
+
+    binary += String.fromCharCode( bytes[ i ] );
+
+  }
+
+  return window.btoa(binary);
+
+}
+
+function recursiveBase64StrToArrayBuffer(obj) {
+
+  let prefix = '=?BINARY?B?';
+
+  let suffix = '?=';
+
+  if (typeof obj === 'object') {
+
+    for (let key in obj) {
+
+      if (typeof obj[key] === 'string') {
+
+        let str = obj[key];
+
+        if (str.substring(0, prefix.length) === prefix && str.substring(str.length - suffix.length) === suffix) {
+
+          str = str.substring(prefix.length, str.length - suffix.length);
+
+          let binary_string = window.atob(str);
+
+          let len = binary_string.length;
+
+          let bytes = new Uint8Array(len);
+
+          for (let i = 0; i < len; i++) {
+
+            bytes[i] = binary_string.charCodeAt(i);
+
+          }
+
+          obj[key] = bytes.buffer;
+
+        }
+
+      } else {
+
+        recursiveBase64StrToArrayBuffer(obj[key]);
+
+      }
+
+    }
+
+  }
+
+}
+
+  $(window).on('load', function() {
+
+    $(".overlay").hide();
+
+  });
+
+  $(document).ready(function() {
+
+    $(document).on('shown.bs.modal', function(e) {
+
+      modal_id = $(e.relatedTarget).data('target');
+
+      $(modal_id).attr("aria-hidden","false");
+
+    });
+
+    // TFA, CSRF, Alerts in footer.inc.php
+
+    // Other general functions in mailcow.js
+
+ 
+
+    // Confirm TFA modal
+
+ 
+
+ 
+
+    // Validate FIDO2
+
+  $("#fido2-login").click(function(){
+
+    $('#fido2-alerts').html();
+
+    if (!window.fetch || !navigator.credentials || !navigator.credentials.create) {
+
+      window.alert('Browser not supported.');
+
+      return;
+
+    }
+
+    window.fetch("/api/v1/get/fido2-get-args", {method:'GET',cache:'no-cache'}).then(function(response) {
+
+      return response.json();
+
+    }).then(function(json) {
+
+    if (json.success === false) {
+
+      throw new Error();
+
+    }
+
+    recursiveBase64StrToArrayBuffer(json);
+
+    return json;
+
+    }).then(function(getCredentialArgs) {
+
+      return navigator.credentials.get(getCredentialArgs);
+
+    }).then(function(cred) {
+
+      return {
+
+        id: cred.rawId ? arrayBufferToBase64(cred.rawId) : null,
+
+        clientDataJSON: cred.response.clientDataJSON  ? arrayBufferToBase64(cred.response.clientDataJSON) : null,
+
+        authenticatorData: cred.response.authenticatorData ? arrayBufferToBase64(cred.response.authenticatorData) : null,
+
+        signature : cred.response.signature ? arrayBufferToBase64(cred.response.signature) : null
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+      };
+
+    }).then(JSON.stringify).then(function(AuthenticatorAttestationResponse) {
+
+      var formData = new FormData();
+
+      formData.append("token", AuthenticatorAttestationResponse);
+
+      formData.append("verify_fido2_login", "true");
+
+ 
+
+      return window.fetch(window.location.href, {method:'POST', body: formData, cache:'no-cache'});
+
+    }).then(function(response) {
+
+      window.location = window.location.href.split("#")[0];
+
+    }).catch(function(err) {
+
+    if (typeof err.message === 'undefined') {
+
+      mailcow_alert_box(lang_fido2.fido2_validation_failed, "danger");
+
+    } else {
+
+      mailcow_alert_box(lang_fido2.fido2_validation_failed + ":<br><i>" + err.message + "</i>", "danger");
+
+    }
+
+  });
+
+  });
+
+  // Set TFA/FIDO2
+
+  $("#register-fido2, #register-fido2-touchid").click(function(){
+
+    let t = $(this);
+
+ 
+
+    $("option:selected").prop("selected", false);
+
+    if (!window.fetch || !navigator.credentials || !navigator.credentials.create) {
+
+      window.alert('Browser not supported.');
+
+      return;
+
+    }
+
+ 
+
+    window.fetch("/api/v1/get/fido2-registration/null", {method:'GET',cache:'no-cache'}).then(function(response) {
+
+      return response.json();
+
+    }).then(function(json) {
+
+      if (json.success === false) {
+
+        throw new Error(json.msg);
+
+      }
+
+      recursiveBase64StrToArrayBuffer(json);
+
+ 
+
+      // set attestation to node if we are registering apple touch id
+
+      if(t.attr('id') === 'register-fido2-touchid') {
+
+        json.publicKey.attestation = 'none';
+
+        json.publicKey.authenticatorSelection.authenticatorAttachment = "platform";
+
+      }
+
+ 
+
+      return json;
+
+    }).then(function(createCredentialArgs) {
+
+      console.log(createCredentialArgs);
+
+      return navigator.credentials.create(createCredentialArgs);
+
+    }).then(function(cred) {
+
+      return {
+
+        clientDataJSON: cred.response.clientDataJSON  ? arrayBufferToBase64(cred.response.clientDataJSON) : null,
+
+        attestationObject: cred.response.attestationObject ? arrayBufferToBase64(cred.response.attestationObject) : null
+
+      };
+
+    }).then(JSON.stringify).then(function(AuthenticatorAttestationResponse) {
+
+      return window.fetch("/api/v1/add/fido2-registration", {method:'POST', body: AuthenticatorAttestationResponse, cache:'no-cache'});
+
+    }).then(function(response) {
+
+      return response.json();
+
+    }).then(function(json) {
+
+      if (json.success) {
+
+        window.location = window.location.href.split("#")[0];
+
+      } else {
+
+        throw new Error(json.msg);
+
+      }
+
+    }).catch(function(err) {
+
+      $('#fido2-alerts').html('<span class="text-danger"><b>' + err.message + '</b></span>');
+
+    });
+
+  });
+
+ $('#selectTFA').change(function () {
+
+    if ($(this).val() == "yubi_otp") {
+
+      $('#YubiOTPModal').modal('show');
+
+      $("option:selected").prop("selected", false);
+
+    }
+
+    if ($(this).val() == "totp") {
+
+      $('#TOTPModal').modal('show');
+
+      request_token = $('#tfa-qr-img').data('totp-secret');
+
+      $.ajax({
+
+        url: '/inc/ajax/qr_gen.php',
+
+        data: {
+
+          token: request_token,
+
+        },
+
+      }).done(function (result) {
+
+        $("#tfa-qr-img").attr("src", result);
+
+      });
+
+      $("option:selected").prop("selected", false);
+
+    }
+
+    if ($(this).val() == "webauthn") {
+
+        // check if Browser is supported
+
+        if (!window.fetch || !navigator.credentials || !navigator.credentials.create) {
+
+            window.alert('Browser not supported.');
+
+            return;
+
+        }
+
+ 
+
+        // show modal
+
+        $('#WebAuthnModal').modal('show');
+
+        $("option:selected").prop("selected", false);
+
+ 
+
+        $("#start_webauthn_register").click(() => {
+
+            var key_id = document.getElementsByName('key_id')[1].value;
+
+            var confirm_password = document.getElementsByName('confirm_password')[1].value;
+
+ 
+
+            // fetch WebAuthn create args
+
+            window.fetch("/api/v1/get/webauthn-tfa-registration/null", {method:'GET',cache:'no-cache'}).then(response => {
+
+                return response.json();
+
+            }).then(json => {
+
+                console.log(json);
+
+                if (json.success =* TLSv1.2 (IN), TLS header, Unknown (23):
+
+== false) throw new Error(json.msg);
+
+                recursiveBase64StrToArrayBuffer(json);
+
+ 
+
+                return json;
+
+            }).then(createCredentialArgs => {
+
+                // create credentials
+
+                return navigator.credentials.create(createCredentialArgs);
+
+            }).then(cred => {
+
+                return {
+
+                    clientDataJSON: cred.response.clientDataJSON  ? arrayBufferToBase64(cred.response.clientDataJSON) : null,
+
+                    attestationObject: cred.response.attestationObject ? arrayBufferToBase64(cred.response.attestationObject) : null,
+
+                    key_id: key_id,
+
+                    tfa_method: "webauthn",
+
+                    confirm_password: confirm_password
+
+                };
+
+            }).then(JSON.stringify).then(AuthenticatorAttestationResponse => {
+
+                // send request
+
+                return window.fetch("/api/v1/add/webauthn-tfa-registration", {method:'POST', body: AuthenticatorAttestationResponse, cache:'no-cache'});
+
+            }).then(response => {
+
+                return response.json();
+
+            }).then(json => {
+
+                if (json.success) {
+
+                    // reload on success
+
+                    window.location = window.location.href.split("#")[0];
+
+                } else {
+
+                    throw new Error(json.msg);
+
+                }
+
+            }).catch(function(err) {
+
+                console.log(err);
+
+                var webauthn_return_code = document.getElementById('webauthn_return_code');
+
+                webauthn_return_code.style.display = webauthn_return_code.style.display === 'none' ? '' : null;
+
+                webauthn_return_code.innerHTML = lang_tfa.error_code + ': ' + err + ' ' + lang_tfa.reload_retry;
+
+            });
+
+        });
+
+    }
+
+    if ($(this).val() == "none") {
+
+      $('#DisableTFAModal').modal('show');
+
+      $("option:selected").prop("selected", false);
+
+    }
+
+  });
+
+ 
+
+ 
+
+  // CSRF
+
+  $('<input type="hidden" value="cdb216d5ffa39743ff5e187978b324dbed0fc49e6b7fd9f6c48badd72f4279fb">').attr('name', 'csrf_token').appendTo('form');
+
+  if (sessionStorage.scrollTop != "undefined") {
+
+    $(window).scrollTop(sessionStorage.scrollTop);
+
+  }
+
+  });
+
+</script>
+
+ 
+
+<div class="container footer">
+
+        </div>
+
+</body>
+
+</html>
+
+* TLSv1.2 (IN), TLS header, Unknown (23):
+
+* Connection #0 to host webmail.ccop.dev left intact
