@@ -1,1051 +1,505 @@
 ---
-
 # tasks for replace_stack role
 
- 
-
 # ──────────────── Logging ────────────────
-
 - name: Ensure log directory exists on control node
-
   ansible.builtin.file:
-
     path: /opt/ansible/logs
-
     state: directory
-
     mode: '0755'
-
   delegate_to: localhost
-
- 
 
 - name: Log start of replace_stack
-
   ansible.builtin.shell: echo "Starting replace_stack at {{ ansible_date_time.iso8601 }}" >> /opt/ansible/logs/replace_stack_{{ ansible_date_time.iso8601 }}.log
-
   delegate_to: localhost
 
- 
-
 # ──────────────── Cleanup ────────────────
-
 - name: Stop containers
-
   ansible.builtin.shell: docker stop grafana prometheus influxdb telegraf nginx || true
 
- 
-
 - name: Remove containers
-
   ansible.builtin.shell: docker rm -f grafana prometheus influxdb telegraf nginx || true
 
- 
-
 - name: Prune volumes
-
   ansible.builtin.shell: docker volume prune -f || true
 
- 
-
 - name: Prune networks
-
   ansible.builtin.shell: docker network prune -f || true
 
- 
-
 - name: Remove container directory
-
   ansible.builtin.file:
-
     path: /var/lib/containers
-
     state: absent
 
- 
-
 # ──────────────── Directory Setup ────────────────
-
 - name: Recreate container directories with correct UID
-
   ansible.builtin.file:
-
     path: "/var/lib/containers/{{ item.name }}"
-
     state: directory
-
     mode: '0755'
-
     owner: "{{ item.uid }}"
-
     group: "{{ item.uid }}"
-
     recurse: yes
-
   loop:
-
     - { name: compose, uid: 1000 }
-
     - { name: grafana, uid: 472 }
-
     - { name: grafana/dashboards, uid: 472 }
-
     - { name: grafana/data, uid: 472 }
-
     - { name: grafana/provisioning, uid: 472 }
-
     - { name: grafana/provisioning/alerting, uid: 472 }
-
     - { name: grafana/provisioning/dashboards, uid: 472 }
-
     - { name: grafana/provisioning/datasources, uid: 472 }
-
     - { name: grafana/provisioning/plugins, uid: 472 }
-
     - { name: influxdb, uid: 1000 }
-
     - { name: nginx, uid: 101 }
-
     - { name: nginx/conf.d, uid: 101 }
-
     - { name: nginx/certs, uid: 101 }
-
     - { name: prometheus, uid: 65534 }
-
     - { name: prometheus/data, uid: 65534 }
-
     - { name: telegraf, uid: 1000 }
-
- 
 
 # ──────────────── Image Loading ────────────────
 
- 
-
 # Ensure plugins have the correct group permissions as well
-
 - name: Ensure Grafana plugins provisioning directory exists
-
   ansible.builtin.file:
-
     path: /var/lib/containers/grafana/provisioning/plugins
-
     state: directory
-
     mode: '0755'
-
     owner: '472'
-
     group: '472'
-
- 
 
 - name: Copy Grafana tarball
-
   ansible.builtin.copy:
-
-    src: /opt/ansible/files/std1/grafana/grafana.tar.gz
-
+    src: /opt/ansible/files/std1/grafana/grafana-12.1.1.tar.gz
     dest: /var/lib/containers/grafana/grafana.tar.gz
-
     mode: '0644'
-
- 
 
 - name: Load Grafana image
-
   ansible.builtin.shell: docker load -i /var/lib/containers/grafana/grafana.tar.gz
 
- 
-
 - name: Copy nginx tarball
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/nginx.tar.gz
-
     dest: /var/lib/containers/nginx/nginx.tar.gz
-
     mode: '0644'
-
- 
 
 - name: Load NGINX image
-
   ansible.builtin.shell: docker load -i /var/lib/containers/nginx/nginx.tar.gz
 
- 
-
 - name: Copy prometheus tarball
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/prometheus/prometheus.tar.gz
-
     dest: /var/lib/containers/prometheus/prometheus.tar.gz
-
     mode: '0644'
-
- 
 
 - name: Load Prometheus image
-
   ansible.builtin.shell: docker load -i /var/lib/containers/prometheus/prometheus.tar.gz
 
- 
-
 - name: Copy influxdb tarball
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/influxdb/influxdb_2711_alpine.tar.gz
-
     dest: /var/lib/containers/influxdb/influxdb_2711_alpine.tar.gz
-
     mode: '0644'
-
- 
 
 - name: Load InfluxDB image
-
   ansible.builtin.shell: docker load -i /var/lib/containers/influxdb/influxdb_2711_alpine.tar.gz
 
- 
-
 - name: Copy telegraf tarball
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/telegraf/telegraf_alpine.tar.gz
-
     dest: /var/lib/containers/telegraf/telegraf_alpine.tar.gz
-
     mode: '0644'
-
- 
 
 - name: Load Telegraf image
-
   ansible.builtin.shell: docker load -i /var/lib/containers/telegraf/telegraf_alpine.tar.gz
 
- 
-
 # ──────────────── Nginx / Prometheus Config ────────────────
-
 - name: Copy prometheus.yml
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/prometheus/prometheus.yml
-
     dest: /var/lib/containers/prometheus/prometheus.yml
-
     mode: '0644'
-
     owner: '65534'
-
     group: '65534'
 
- 
-
 - name: Copy nginx.conf
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/nginx.conf
-
     dest: /var/lib/containers/nginx/nginx.conf
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
-
- 
 
 - name: Copy mime.types
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/mime.types
-
     dest: /var/lib/containers/nginx/mime.types
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
-
- 
 
 - name: Copy options-ssl-nginx.conf
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/options-ssl-nginx.conf
-
     dest: /var/lib/containers/nginx/options-ssl-nginx.conf
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
-
- 
 
 - name: Copy ssl-dhparams.pem
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/ssl-dhparams.pem
-
     dest: /var/lib/containers/nginx/ssl-dhparams.pem
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
-
- 
 
 - name: Copy server certs
-
   ansible.builtin.copy:
-
     src: "/opt/ansible/files/std1/nginx/certs/{{ item }}"
-
     dest: "/var/lib/containers/nginx/certs/{{ item }}"
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
-
   loop:
-
     - server.crt
-
     - server.key
 
- 
-
 - name: Copy grafana.conf vhost
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/nginx/conf.d/grafana.conf
-
     dest: /var/lib/containers/nginx/conf.d/grafana.conf
-
     mode: '0644'
-
     owner: '101'
-
     group: '101'
 
- 
-
 # ──────────────── Compose Setup ────────────────
-
 - name: Render docker-compose.yml
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/docker-compose.yml.j2
-
     dest: /var/lib/containers/compose/docker-compose.yml
-
     mode: '0644'
-
- 
 
 - name: Create run.sh
-
   ansible.builtin.copy:
-
     dest: /var/lib/containers/compose/run.sh
-
     content: |
-
       #!/bin/bash
-
       docker compose -f /var/lib/containers/compose/docker-compose.yml up -d
-
     mode: '0700'
-
- 
 
 - name: Create stop.sh
-
   ansible.builtin.copy:
-
     dest: /var/lib/containers/compose/stop.sh
-
     content: |
-
       #!/bin/bash
-
       docker compose -f /var/lib/containers/compose/docker-compose.yml down
-
     mode: '0700'
 
- 
-
 - name: Configure Docker External Firewall by port
-
   ansible.posix.firewalld:
-
     port: "{{ item }}"
-
     permanent: true
-
     state: enabled
-
     zone: public
-
   loop:
-
     - "3000/tcp"
-
     - "5001/tcp"
-
     - "8086/tcp"
-
     - "9090/tcp"
-
     - "9091/tcp"
-
     - "9100/tcp"
-
     - "9182/tcp"
-
     - "9191/tcp"
 
- 
-
 # ──────────────── Grafana Config ────────────────
-
 - name: Render grafana.ini
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/grafana/config/grafana.ini.j2
-
     dest: /var/lib/containers/grafana/grafana.ini
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
- 
 
 # ──────────────── Telegraf (pre-start placeholder) ────────────────
-
 - name: Render telegraf.conf
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/telegraf/telegraf.conf.j2
-
     dest: /var/lib/containers/telegraf/telegraf.conf
-
     mode: '0644'
-
     owner: '1000'
-
     group: '1000'
-
   vars:
-
     influxdb_token: "X8PLKZEYLNZ3TIO45EGTEQ52FGZVHXTG"
-
     influxdb_org: "ccop-org"
-
     influxdb_bucket: "idrac"
-
- 
 
 # ──────────────── Start Containers ────────────────
-
 - name: Start containers
-
   community.docker.docker_compose_v2:
-
     project_src: /var/lib/containers/compose
-
     state: present
 
- 
-
 # ──────────────── Wait for InfluxDB ────────────────
-
 - name: Wait until InfluxDB API responds
-
   uri:
-
     url: http://192.168.110.191:8086/health
-
     method: GET
-
     status_code: 200
-
   register: influx_health
-
   until: influx_health.status == 200
-
   retries: 10
-
   delay: 5
 
- 
-
 # ──────────────── Force InfluxDB Org/Bucket/Token ────────────────
-
 - name: Remove any existing influx CLI config
-
   community.docker.docker_container_exec:
-
     container: influxdb
-
     command: rm -rf /root/.influxdbv2/configs
-
   ignore_errors: yes
 
- 
-
 - name: Force setup Influx org, bucket, and admin user
-
   community.docker.docker_container_exec:
-
     container: influxdb
-
     command: >
-
       influx setup
-
       --org "ccop-org"
-
       --bucket "idrac"
-
       --username "admin"
-
       --password "Passwd12#$"
-
       --token "X8PLKZEYLNZ3TIO45EGTEQ52FGZVHXTG"
-
       --force
-
   register: influx_setup
-
   changed_when: true
-
   failed_when: false
 
- 
-
 - name: Save InfluxDB token to file
-
   ansible.builtin.copy:
-
     dest: /var/lib/containers/influxdb/admin.token
-
     content: "X8PLKZEYLNZ3TIO45EGTEQ52FGZVHXTG"
-
     mode: '0600'
 
- 
-
 - name: Set influxdb_token fact
-
   ansible.builtin.set_fact:
-
     influxdb_token: "X8PLKZEYLNZ3TIO45EGTEQ52FGZVHXTG"
 
- 
-
 # ──────────────── Re-render Configs with Token ────────────────
-
 - name: Re-render influxdb.conf with static token
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/influxdb/influxdb.conf.j2
-
     dest: /var/lib/containers/influxdb/influxdb.conf
-
     mode: '0644'
-
   vars:
-
     influxdb_token: "{{ influxdb_token }}"
-
     influxdb_org: "ccop-org"
-
     influxdb_bucket: "idrac"
-
- 
 
 - name: Restart influxdb container
-
   community.docker.docker_container:
-
     name: influxdb
-
     state: started
-
     restart: true
-
- 
 
 - name: Re-render telegraf.conf with static token
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/telegraf/telegraf.conf.j2
-
     dest: /var/lib/containers/telegraf/telegraf.conf
-
     mode: '0644'
-
   vars:
-
     influxdb_token: "{{ influxdb_token }}"
-
     influxdb_org: "ccop-org"
-
     influxdb_bucket: "idrac"
 
- 
-
 - name: Restart telegraf container
-
   community.docker.docker_container:
-
     name: telegraf
-
     state: started
-
- 
 
 # ──────────────── Grafana Plugins ────────────────
-
 - name: Copy Grafana plugins tarball
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/grafana/plugins/plugins.tar.gz
-
     dest: /var/lib/containers/grafana/plugins.tar.gz
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
- 
 
 - name: Extract Grafana plugins
-
   ansible.builtin.unarchive:
-
     src: /var/lib/containers/grafana/plugins.tar.gz
-
     dest: /var/lib/containers/grafana/data/plugins
-
     remote_src: yes
-
     owner: '472'
-
     group: '472'
-
     mode: '0755'
-
- 
 
 - name: Remove Grafana plugins tarball
-
   ansible.builtin.file:
-
     path: /var/lib/containers/grafana/plugins.tar.gz
-
     state: absent
 
- 
-
 # ──────────────── Grafana Datasources ────────────────
-
 - name: Copy Prometheus datasource
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/grafana/datasources/prometheus.yml
-
     dest: /var/lib/containers/grafana/provisioning/datasources/prometheus.yml
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
- 
 
 - name: Copy iDRAC datasource
-
   ansible.builtin.template:
-
     src: /opt/ansible/files/std1/grafana/datasources/idrac.yml.j2
-
     dest: /var/lib/containers/grafana/provisioning/datasources/idrac.yml
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
   vars:
-
     influxdb_token: "{{ influxdb_token }}"
 
- 
-
 - name: Restart Grafana container so that datasources are recognized
-
   community.docker.docker_container:
-
     name: grafana
-
     state: started
-
     restart: true
 
- 
-
 # ──────────────── Grafana Alert Rules ────────────────
-
 - name: Copy alert rules
-
   ansible.builtin.copy:
-
     src: "/opt/ansible/files/std1/grafana/alerting/{{ item }}"
-
     dest: "/var/lib/containers/grafana/provisioning/alerting/{{ item }}"
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
   loop:
-
-    - idrac_disk_failed.json
-
-    - idrac_host_down.json
-
-    - idrac_raid_degraded.json
-
-    - idrac_temp_high.json
-
-    - linux_cpu_high.json
-
-    - linux_disk_low.json
-
-    - linux_host_offline.json
-
-    - linux_mem_high.json
-
-    - windows_cpu_high.json
-
-    - windows_disk_low.json
-
-    - windows_host_offline.json
-
-    - windows_mem_high.json
-
- 
+    - idrac-alerts.yml
+    - linux-alerts.yml
+    - windows-alerts.yml
 
 - name: Ensure alert rules owned by grafana user
-
   ansible.builtin.file:
-
     path: /var/lib/containers/grafana/provisioning/alerting
-
     state: directory
-
     recurse: yes
-
     owner: '472'
-
     group: '472'
-
     mode: '0644'
-
- 
 
 # ──────────────── Dashboard Cleaning ────────────────
-
 - name: Ensure cleaned dashboards directory exists
-
   ansible.builtin.file:
-
     path: /var/lib/containers/grafana/clean_dashboards
-
     state: directory
-
     mode: '0755'
 
- 
-
 - name: Copy raw dashboards to Grafana host clean dir
-
   ansible.builtin.copy:
-
     src: "{{ item }}"
-
     dest: "/var/lib/containers/grafana/clean_dashboards/{{ item | basename }}"
-
     mode: '0644'
-
   loop:
-
-    - /opt/ansible/files/std1/grafana/dashboards/idrac_dashboard.json
-
     - /opt/ansible/files/std1/grafana/dashboards/nuc_linux_dashboard.json
-
     - /opt/ansible/files/std1/grafana/dashboards/nuc_windows_dashboard.json
-
- 
+    - /opt/ansible/files/std1/grafana/dashboards/idrac_dashboard.json
+    - /opt/ansible/files/std1/grafana/dashboards/cisco_dashboard.json
+    - /opt/ansible/files/std1/grafana/dashboards/ipmi_dashboard.json
 
 - name: Strip id, version, and uid from dashboards
-
   ansible.builtin.shell: |
-
     jq 'del(.id, .version, .uid)' /var/lib/containers/grafana/clean_dashboards/{{ item }} \
-
       > /var/lib/containers/grafana/dashboards/{{ item }}
-
   args:
-
     executable: /bin/bash
-
   loop:
-
-    - idrac_dashboard.json
-
     - nuc_linux_dashboard.json
-
     - nuc_windows_dashboard.json
-
- 
+    - idrac_dashboard.json
+    - cisco_dashboard.json
+    - ipmi_dashboard.json
 
 - name: Ensure dashboards owned by grafana user
-
   ansible.builtin.file:
-
     path: /var/lib/containers/grafana/dashboards/{{ item }}
-
     owner: '472'
-
     group: '472'
-
     mode: '0644'
-
   loop:
-
-    - idrac_dashboard.json
-
     - nuc_linux_dashboard.json
-
     - nuc_windows_dashboard.json
-
- 
+    - idrac_dashboard.json
+    - cisco_dashboard.json
+    - ipmi_dashboard.json
 
 # ──────────────── UID Rewrites ────────────────
 
- 
-
-- name: Rewrite Prometheus alert rule datasources to ds-prometheus
-
-  ansible.builtin.shell: |
-
-    shopt -s nullglob
-
-    for f in /var/lib/containers/grafana/provisioning/alerting/*.json; do
-
-      jq '(.groups[].rules[].data[] | select(.datasourceUid == "prometheus") | .datasourceUid) |= "ds-prometheus"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-
-    done
-
-  args:
-
-    executable: /bin/bash
-
- 
-
-- name: Rewrite iDRAC alert rule datasources to idrac-influxdb
-
-  ansible.builtin.shell: |
-
-    shopt -s nullglob
-
-    for f in /var/lib/containers/grafana/provisioning/alerting/idrac*.json; do
-
-      jq '(.groups[].rules[].data[] | select(.datasourceUid == "idrac") | .datasourceUid) |= "idrac-influxdb"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-
-    done
-
-  args:
-
-    executable: /bin/bash
-
- 
-
 - name: Clean dashboard JSONs for Grafana import
-
   ansible.builtin.shell: |
-
     for f in /var/lib/containers/grafana/dashboards/*.json; do
-
       jq 'del(.id, .version)' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-
     done
-
   args:
-
     executable: /bin/bash
-
- 
 
 - name: Rewrite Prometheus dashboard datasource UIDs to ds-prometheus
-
   ansible.builtin.shell: |
-
     shopt -s nullglob
-
     for f in /var/lib/containers/grafana/dashboards/*.json; do
-
       jq '(.. | .datasource? | select(type == "object" and .uid == "prometheus") | .uid) |= "ds-prometheus"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-
     done
-
   args:
-
     executable: /bin/bash
-
- 
 
 - name: Rewrite iDRAC dashboard datasource UIDs to idrac-influxdb
-
   ansible.builtin.shell: |
-
     shopt -s nullglob
-
     for f in /var/lib/containers/grafana/dashboards/*.json; do
-
       jq '(.. | .datasource? | select(type == "object" and .uid == "idrac") | .uid) |= "idrac-influxdb"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-
     done
-
   args:
-
     executable: /bin/bash
 
- 
-
 # ──────────────── Grafana Alerting Provisioning ────────────────
-
 - name: Copy Grafana notification policies
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/grafana/alerting/notification-policies.yml
-
     dest: /var/lib/containers/grafana/provisioning/alerting/00-notification-policies.yml
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
- 
 
 - name: Copy Grafana contact points
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/grafana/alerting/contact-points.yml
-
     dest: /var/lib/containers/grafana/provisioning/alerting/01-contacts.yml
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
-
- 
 
 - name: Copy Grafana dashboard default pointer file
-
   ansible.builtin.copy:
-
     src: /opt/ansible/files/std1/grafana/dashboards/default.yml
-
     dest: /var/lib/containers/grafana/provisioning/dashboards/default.yml
-
     mode: '0644'
-
     owner: '472'
-
     group: '472'
 
- 
-
 # ──────────────── Fix Grafana Provisioning Permissions ────────────────
-
 - name: Ensure Grafana provisioning directories and files owned by grafana
-
   ansible.builtin.file:
-
     path: "{{ item }}"
-
     owner: "472"
-
     group: "472"
-
     mode: "0755"
-
     recurse: yes
-
   loop:
-
     - /var/lib/containers/grafana/dashboards
-
     - /var/lib/containers/grafana/provisioning/datasources
-
     - /var/lib/containers/grafana/provisioning/alerting
 
- 
-
 # ──────────────── Final Container Restart ────────────────
-
 - name: Restart Grafana container
-
   community.docker.docker_container:
-
     name: grafana
-
     state: started
-
     restart: true
