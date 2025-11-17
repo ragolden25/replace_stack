@@ -15,10 +15,10 @@
 
 # ──────────────── Cleanup ────────────────
 - name: Stop containers
-  ansible.builtin.shell: docker stop grafana prometheus influxdb telegraf nginx || true
+  ansible.builtin.shell: docker stop grafana prometheus influxdb telegraf nginx ipmi snmp || true
 
 - name: Remove containers
-  ansible.builtin.shell: docker rm -f grafana prometheus influxdb telegraf nginx || true
+  ansible.builtin.shell: docker rm -f grafana prometheus influxdb telegraf nginx ipmi snmp || true
 
 - name: Prune volumes
   ansible.builtin.shell: docker volume prune -f || true
@@ -51,11 +51,13 @@
     - { name: grafana/provisioning/datasources, uid: 472 }
     - { name: grafana/provisioning/plugins, uid: 472 }
     - { name: influxdb, uid: 1000 }
+    - { name: ipmi, uid: 65534 }
     - { name: nginx, uid: 101 }
     - { name: nginx/conf.d, uid: 101 }
     - { name: nginx/certs, uid: 101 }
     - { name: prometheus, uid: 65534 }
     - { name: prometheus/data, uid: 65534 }
+    - { name: snmp, uid: 65534 }
     - { name: telegraf, uid: 1000 }
 
 # ──────────────── Image Loading ────────────────
@@ -113,6 +115,24 @@
 
 - name: Load Telegraf image
   ansible.builtin.shell: docker load -i /var/lib/containers/telegraf/telegraf_alpine.tar.gz
+
+- name: Copy ipmi tarball
+  ansible.builtin.copy:
+    src: /opt/ansible/files/std1/ipmi/ipmi-exporter-v1.10.1.tar.gz
+    dest: /var/lib/containers/ipmi/ipmi-exporter-v1.10.1.tar.gz
+    mode: '0644'
+
+- name: Load ipmi image
+  ansible.builtin.shell: docker load -i /var/lib/containers/ipmi/ipmi-exporter-v1.10.1.tar.gz
+
+- name: Copy Cisco snmp tarball
+  ansible.builtin.copy:
+    src: /opt/ansible/files/std1/cisco/snmp-exporter-v0.29.0.tar.gz
+    dest: /var/lib/containers/cisco/snmp-exporter-v0.29.0.tar.gz
+    mode: '0644'
+
+- name: Load Cisco snmp image
+  ansible.builtin.shell: docker load -i /var/lib/containers/cisco/snmp-exporter-v0.29.0.tar.gz
 
 # ──────────────── Nginx / Prometheus Config ────────────────
 - name: Copy prometheus.yml
@@ -204,14 +224,16 @@
     state: enabled
     zone: public
   loop:
-    - "3000/tcp"
-    - "5001/tcp"
-    - "8086/tcp"
-    - "9090/tcp"
-    - "9091/tcp"
-    - "9100/tcp"
-    - "9182/tcp"
-    - "9191/tcp"
+    - "3000/tcp"   # Grafana
+    - "5001/tcp"   # Telegraf
+    - "8086/tcp"   # InfluxDB
+    - "9090/tcp"   # Cockpit
+    - "9091/tcp"   # Alertmanager
+    - "9100/tcp"   # node_exporter
+    - "9182/tcp"   # windows_exporter
+    - "9191/tcp"   # Prometheus custom port
+    - "9116/tcp"   # snmp_exporter Cisco
+    - "9290/tcp"   # ipmi_exporter
 
 # ──────────────── Grafana Config ────────────────
 - name: Render grafana.ini
