@@ -41,6 +41,7 @@
     group: "{{ item.uid }}"
     recurse: yes
   loop:
+    - { name: cisco, uid: 65534 }
     - { name: compose, uid: 1000 }
     - { name: grafana, uid: 472 }
     - { name: grafana/dashboards, uid: 472 }
@@ -57,7 +58,6 @@
     - { name: nginx/certs, uid: 101 }
     - { name: prometheus, uid: 65534 }
     - { name: prometheus/data, uid: 65534 }
-    - { name: snmp, uid: 65534 }
     - { name: telegraf, uid: 1000 }
 
 # ──────────────── Image Loading ────────────────
@@ -135,9 +135,9 @@
   ansible.builtin.shell: docker load -i /var/lib/containers/cisco/snmp-exporter-v0.29.0.tar.gz
 
 # ──────────────── Nginx / Prometheus Config ────────────────
-- name: Copy prometheus.yml
-  ansible.builtin.copy:
-    src: /opt/ansible/files/std1/prometheus/prometheus.yml
+- name: Add prometheus.yml template
+  ansible.builtin.template:
+    src: /opt/ansible/files/std1/prometheus/prometheus.nuc2.yml.j2
     dest: /var/lib/containers/prometheus/prometheus.yml
     mode: '0644'
     owner: '65534'
@@ -193,6 +193,23 @@
     mode: '0644'
     owner: '101'
     group: '101'
+
+- name: Copy snmp.yml
+  ansible.builtin.copy:
+    src: /opt/ansible/files/std1/cisco/snmp.yml
+    dest: /var/lib/containers/cisco/snmp.yml
+    mode: '0644'
+    owner: '65534'
+    group: '65534'
+
+- name: Copy ipmi.yml
+  ansible.builtin.copy:
+    src: /opt/ansible/files/std1/ipmi/ipmi.yml
+    dest: /var/lib/containers/ipmi/ipmi.yml
+    mode: '0644'
+    owner: '65534'
+    group: '65534'
+
 
 # ──────────────── Compose Setup ────────────────
 - name: Render docker-compose.yml
@@ -463,23 +480,15 @@
   args:
     executable: /bin/bash
 
-- name: Rewrite Prometheus dashboard datasource UIDs to ds-prometheus
+- name: Rewrite dashboard datasource UIDs
   ansible.builtin.shell: |
-    shopt -s nullglob
-    for f in /var/lib/containers/grafana/dashboards/*.json; do
-      jq '(.. | .datasource? | select(type == "object" and .uid == "prometheus") | .uid) |= "ds-prometheus"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-    done
+    jq '(.. | .datasource? | select(type == "object" and .uid == "prometheus") | .uid) |= "{{ item.uid }}"' \
+      /var/lib/containers/grafana/dashboards/{{ item.file }} > /var/lib/containers/grafana/dashboards/{{ item.file }}.tmp && \
+    mv /var/lib/containers/grafana/dashboards/{{ item.file }}.tmp /var/lib/containers/grafana/dashboards/{{ item.file }}
   args:
     executable: /bin/bash
+  loop: "{{ dashboard_datasources }}"
 
-- name: Rewrite iDRAC dashboard datasource UIDs to idrac-influxdb
-  ansible.builtin.shell: |
-    shopt -s nullglob
-    for f in /var/lib/containers/grafana/dashboards/*.json; do
-      jq '(.. | .datasource? | select(type == "object" and .uid == "idrac") | .uid) |= "idrac-influxdb"' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
-    done
-  args:
-    executable: /bin/bash
 
 # ──────────────── Grafana Alerting Provisioning ────────────────
 - name: Copy Grafana notification policies
