@@ -1,0 +1,250 @@
+=== Checking local IPMI driver ===
+crw-------. 1 root root 241, 0 Nov 19 10:19 /dev/ipmi0
+
+=== Kernel driver info ===
+[   10.582295] IPMI message handler: version 39.2
+[   10.650772] ipmi device interface
+[   10.657434] ipmi_si: IPMI System Interface driver
+[   10.657459] ipmi_si dmi-ipmi-si.0: ipmi_platform: probing via SMBIOS
+[   10.657463] ipmi_platform: ipmi_si: SMBIOS: io 0xca2 regsize 1 spacing 1 irq 0
+[   10.657466] ipmi_si: Adding SMBIOS-specified kcs state machine
+[   10.657542] ipmi_si IPI0001:00: ipmi_platform: probing via ACPI
+[   10.657677] ipmi_si IPI0001:00: ipmi_platform: [io  0x0ca4] regsize 1 spacing 1 irq 0
+[   10.659078] ipmi_si: Adding ACPI-specified kcs state machine
+[   10.659862] ipmi_si: Trying SMBIOS-specified kcs state machine at i/o address 0xca2, slave address 0x20, irq 0
+[   10.759046] ipmi_si dmi-ipmi-si.0: The BMC does not support clearing the recv irq bit, compensating, but the BMC needs to be fixed.
+[   10.786970] ipmi_si dmi-ipmi-si.0: IPMI message handler: Found new BMC (man_id: 0x002a7c, prod_id: 0x0963, dev_id: 0x20)
+[   10.845261] ipmi_si dmi-ipmi-si.0: IPMI kcs interface initialized
+[   10.862610] ipmi_ssif: IPMI SSIF Interface driver
+
+=== Channel info (system interface) ===
+Channel 0x1 info:
+  Channel Medium Type   : 802.3 LAN
+  Channel Protocol Type : IPMB-1.0
+  Session Support       : multi-session
+  Active Session Count  : 0
+  Protocol Vendor ID    : 7154
+  Volatile(active) Settings
+    Alerting            : enabled
+    Per-message Auth    : enabled
+    User Level Auth     : enabled
+    Access Mode         : always available
+  Non-Volatile Settings
+    Alerting            : enabled
+    Per-message Auth    : enabled
+    User Level Auth     : enabled
+    Access Mode         : always available
+
+=== User list (system interface) ===
+ID  Name             Callin  Link Auth  IPMI Msg   Channel Priv Limit
+1                    true    false      false      Unknown (0x00)
+2   ADMIN            false   false      true       ADMINISTRATOR
+3                    true    false      false      Unknown (0x00)
+4                    true    false      false      Unknown (0x00)
+5                    true    false      false      Unknown (0x00)
+6                    true    false      false      Unknown (0x00)
+7                    true    false      false      Unknown (0x00)
+8                    true    false      false      Unknown (0x00)
+9                    true    false      false      Unknown (0x00)
+10                   true    false      false      Unknown (0x00)
+
+=== Sensor list (system interface) ===
+CPU1 Temp                | 36.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 90.000    | 95.000    | 95.000
+CPU2 Temp                | 33.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 90.000    | 95.000    | 95.000
+System Temp              | 24.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+Peripheral Temp          | 34.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+MB_NIC_Temp1             | na         |            | na    | na        | na        | na        | na        | na        | na
+MB_NIC_Temp2             | na         |            | na    | na        | na        | na        | na        | na        | na
+VRMCpu1 Temp             | 26.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMCpu2 Temp             | 28.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMSoc1 Temp             | 36.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMSoc2 Temp             | 39.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMP1ABCD Temp           | 34.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMP1EFGH Temp           | 28.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMP2ABCD Temp           | 30.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+VRMP2EFGH Temp           | 35.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 95.000    | 100.000   | 105.000
+P1-DIMMA1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMA2 Temp           | 28.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+P1-DIMMB1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMB2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMC1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMC2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMD1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMD2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMME1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMME2 Temp           | 27.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+P1-DIMMF1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMF2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMG1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMG2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMH1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P1-DIMMH2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMA1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMA2 Temp           | 29.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+P2-DIMMB1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMB2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMC1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMC2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMD1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMD2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMME1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMME2 Temp           | 26.000     | degrees C  | ok    | 5.000     | 5.000     | 10.000    | 80.000    | 85.000    | 90.000
+P2-DIMMF1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMF2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMG1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMG2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMH1 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+P2-DIMMH2 Temp           | na         |            | na    | na        | na        | na        | na        | na        | na
+FAN1                     | 4300.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN2                     | 4100.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN3                     | 4300.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN4                     | 4400.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN5                     | 4200.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN6                     | 4200.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN7                     | 4300.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN8                     | 4400.000   | RPM        | ok    | 300.000   | 500.000   | 700.000   | 25300.000 | 25400.000 | 25500.000
+FAN9                     | na         |            | na    | na        | na        | na        | na        | na        | na
+12V                      | 12.048     | Volts      | ok    | 9.680     | 9.936     | 10.704    | 13.712    | 14.480    | 14.736
+5VCC                     | 4.870      | Volts      | ok    | 3.940     | 4.030     | 4.360     | 5.590     | 5.920     | 6.010
+3.3VCC                   | 3.242      | Volts      | ok    | 2.613     | 2.681     | 2.885     | 3.718     | 3.922     | 3.990
+VBAT                     | 0x4        | discrete   | 0x04ff| na        | na        | na        | na        | na        | na
+P1_VDDCR                 | 0.742      | Volts      | ok    | 0.400     | 0.499     | 0.607     | 1.570     | 1.732     | 1.813
+P1_VMEMABCD              | 1.213      | Volts      | ok    | 0.979     | 1.003     | 1.081     | 1.387     | 1.465     | 1.489
+P2_VDDCR                 | 0.792      | Volts      | ok    | 0.396     | 0.495     | 0.612     | 1.575     | 1.737     | 1.818
+P1_VMEMEFGH              | 1.221      | Volts      | ok    | 0.976     | 0.997     | 1.074     | 1.389     | 1.466     | 1.487
+VDD_5_DUAL               | 5.009      | Volts      | ok    | 4.019     | 4.139     | 4.439     | 5.729     | 6.029     | 6.149
+VDD_33_DUAL              | 3.310      | Volts      | ok    | 2.613     | 2.681     | 2.885     | 3.718     | 3.922     | 3.990
+P2_VMEMABCD              | 1.221      | Volts      | ok    | 0.976     | 0.997     | 1.074     | 1.389     | 1.466     | 1.487
+P2_VMEMEFGH              | 1.221      | Volts      | ok    | 0.976     | 0.997     | 1.074     | 1.389     | 1.466     | 1.487
+P1_SOCRUN                | 0.986      | Volts      | ok    | 0.300     | 0.496     | 0.629     | 1.070     | 1.147     | 1.343
+P2_SOCRUN                | 0.986      | Volts      | ok    | 0.300     | 0.496     | 0.629     | 1.070     | 1.147     | 1.343
+P1_SOCDUAL               | 0.893      | Volts      | ok    | 0.711     | 0.725     | 0.781     | 1.012     | 1.068     | 1.082
+P2_SOCDUAL               | 0.893      | Volts      | ok    | 0.711     | 0.725     | 0.781     | 1.012     | 1.068     | 1.082
+Chassis Intru            | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na
+PS1 Status               | 0x1        | discrete   | 0x0100| na        | na        | na        | na        | na        | na
+PS2 Status               | 0x1        | discrete   | 0x0100| na        | na        | na        | na        | na        | na
+
+=== Chassis status ===
+System Power         : on
+Power Overload       : false
+Power Interlock      : inactive
+Main Power Fault     : false
+Power Control Fault  : false
+Power Restore Policy : previous
+Last Power Event     :
+Chassis Intrusion    : inactive
+Front-Panel Lockout  : inactive
+Drive Fault          : false
+Cooling/Fan Fault    : false
+
+=== SEL (System Event Log) entries ===
+   1 | 05/27/2019 | 05:17:08 | Unknown #0xff |  | Asserted
+   2 | 11/13/2023 | 19:56:06 | Unknown #0xff |  | Asserted
+   3 | 11/28/2023 | 18:23:32 | Unknown #0xff |  | Asserted
+   4 | 11/28/2023 | 18:28:24 | Power Supply #0xc4 | Failure detected () | Asserted
+   5 | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   6 | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   7 | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   8 | 05/27/2019 | 05:17:07 | Unknown #0xff |  | Asserted
+   9 | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   a | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   b | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+   c | 05/21/2024 | 14:18:02 | OS Boot | Installation started () | Asserted
+   d | 05/21/2024 | 14:24:09 | OS Boot | Installation completed () | Asserted
+   e | 05/21/2024 | 15:22:50 | OS Boot | Installation started () | Asserted
+   f | 05/21/2024 | 15:32:54 | OS Boot | Installation completed () | Asserted
+  10 | 06/24/2024 | 13:59:50 | Power Supply #0xc4 | Failure detected () | Asserted
+  11 | 06/24/2024 | 17:12:03 | Power Supply #0xc4 | Failure detected () | Deasserted
+  12 | 06/27/2024 | 15:02:09 | OS Boot | Installation started () | Asserted
+  13 | 06/27/2024 | 15:16:14 | OS Boot | Installation completed () | Asserted
+  14 | 06/27/2024 | 18:01:07 | Power Supply #0xc4 | Failure detected () | Asserted
+  15 | 06/27/2024 | 18:50:23 | OS Boot | Installation started () | Asserted
+  16 | 06/27/2024 | 19:25:13 | OS Boot | Installation completed () | Asserted
+  17 | 06/28/2024 | 14:32:41 | Power Supply #0xc4 | Failure detected () | Deasserted
+  18 | 06/28/2024 | 14:32:47 | Power Supply #0xc4 | Failure detected () | Asserted
+  19 | 05/27/2019 | 05:17:07 | Unknown #0xff |  | Asserted
+  1a | 07/15/2024 | 19:46:02 | Power Supply #0xc4 | Failure detected () | Asserted
+  1b | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+  1c | 07/17/2024 | 14:06:07 | Power Supply #0xc4 | Failure detected () | Asserted
+  1d | 07/17/2024 | 14:23:43 | Power Supply #0xc4 | Failure detected () | Deasserted
+  1e | 05/27/2019 | 05:17:07 | Unknown #0xff |  | Asserted
+  1f | 08/21/2024 | 16:32:48 | Power Supply #0xc5 | Failure detected () | Asserted
+  20 | 08/21/2024 | 16:36:12 | Power Supply #0xc5 | Failure detected () | Deasserted
+  21 | 08/21/2024 | 16:37:48 | Power Supply #0xc4 | Failure detected () | Asserted
+  22 | 08/21/2024 | 16:38:24 | Power Supply #0xc4 | Failure detected () | Deasserted
+  23 | 08/26/2024 | 16:05:29 | OS Critical Stop #0x46 | Run-time critical stop () | Asserted
+  24 | Linux kernel panic: Fatal excep
+  25 | Linux kernel panic: tion in int
+  26 | Linux kernel panic: errupt
+  27 | 08/26/2024 | 16:33:07 | OS Critical Stop #0x46 | Run-time critical stop () | Asserted
+  28 | Linux kernel panic: Fatal excep
+  29 | Linux kernel panic: tion in int
+  2a | Linux kernel panic: errupt
+  2b | 08/26/2024 | 16:37:20 | OS Critical Stop #0x46 | Run-time critical stop () | Asserted
+  2c | Linux kernel panic: Fatal excep
+  2d | Linux kernel panic: tion in int
+  2e | Linux kernel panic: errupt
+  2f | 08/26/2024 | 16:49:53 | OS Boot | Installation started () | Asserted
+  30 | 08/26/2024 | 16:52:06 | OS Boot | Installation aborted () | Asserted
+  31 | 08/26/2024 | 17:01:46 | OS Boot | Installation started () | Asserted
+  32 | 09/19/2024 | 15:39:24 | OS Boot | Installation started () | Asserted
+  33 | 09/19/2024 | 16:02:52 | OS Boot | Installation completed () | Asserted
+  34 | 10/08/2024 | 15:15:33 | OS Boot | Installation started () | Asserted
+  35 | 10/08/2024 | 15:37:32 | OS Boot | Installation completed () | Asserted
+  36 | 05/27/2019 | 05:17:06 | Unknown #0xff |  | Asserted
+  37 | 11/11/2024 | 17:19:05 | Power Supply #0xc4 | Failure detected () | Asserted
+  38 | 11/11/2024 | 21:06:09 | Power Supply #0xc4 | Failure detected () | Deasserted
+  39 | 05/27/2019 | 05:17:07 | Unknown #0xff |  | Asserted
+  3a | 04/21/2025 | 16:17:13 | Power Supply #0xc4 | Failure detected () | Asserted
+  3b | 04/21/2025 | 18:46:16 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  3c | 04/21/2025 | 19:00:11 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  3d | 04/21/2025 | 19:02:42 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  3e | 04/21/2025 | 19:14:25 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  3f | 04/21/2025 | 19:32:36 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  40 | 04/21/2025 | 19:34:57 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  41 | 05/27/2019 | 05:17:30 | Power Supply #0xc4 | Failure detected () | Asserted
+  42 | 05/27/2019 | 05:17:34 | Power Supply #0xc4 | Failure detected () | Asserted
+  43 | 04/23/2025 | 12:30:21 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  44 | 04/23/2025 | 12:35:38 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  45 | 04/23/2025 | 13:54:28 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  46 | 04/23/2025 | 13:58:34 | System Firmwares | Unrecoverable IDE device failure () | Asserted
+  47 | 04/29/2025 | 15:38:54 | OS Boot | Installation started () | Asserted
+  48 | 04/29/2025 | 15:46:44 | OS Boot | Installation aborted () | Asserted
+  49 | 04/29/2025 | 15:50:26 | OS Boot | Installation started () | Asserted
+  4a | 04/29/2025 | 15:57:04 | OS Boot | Installation completed () | Asserted
+  4b | 04/29/2025 | 17:46:01 | OS Boot | Installation started () | Asserted
+  4c | 04/29/2025 | 17:52:23 | OS Boot | Installation completed () | Asserted
+  4d | 04/29/2025 | 20:18:34 | OS Boot | Installation started () | Asserted
+  4e | 04/29/2025 | 20:24:55 | OS Boot | Installation completed () | Asserted
+  4f | 04/30/2025 | 16:46:15 | OS Boot | Installation started () | Asserted
+  50 | 04/30/2025 | 16:52:31 | OS Boot | Installation completed () | Asserted
+  51 | 04/30/2025 | 18:50:23 | OS Boot | Installation started () | Asserted
+  52 | 04/30/2025 | 18:56:34 | OS Boot | Installation completed () | Asserted
+  53 | 05/06/2025 | 17:20:56 | OS Boot | Installation started () | Asserted
+  54 | 05/06/2025 | 17:25:52 | OS Boot | Installation aborted () | Asserted
+  55 | 05/06/2025 | 17:29:34 | OS Boot | Installation started () | Asserted
+  56 | 05/06/2025 | 17:46:53 | OS Boot | Installation aborted () | Asserted
+  57 | 05/06/2025 | 17:50:35 | OS Boot | Installation started () | Asserted
+  58 | 05/06/2025 | 18:00:34 | OS Boot | Installation completed () | Asserted
+  59 | 05/07/2025 | 12:16:17 | OS Boot | Installation started () | Asserted
+  5a | 05/07/2025 | 12:22:27 | OS Boot | Installation completed () | Asserted
+  5b | 05/07/2025 | 16:35:34 | OS Boot | Installation started () | Asserted
+  5c | 05/07/2025 | 16:41:44 | OS Boot | Installation completed () | Asserted
+  5d | 05/07/2025 | 18:21:09 | OS Boot | Installation started () | Asserted
+  5e | 05/07/2025 | 18:22:13 | OS Boot | Installation aborted () | Asserted
+  5f | 05/07/2025 | 18:25:59 | OS Boot | Installation started () | Asserted
+  60 | 05/07/2025 | 18:32:07 | OS Boot | Installation completed () | Asserted
+  61 | 05/07/2025 | 19:43:34 | OS Boot | Installation started () | Asserted
+  62 | 05/07/2025 | 19:49:47 | OS Boot | Installation completed () | Asserted
+  63 | 05/08/2025 | 17:49:04 | OS Boot | Installation started () | Asserted
+  64 | 05/08/2025 | 17:55:11 | OS Boot | Installation completed () | Asserted
+  65 | 05/16/2025 | 18:03:30 | OS Boot | Installation started () | Asserted
+  66 | 05/16/2025 | 18:09:35 | OS Boot | Installation completed () | Asserted
+  67 | 06/17/2025 | 14:02:45 | OS Boot | Installation started () | Asserted
+  68 | 06/17/2025 | 14:41:28 | OS Boot | Installation started () | Asserted
+  69 | 06/17/2025 | 15:10:59 | OS Boot | Installation completed () | Asserted
+  6a | 08/04/2025 | 10:10:43 | Battery #0x33 | Failed () | Asserted
+  6b | 08/04/2025 | 10:12:17 | Battery #0x33 | Failed () | Deasserted
+  6c | 10/28/2025 | 20:43:15 | Battery #0x33 | Failed () | Asserted
+  6d | 10/28/2025 | 20:44:48 | Battery #0x33 | Failed () | Deasserted
+  6e | 11/19/2025 | 14:27:37 | Power Supply #0xc4 | Failure detected () | Deasserted
