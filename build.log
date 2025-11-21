@@ -1,0 +1,338 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 701B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/gportal/golang:latest
+#2 DONE 5.2s
+
+#3 [internal] load metadata for docker.io/library/debian:stable-slim
+#3 DONE 5.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [build 1/4] FROM docker.io/gportal/golang:latest@sha256:75a3e80b396a1c9cc7111cb44b8e54fe630d45392d4bef4c5856ffee55406cdc
+#5 DONE 0.0s
+
+#6 [stage-1 1/4] FROM docker.io/library/debian:stable-slim@sha256:7cb087f19bcc175b96fbe4c2aef42ed00733a659581a80f6ebccfd8fe3185a3d
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 10.02kB 0.0s done
+#7 DONE 0.0s
+
+#8 [build 2/4] WORKDIR /opt/app-root/src
+#8 CACHED
+
+#9 [build 3/4] COPY ./ .
+#9 DONE 0.4s
+
+#10 [build 4/4] RUN go build -v -o /opt/app-root/redfish_exporter cmd/main.go
+#10 0.272 go: downloading github.com/gin-gonic/gin v1.9.1
+#10 0.275 go: downloading gopkg.in/yaml.v2 v2.4.0
+#10 5.817 go: downloading github.com/prometheus/client_golang v1.19.0
+#10 6.029 go: downloading github.com/gin-contrib/sse v0.1.0
+#10 6.030 go: downloading github.com/mattn/go-isatty v0.0.20
+#10 6.095 go: downloading golang.org/x/net v0.22.0
+#10 6.715 go: downloading github.com/prometheus/client_model v0.6.0
+#10 6.718 go: downloading github.com/prometheus/common v0.51.1
+#10 6.799 go: downloading github.com/stmcginnis/gofish v0.15.0
+#10 6.980 go: downloading github.com/beorn7/perks v1.0.1
+#10 6.981 go: downloading github.com/cespare/xxhash/v2 v2.2.0
+#10 7.058 go: downloading github.com/prometheus/procfs v0.13.0
+#10 7.061 go: downloading google.golang.org/protobuf v1.33.0
+#10 7.517 go: downloading github.com/go-playground/validator/v10 v10.19.0
+#10 7.519 go: downloading github.com/pelletier/go-toml/v2 v2.2.0
+#10 7.655 go: downloading github.com/ugorji/go/codec v1.2.12
+#10 7.682 go: downloading gopkg.in/yaml.v3 v3.0.1
+#10 7.775 go: downloading golang.org/x/sys v0.18.0
+#10 7.898 go: downloading github.com/gabriel-vasile/mimetype v1.4.3
+#10 8.209 go: downloading github.com/go-playground/universal-translator v0.18.1
+#10 8.294 go: downloading github.com/leodido/go-urn v1.4.0
+#10 8.529 go: downloading golang.org/x/crypto v0.21.0
+#10 8.933 go: downloading golang.org/x/text v0.14.0
+#10 10.12 go: downloading github.com/go-playground/locales v0.14.1
+#10 15.43 encoding
+#10 15.43 internal/goarch
+#10 15.47 internal/unsafeheader
+#10 15.47 internal/abi
+#10 15.48 internal/cpu
+#10 15.55 internal/bytealg
+#10 15.66 internal/byteorder
+#10 15.70 internal/chacha8rand
+#10 15.75 internal/coverage/rtcov
+#10 15.76 internal/godebugs
+#10 15.77 internal/goexperiment
+#10 15.78 internal/goos
+#10 15.78 internal/profilerecord
+#10 15.79 internal/runtime/atomic
+#10 15.79 internal/runtime/syscall
+#10 15.84 internal/stringslite
+#10 15.85 internal/runtime/exithook
+#10 15.87 runtime/internal/math
+#10 15.88 runtime/internal/sys
+#10 15.88 cmp
+#10 15.89 internal/itoa
+#10 15.92 internal/race
+#10 15.92 runtime
+#10 15.93 math/bits
+#10 16.03 math
+#10 16.36 unicode/utf8
+#10 16.39 sync/atomic
+#10 16.47 unicode
+#10 16.69 internal/asan
+#10 16.70 internal/msan
+#10 16.71 log/internal
+#10 16.72 container/list
+#10 16.75 crypto/internal/alias
+#10 16.77 crypto/subtle
+#10 16.81 crypto/internal/boring/sig
+#10 16.83 unicode/utf16
+#10 16.85 vendor/golang.org/x/crypto/cryptobyte/asn1
+#10 16.87 vendor/golang.org/x/crypto/internal/alias
+#10 16.88 internal/nettrace
+#10 16.89 google.golang.org/protobuf/internal/flags
+#10 16.90 google.golang.org/protobuf/internal/set
+#10 16.92 github.com/gin-gonic/gin/internal/bytesconv
+#10 16.94 golang.org/x/net/html/atom
+#10 16.99 github.com/go-playground/locales/currency
+#10 17.02 github.com/leodido/go-urn/scim/schema
+#10 17.03 github.com/pelletier/go-toml/v2/internal/characters
+#10 20.55 internal/reflectlite
+#10 20.55 iter
+#10 20.57 sync
+#10 20.75 errors
+#10 20.76 slices
+#10 20.79 strconv
+#10 20.81 io
+#10 20.96 internal/oserror
+#10 20.99 path
+#10 21.05 internal/bisect
+#10 21.07 reflect
+#10 21.13 internal/godebug
+#10 21.19 syscall
+#10 21.94 time
+#10 22.54 io/fs
+#10 22.57 internal/fmtsort
+#10 22.67 internal/filepathlite
+#10 22.68 internal/syscall/unix
+#10 22.72 internal/poll
+#10 22.74 internal/syscall/execenv
+#10 22.76 internal/testlog
+#10 22.78 strings
+#10 22.99 bytes
+#10 23.02 os
+#10 23.14 encoding/binary
+#10 23.36 encoding/base64
+#10 23.44 sort
+#10 23.67 fmt
+#10 23.69 regexp/syntax
+#10 24.15 regexp
+#10 24.16 flag
+#10 24.41 log
+#10 24.48 gopkg.in/yaml.v2
+#10 24.52 context
+#10 24.64 hash
+#10 24.66 crypto
+#10 24.68 crypto/cipher
+#10 24.79 crypto/internal/boring
+#10 24.85 crypto/aes
+#10 25.03 crypto/des
+#10 25.11 crypto/internal/edwards25519/field
+#10 25.26 crypto/internal/nistec/fiat
+#10 25.46 github.com/g-portal/redfish_exporter/pkg/config
+#10 25.48 embed
+#10 25.53 crypto/internal/randutil
+#10 25.55 math/rand
+#10 25.67 math/big
+#10 25.85 crypto/internal/nistec
+#10 26.17 crypto/ecdh
+#10 26.31 crypto/sha512
+#10 26.47 crypto/internal/edwards25519
+#10 26.58 crypto/elliptic
+#10 26.60 crypto/internal/bigmod
+#10 26.71 crypto/internal/boring/bbig
+#10 26.74 encoding/asn1
+#10 26.76 crypto/rand
+#10 26.85 crypto/ed25519
+#10 26.93 crypto/hmac
+#10 26.98 vendor/golang.org/x/crypto/chacha20
+#10 27.00 vendor/golang.org/x/crypto/cryptobyte
+#10 27.05 vendor/golang.org/x/crypto/internal/poly1305
+#10 27.13 vendor/golang.org/x/sys/cpu
+#10 27.20 crypto/ecdsa
+#10 27.23 vendor/golang.org/x/crypto/chacha20poly1305
+#10 27.38 vendor/golang.org/x/crypto/hkdf
+#10 27.39 vendor/golang.org/x/crypto/sha3
+#10 27.41 crypto/internal/hpke
+#10 27.47 crypto/md5
+#10 27.51 crypto/internal/mlkem768
+#10 27.52 crypto/rc4
+#10 27.54 crypto/rsa
+#10 27.61 crypto/sha1
+#10 27.67 crypto/sha256
+#10 27.72 crypto/dsa
+#10 27.77 encoding/hex
+#10 27.78 encoding/pem
+#10 27.81 crypto/x509/pkix
+#10 27.87 vendor/golang.org/x/net/dns/dnsmessage
+#10 27.87 internal/singleflight
+#10 27.90 math/rand/v2
+#10 28.00 internal/concurrent
+#10 28.03 internal/weak
+#10 28.06 unique
+#10 28.18 net/netip
+#10 28.19 runtime/cgo
+#10 28.53 net/url
+#10 28.71 path/filepath
+#10 28.84 encoding/json
+#10 29.40 bufio
+#10 29.51 compress/flate
+#10 29.64 net
+#10 29.73 hash/crc32
+#10 29.79 compress/gzip
+#10 29.85 vendor/golang.org/x/text/transform
+#10 29.94 vendor/golang.org/x/text/unicode/bidi
+#10 30.17 vendor/golang.org/x/text/secure/bidirule
+#10 30.21 vendor/golang.org/x/text/unicode/norm
+#10 30.61 vendor/golang.org/x/net/idna
+#10 30.86 vendor/golang.org/x/net/http2/hpack
+#10 31.00 maps
+#10 31.02 mime
+#10 31.25 mime/quotedprintable
+#10 31.32 net/http/internal
+#10 31.40 net/http/internal/ascii
+#10 31.41 github.com/beorn7/perks/quantile
+#10 31.49 github.com/cespare/xxhash/v2
+#10 31.59 hash/fnv
+#10 31.69 google.golang.org/protobuf/internal/detrand
+#10 31.74 google.golang.org/protobuf/internal/errors
+#10 31.80 google.golang.org/protobuf/encoding/protowire
+#10 31.87 google.golang.org/protobuf/internal/pragma
+#10 31.89 google.golang.org/protobuf/reflect/protoreflect
+#10 32.29 google.golang.org/protobuf/internal/descfmt
+#10 32.48 google.golang.org/protobuf/internal/descopts
+#10 32.52 google.golang.org/protobuf/internal/editiondefaults
+#10 32.53 go/token
+#10 32.64 google.golang.org/protobuf/internal/strs
+#10 32.68 crypto/x509
+#10 32.68 net/textproto
+#10 32.81 vendor/golang.org/x/net/http/httpguts
+#10 32.85 vendor/golang.org/x/net/http/httpproxy
+#10 32.90 mime/multipart
+#10 33.15 google.golang.org/protobuf/internal/encoding/text
+#10 33.38 google.golang.org/protobuf/internal/encoding/defval
+#10 33.43 google.golang.org/protobuf/internal/encoding/messageset
+#10 33.47 crypto/tls
+#10 33.48 google.golang.org/protobuf/internal/genid
+#10 33.53 google.golang.org/protobuf/internal/order
+#10 33.57 google.golang.org/protobuf/reflect/protoregistry
+#10 33.75 google.golang.org/protobuf/runtime/protoiface
+#10 33.77 google.golang.org/protobuf/proto
+#10 34.04 google.golang.org/protobuf/internal/filedesc
+#10 34.93 google.golang.org/protobuf/encoding/prototext
+#10 35.19 google.golang.org/protobuf/internal/encoding/tag
+#10 35.30 io/ioutil
+#10 35.38 google.golang.org/protobuf/internal/impl
+#10 35.54 net/http/httptrace
+#10 35.60 net/http
+#10 37.94 google.golang.org/protobuf/internal/filetype
+#10 38.05 google.golang.org/protobuf/internal/version
+#10 38.08 google.golang.org/protobuf/runtime/protoimpl
+#10 38.14 google.golang.org/protobuf/types/known/timestamppb
+#10 38.23 github.com/prometheus/client_model/go
+#10 38.44 github.com/prometheus/common/model
+#10 38.95 runtime/metrics
+#10 39.01 github.com/prometheus/client_golang/prometheus/internal
+#10 39.18 github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
+#10 39.23 google.golang.org/protobuf/encoding/protodelim
+#10 39.34 github.com/prometheus/procfs/internal/fs
+#10 39.37 github.com/prometheus/procfs/internal/util
+#10 39.42 golang.org/x/sys/unix
+#10 39.64 expvar
+#10 39.82 github.com/prometheus/common/expfmt
+#10 40.22 runtime/debug
+#10 40.36 github.com/stmcginnis/gofish/common
+#10 40.57 github.com/stmcginnis/gofish/redfish
+#10 40.73 github.com/prometheus/procfs
+#10 42.51 github.com/prometheus/client_golang/prometheus
+#10 42.79 github.com/g-portal/redfish_exporter/pkg/oem/hpe
+#10 42.90 github.com/stmcginnis/gofish/swordfish
+#10 43.57 github.com/g-portal/redfish_exporter/pkg/metric/base
+#10 43.63 net/http/httputil
+#10 43.66 encoding/xml
+#10 43.86 github.com/stmcginnis/gofish
+#10 44.07 github.com/g-portal/redfish_exporter/pkg/drivers/redfish/metrics
+#10 44.21 github.com/gin-contrib/sse
+#10 44.22 github.com/g-portal/redfish_exporter/pkg/drivers/redfish
+#10 44.27 github.com/gin-gonic/gin/internal/json
+#10 44.31 golang.org/x/net/html
+#10 44.33 github.com/g-portal/redfish_exporter/pkg/api
+#10 44.37 github.com/g-portal/redfish_exporter/pkg/actions
+#10 44.40 hash/adler32
+#10 44.43 compress/zlib
+#10 44.48 debug/dwarf
+#10 44.98 github.com/gabriel-vasile/mimetype/internal/charset
+#10 45.05 internal/saferio
+#10 45.07 encoding/csv
+#10 45.07 debug/macho
+#10 45.13 github.com/gabriel-vasile/mimetype/internal/json
+#10 45.19 github.com/go-playground/locales
+#10 45.26 github.com/go-playground/universal-translator
+#10 45.27 github.com/gabriel-vasile/mimetype/internal/magic
+#10 45.45 github.com/leodido/go-urn
+#10 45.65 github.com/gabriel-vasile/mimetype
+#10 45.82 golang.org/x/crypto/sha3
+#10 45.87 golang.org/x/text/internal/tag
+#10 45.91 golang.org/x/text/internal/language
+#10 45.94 github.com/pelletier/go-toml/v2/internal/danger
+#10 45.97 github.com/pelletier/go-toml/v2/unstable
+#10 46.18 github.com/pelletier/go-toml/v2/internal/tracker
+#10 46.28 github.com/pelletier/go-toml/v2
+#10 46.30 golang.org/x/text/internal/language/compact
+#10 46.38 golang.org/x/text/language
+#10 46.69 github.com/go-playground/validator/v10
+#10 46.73 encoding/gob
+#10 47.60 html
+#10 47.71 text/template/parse
+#10 47.81 gopkg.in/yaml.v3
+#10 48.13 text/template
+#10 48.81 html/template
+#10 48.93 github.com/mattn/go-isatty
+#10 48.98 golang.org/x/text/transform
+#10 49.07 golang.org/x/text/unicode/bidi
+#10 49.31 golang.org/x/text/secure/bidirule
+#10 49.32 net/rpc
+#10 49.35 golang.org/x/text/unicode/norm
+#10 49.60 github.com/ugorji/go/codec
+#10 49.81 golang.org/x/net/idna
+#10 50.07 golang.org/x/net/http/httpguts
+#10 50.12 golang.org/x/net/http2/hpack
+#10 50.28 golang.org/x/net/http2
+#10 52.04 golang.org/x/net/http2/h2c
+#10 52.20 github.com/prometheus/client_golang/prometheus/promhttp
+#10 54.03 github.com/gin-gonic/gin/binding
+#10 54.04 github.com/gin-gonic/gin/render
+#10 54.24 github.com/gin-gonic/gin
+#10 54.73 github.com/g-portal/redfish_exporter/pkg/metric
+#10 54.73 github.com/g-portal/redfish_exporter/pkg/middleware
+#10 54.80 command-line-arguments
+#10 DONE 56.2s
+
+#11 [stage-1 2/4] WORKDIR /opt/app-root
+#11 CACHED
+
+#12 [stage-1 3/4] COPY --from=build /opt/app-root/redfish_exporter /opt/app-root/redfish_exporter
+#12 CACHED
+
+#13 [stage-1 4/4] RUN apt-get update &&     apt-get install -y bash curl iputils-ping &&     rm -rf /var/lib/apt/lists/*
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 writing image sha256:5b7f852b6e0ad2f9349330d1fc6d636ecf3768c9ae3f0108f087faaedbdaa53c done
+#14 naming to docker.io/library/redfish_exporter:1.5.1-2 done
+#14 DONE 0.0s
