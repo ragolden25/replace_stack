@@ -14,11 +14,15 @@
   delegate_to: localhost
 
 # ──────────────── Cleanup ────────────────
+- name: Tear down compose project cleanly
+  ansible.builtin.command: docker compose -f /var/lib/containers/compose/docker-compose.yml down
+  ignore_errors: true
+
 - name: Stop containers
-  ansible.builtin.shell: docker stop grafana prometheus influxdb telegraf nginx ipmi snmp || true
+  ansible.builtin.shell: docker stop grafana prometheus influxdb telegraf nginx redfish snmp || true
 
 - name: Remove containers
-  ansible.builtin.shell: docker rm -f grafana prometheus influxdb telegraf nginx ipmi snmp || true
+  ansible.builtin.shell: docker rm -f grafana prometheus influxdb telegraf nginx redfish snmp || true
 
 - name: Prune volumes
   ansible.builtin.shell: docker volume prune -f || true
@@ -52,12 +56,12 @@
     - { name: grafana/provisioning/datasources, uid: 472 }
     - { name: grafana/provisioning/plugins, uid: 472 }
     - { name: influxdb, uid: 1000 }
-    - { name: ipmi, uid: 65534 }
     - { name: nginx, uid: 101 }
     - { name: nginx/conf.d, uid: 101 }
     - { name: nginx/certs, uid: 101 }
     - { name: prometheus, uid: 65534 }
     - { name: prometheus/data, uid: 65534 }
+    - { name: redfish, uid: 1001 }
     - { name: telegraf, uid: 1000 }
 
 # ──────────────── Image Loading ────────────────
@@ -116,14 +120,14 @@
 - name: Load Telegraf image
   ansible.builtin.shell: docker load -i /var/lib/containers/telegraf/telegraf_alpine.tar.gz
 
-- name: Copy ipmi tarball
+- name: Copy redfish tarball
   ansible.builtin.copy:
-    src: /opt/ansible/files/std1/ipmi/ipmi-exporter-v1.10.1.tar.gz
-    dest: /var/lib/containers/ipmi/ipmi-exporter-v1.10.1.tar.gz
+    src: /opt/ansible/files/std1/redfish/redfish_exporter-1.5.1-2.tar.gz
+    dest: /var/lib/containers/redfish/redfish_exporter-1.5.1-2.tar.gz
     mode: '0644'
 
-- name: Load ipmi image
-  ansible.builtin.shell: docker load -i /var/lib/containers/ipmi/ipmi-exporter-v1.10.1.tar.gz
+- name: Load redfish image
+  ansible.builtin.shell: docker load -i /var/lib/containers/redfish/redfish_exporter-1.5.1-2.tar.gz
 
 - name: Copy Cisco snmp tarball
   ansible.builtin.copy:
@@ -202,14 +206,13 @@
     owner: '65534'
     group: '65534'
 
-- name: Copy ipmi.yml
+- name: Copy config.yml for redfish
   ansible.builtin.copy:
-    src: /opt/ansible/files/std1/ipmi/ipmi.yml
-    dest: /var/lib/containers/ipmi/ipmi.yml
+    src: /opt/ansible/files/std1/redfish/config.yml
+    dest: /var/lib/containers/redfish/config.yml
     mode: '0644'
-    owner: '65534'
-    group: '65534'
-
+    owner: '1001'
+    group: '1001'
 
 # ──────────────── Compose Setup ────────────────
 - name: Render docker-compose.yml
@@ -241,11 +244,14 @@
     state: enabled
     zone: public
   loop:
+    - "161/udp"    # SNMP
+    - "623/udp"    # IPMI
     - "3000/tcp"   # Grafana
     - "5001/tcp"   # Telegraf
     - "8086/tcp"   # InfluxDB
     - "9090/tcp"   # Cockpit
     - "9091/tcp"   # Alertmanager
+    - "9096/tcp"   # redfish_exporter
     - "9100/tcp"   # node_exporter
     - "9182/tcp"   # windows_exporter
     - "9191/tcp"   # Prometheus custom port
@@ -442,7 +448,7 @@
     - /opt/ansible/files/std1/grafana/dashboards/nuc_windows_dashboard.json
     - /opt/ansible/files/std1/grafana/dashboards/idrac_dashboard.json
     - /opt/ansible/files/std1/grafana/dashboards/cisco_dashboard.json
-    - /opt/ansible/files/std1/grafana/dashboards/ipmi_dashboard.json
+    - /opt/ansible/files/std1/grafana/dashboards/redfish_dashboard.json
 
 - name: Strip id, version, and uid from dashboards
   ansible.builtin.shell: |
@@ -455,7 +461,7 @@
     - nuc_windows_dashboard.json
     - idrac_dashboard.json
     - cisco_dashboard.json
-    - ipmi_dashboard.json
+    - redfish_dashboard.json
 
 - name: Ensure dashboards owned by grafana user
   ansible.builtin.file:
@@ -468,7 +474,7 @@
     - nuc_windows_dashboard.json
     - idrac_dashboard.json
     - cisco_dashboard.json
-    - ipmi_dashboard.json
+    - redfish_dashboard.json
 
 # ──────────────── UID Rewrites ────────────────
 
@@ -482,7 +488,7 @@
 
 - name: Rewrite dashboard datasource UIDs
   ansible.builtin.shell: |
-    jq '(.. | .datasource? | select(type == "object" and .uid == "prometheus") | .uid) |= "{{ item.uid }}"' \
+    jq '(.. | .datasource? | select(type == "object" and .uid == "{{ item.original_uid }}") | .uid) |= "{{ item.new_uid }}"' \
       /var/lib/containers/grafana/dashboards/{{ item.file }} > /var/lib/containers/grafana/dashboards/{{ item.file }}.tmp && \
     mv /var/lib/containers/grafana/dashboards/{{ item.file }}.tmp /var/lib/containers/grafana/dashboards/{{ item.file }}
   args:
