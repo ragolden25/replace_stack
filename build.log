@@ -1,641 +1,569 @@
 #0 building with "default" instance using docker driver
 
 #1 [internal] load build definition from Dockerfile
-#1 transferring dockerfile: 701B done
+#1 transferring dockerfile: 908B done
 #1 DONE 0.0s
 
-#2 [internal] load metadata for docker.io/gportal/golang:latest
+#2 [internal] load metadata for docker.io/library/golang:1.23
 #2 ...
 
 #3 [internal] load metadata for docker.io/library/debian:stable-slim
-#3 DONE 10.5s
+#3 ...
 
-#2 [internal] load metadata for docker.io/gportal/golang:latest
-#2 DONE 15.9s
+#2 [internal] load metadata for docker.io/library/golang:1.23
+#2 DONE 10.5s
+
+#3 [internal] load metadata for docker.io/library/debian:stable-slim
+#3 DONE 10.5s
 
 #4 [internal] load .dockerignore
 #4 transferring context: 2B done
 #4 DONE 0.0s
 
-#5 [stage-1 1/4] FROM docker.io/library/debian:stable-slim@sha256:7cb087f19bcc175b96fbe4c2aef42ed00733a659581a80f6ebccfd8fe3185a3d
+#5 [build 1/5] FROM docker.io/library/golang:1.23@sha256:60deed95d3888cc5e4d9ff8a10c54e5edc008c6ae3fba6187be6fb592e19e8c0
 #5 DONE 0.0s
 
-#6 [stage-1 2/4] WORKDIR /opt/app-root
-#6 CACHED
+#6 [runtime 1/4] FROM docker.io/library/debian:stable-slim@sha256:7cb087f19bcc175b96fbe4c2aef42ed00733a659581a80f6ebccfd8fe3185a3d
+#6 DONE 0.0s
 
-#7 [build 1/4] FROM docker.io/gportal/golang:latest@sha256:75a3e80b396a1c9cc7111cb44b8e54fe630d45392d4bef4c5856ffee55406cdc
-#7 resolve docker.io/gportal/golang:latest@sha256:75a3e80b396a1c9cc7111cb44b8e54fe630d45392d4bef4c5856ffee55406cdc 0.0s done
-#7 sha256:75a3e80b396a1c9cc7111cb44b8e54fe630d45392d4bef4c5856ffee55406cdc 3.02kB / 3.02kB done
-#7 sha256:f6022815e2478addd65f568d353de5ac527c6d146b79e09e5bfd1c753899d290 9.56kB / 9.56kB done
-#7 sha256:d25f557d7f31bf7acfac935859b5153da41d13c41f2b468d16f729a5b883634f 0B / 3.62MB 0.1s
-#7 sha256:e8e443195fd18c832d56efed7baac3b241e6de7012ca122e20f63d21c70e237a 0B / 2.72kB 0.1s
-#7 sha256:2c1ab1d40ecf83598205ac5e286141ff83d52b4a8707a4e88f1f652538a36e09 0B / 241B 0.1s
-#7 sha256:d25f557d7f31bf7acfac935859b5153da41d13c41f2b468d16f729a5b883634f 3.62MB / 3.62MB 0.3s
-#7 sha256:d25f557d7f31bf7acfac935859b5153da41d13c41f2b468d16f729a5b883634f 3.62MB / 3.62MB 0.3s done
-#7 sha256:e8e443195fd18c832d56efed7baac3b241e6de7012ca122e20f63d21c70e237a 2.72kB / 2.72kB 0.3s done
-#7 extracting sha256:d25f557d7f31bf7acfac935859b5153da41d13c41f2b468d16f729a5b883634f
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 0B / 114.33MB 0.4s
-#7 sha256:2747291a1bfe372bc5f66d8c722321c162ffca84f0b40e9d7779626978a40264 0B / 93B 0.4s
-#7 sha256:2c1ab1d40ecf83598205ac5e286141ff83d52b4a8707a4e88f1f652538a36e09 241B / 241B 0.4s done
-#7 sha256:274374686e0595d63d0adc1853407e4397e80de233d007cd71267a9a3f938724 0B / 161.14kB 0.5s
-#7 extracting sha256:d25f557d7f31bf7acfac935859b5153da41d13c41f2b468d16f729a5b883634f 0.3s done
-#7 extracting sha256:e8e443195fd18c832d56efed7baac3b241e6de7012ca122e20f63d21c70e237a done
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 8.39MB / 114.33MB 0.9s
-#7 extracting sha256:2c1ab1d40ecf83598205ac5e286141ff83d52b4a8707a4e88f1f652538a36e09 done
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 17.83MB / 114.33MB 1.2s
-#7 ...
+#7 [runtime 2/4] WORKDIR /opt/app-root
+#7 CACHED
 
-#8 [internal] load build context
-#8 transferring context: 116.37MB 1.5s done
-#8 DONE 1.5s
+#8 [build 2/5] WORKDIR /src
+#8 CACHED
 
-#7 [build 1/4] FROM docker.io/gportal/golang:latest@sha256:75a3e80b396a1c9cc7111cb44b8e54fe630d45392d4bef4c5856ffee55406cdc
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 24.12MB / 114.33MB 1.6s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 34.60MB / 114.33MB 1.9s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 41.94MB / 114.33MB 2.1s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 51.38MB / 114.33MB 2.3s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 61.87MB / 114.33MB 2.5s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 71.30MB / 114.33MB 2.8s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 84.19MB / 114.33MB 3.1s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 91.23MB / 114.33MB 3.2s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 102.76MB / 114.33MB 3.4s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 114.33MB / 114.33MB 3.6s
-#7 sha256:2747291a1bfe372bc5f66d8c722321c162ffca84f0b40e9d7779626978a40264 93B / 93B 3.8s
-#7 sha256:274374686e0595d63d0adc1853407e4397e80de233d007cd71267a9a3f938724 161.14kB / 161.14kB 3.8s
-#7 sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 114.33MB / 114.33MB 4.4s done
-#7 sha256:2747291a1bfe372bc5f66d8c722321c162ffca84f0b40e9d7779626978a40264 93B / 93B 4.4s done
-#7 sha256:274374686e0595d63d0adc1853407e4397e80de233d007cd71267a9a3f938724 161.14kB / 161.14kB 4.4s done
-#7 extracting sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 0.2s
-#7 sha256:f5b65732e6f8e50feeadff239aa6405735b21e85b0b662a25a0e4e16466ecc8a 0B / 163B 4.5s
-#7 sha256:9d9c1f960751de4f117b7dfc3c462ac8ffa0df66873b28f33995eedbbda3ede2 0B / 257B 4.5s
-#7 sha256:bd8d109b5dc0d3f3327da307bb22e2a500851b2ef493a4f76291a90b378a68fd 0B / 192B 4.5s
-#7 sha256:9d9c1f960751de4f117b7dfc3c462ac8ffa0df66873b28f33995eedbbda3ede2 257B / 257B 4.6s done
-#7 sha256:faaf41e0e8d6ac534b8fdb4db9f0be3fb430f35933d374f8b8f31598d7ccfec6 0B / 998B 4.7s
-#7 sha256:f5b65732e6f8e50feeadff239aa6405735b21e85b0b662a25a0e4e16466ecc8a 163B / 163B 4.7s done
-#7 sha256:bd8d109b5dc0d3f3327da307bb22e2a500851b2ef493a4f76291a90b378a68fd 192B / 192B 4.8s done
-#7 sha256:72dce18a73d1c0fa95aecc9b063599aaa2289b7463f14315707e7186e2dccbab 0B / 93B 4.8s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 0B / 76.04MB 4.8s
-#7 sha256:faaf41e0e8d6ac534b8fdb4db9f0be3fb430f35933d374f8b8f31598d7ccfec6 998B / 998B 4.8s done
-#7 sha256:5a9c48ec4d69e3e596ab160ca123ef29777c64557e035bb8538ad449443655c6 0B / 317B 4.9s
-#7 sha256:72dce18a73d1c0fa95aecc9b063599aaa2289b7463f14315707e7186e2dccbab 93B / 93B 4.9s done
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 6.29MB / 76.04MB 5.4s
-#7 sha256:5a9c48ec4d69e3e596ab160ca123ef29777c64557e035bb8538ad449443655c6 317B / 317B 5.4s done
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 13.00MB / 76.04MB 5.5s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 23.70MB / 76.04MB 5.7s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 30.41MB / 76.04MB 5.9s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 44.04MB / 76.04MB 6.2s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 51.38MB / 76.04MB 6.3s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 60.82MB / 76.04MB 6.6s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 65.01MB / 76.04MB 6.7s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 69.21MB / 76.04MB 6.8s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 74.45MB / 76.04MB 7.0s
-#7 sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 76.04MB / 76.04MB 7.2s done
-#7 extracting sha256:e575f92ac034574b19d0ac41af564d7133fa9338a31990ecdd2702500774403f 4.9s done
-#7 extracting sha256:2747291a1bfe372bc5f66d8c722321c162ffca84f0b40e9d7779626978a40264
-#7 extracting sha256:2747291a1bfe372bc5f66d8c722321c162ffca84f0b40e9d7779626978a40264 done
-#7 extracting sha256:274374686e0595d63d0adc1853407e4397e80de233d007cd71267a9a3f938724 done
-#7 extracting sha256:9d9c1f960751de4f117b7dfc3c462ac8ffa0df66873b28f33995eedbbda3ede2 done
-#7 extracting sha256:bd8d109b5dc0d3f3327da307bb22e2a500851b2ef493a4f76291a90b378a68fd done
-#7 extracting sha256:f5b65732e6f8e50feeadff239aa6405735b21e85b0b662a25a0e4e16466ecc8a done
-#7 extracting sha256:faaf41e0e8d6ac534b8fdb4db9f0be3fb430f35933d374f8b8f31598d7ccfec6
-#7 extracting sha256:faaf41e0e8d6ac534b8fdb4db9f0be3fb430f35933d374f8b8f31598d7ccfec6 done
-#7 extracting sha256:72dce18a73d1c0fa95aecc9b063599aaa2289b7463f14315707e7186e2dccbab done
-#7 extracting sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 0.1s
-#7 extracting sha256:3a6ab3158a492551296a7a41f8eb643c4e6cac8aee2f5936da2089f7af72e667 3.9s done
-#7 extracting sha256:5a9c48ec4d69e3e596ab160ca123ef29777c64557e035bb8538ad449443655c6
-#7 extracting sha256:5a9c48ec4d69e3e596ab160ca123ef29777c64557e035bb8538ad449443655c6 done
-#7 DONE 14.6s
+#9 [internal] load build context
+#9 transferring context: 143.11kB 0.1s done
+#9 DONE 0.1s
 
-#9 [build 2/4] WORKDIR /opt/app-root/src
-#9 DONE 1.2s
+#10 [build 3/5] COPY . /src/redfish_exporter
+#10 DONE 0.0s
 
-#10 [build 3/4] COPY ./ .
-#10 DONE 0.9s
+#11 [build 4/5] WORKDIR /src/redfish_exporter
+#11 DONE 0.0s
 
-#11 [build 4/4] RUN go build -v -o /opt/app-root/redfish_exporter cmd/main.go
-#11 0.305 go: downloading github.com/gin-gonic/gin v1.9.1
-#11 0.306 go: downloading gopkg.in/yaml.v2 v2.4.0
-#11 5.631 go: downloading github.com/prometheus/client_golang v1.19.0
-#11 5.861 go: downloading github.com/gin-contrib/sse v0.1.0
-#11 5.874 go: downloading github.com/mattn/go-isatty v0.0.20
-#11 5.928 go: downloading golang.org/x/net v0.22.0
-#11 6.575 go: downloading github.com/prometheus/client_model v0.6.0
-#11 6.579 go: downloading github.com/prometheus/common v0.51.1
-#11 6.654 go: downloading github.com/stmcginnis/gofish v0.15.0
-#11 6.846 go: downloading github.com/cespare/xxhash/v2 v2.2.0
-#11 6.847 go: downloading github.com/beorn7/perks v1.0.1
-#11 6.923 go: downloading github.com/prometheus/procfs v0.13.0
-#11 6.927 go: downloading google.golang.org/protobuf v1.33.0
-#11 7.452 go: downloading github.com/go-playground/validator/v10 v10.19.0
-#11 7.452 go: downloading github.com/pelletier/go-toml/v2 v2.2.0
-#11 7.614 go: downloading github.com/ugorji/go/codec v1.2.12
-#11 7.617 go: downloading gopkg.in/yaml.v3 v3.0.1
-#11 7.719 go: downloading golang.org/x/sys v0.18.0
-#11 7.852 go: downloading github.com/gabriel-vasile/mimetype v1.4.3
-#11 8.178 go: downloading github.com/go-playground/universal-translator v0.18.1
-#11 8.268 go: downloading github.com/leodido/go-urn v1.4.0
-#11 8.479 go: downloading golang.org/x/crypto v0.21.0
-#11 8.849 go: downloading golang.org/x/text v0.14.0
-#11 10.10 go: downloading github.com/go-playground/locales v0.14.1
-#11 15.30 internal/goarch
-#11 15.30 encoding
-#11 15.32 internal/unsafeheader
-#11 15.33 internal/abi
-#11 15.35 internal/cpu
-#11 15.41 internal/bytealg
-#11 15.48 internal/byteorder
-#11 15.53 internal/chacha8rand
-#11 15.60 internal/coverage/rtcov
-#11 15.61 internal/godebugs
-#11 15.62 internal/goexperiment
-#11 15.62 internal/goos
-#11 15.63 internal/profilerecord
-#11 15.63 internal/runtime/atomic
-#11 15.64 internal/runtime/syscall
-#11 15.68 internal/stringslite
-#11 15.69 internal/runtime/exithook
-#11 15.71 runtime/internal/math
-#11 15.72 runtime/internal/sys
-#11 15.72 cmp
-#11 15.74 internal/itoa
-#11 15.75 runtime
-#11 15.76 internal/race
-#11 15.77 math/bits
-#11 15.82 math
-#11 16.13 unicode/utf8
-#11 16.18 sync/atomic
-#11 16.25 unicode
-#11 16.46 internal/asan
-#11 16.48 internal/msan
-#11 16.49 log/internal
-#11 16.49 container/list
-#11 16.52 crypto/internal/alias
-#11 16.54 crypto/subtle
-#11 16.58 crypto/internal/boring/sig
-#11 16.59 unicode/utf16
-#11 16.61 vendor/golang.org/x/crypto/cryptobyte/asn1
-#11 16.62 vendor/golang.org/x/crypto/internal/alias
-#11 16.64 internal/nettrace
-#11 16.66 google.golang.org/protobuf/internal/flags
-#11 16.69 google.golang.org/protobuf/internal/set
-#11 16.71 github.com/gin-gonic/gin/internal/bytesconv
-#11 16.72 golang.org/x/net/html/atom
-#11 16.75 github.com/go-playground/locales/currency
-#11 16.77 github.com/leodido/go-urn/scim/schema
-#11 16.78 github.com/pelletier/go-toml/v2/internal/characters
-#11 19.80 internal/reflectlite
-#11 19.80 iter
-#11 19.82 sync
-#11 20.00 errors
-#11 20.00 slices
-#11 20.03 strconv
-#11 20.04 io
-#11 20.18 internal/oserror
-#11 20.21 path
-#11 20.27 internal/bisect
-#11 20.29 reflect
-#11 20.35 internal/godebug
-#11 20.41 syscall
-#11 21.08 time
-#11 21.71 io/fs
-#11 21.73 internal/fmtsort
-#11 21.83 internal/syscall/unix
-#11 21.84 internal/filepathlite
-#11 21.86 internal/poll
-#11 21.89 internal/syscall/execenv
-#11 21.91 internal/testlog
-#11 21.94 strings
-#11 22.12 os
-#11 22.17 bytes
-#11 22.33 encoding/binary
-#11 22.59 encoding/base64
-#11 22.66 sort
-#11 22.70 fmt
-#11 22.84 regexp/syntax
-#11 23.21 flag
-#11 23.28 regexp
-#11 23.41 log
-#11 23.54 context
-#11 23.63 gopkg.in/yaml.v2
-#11 23.64 hash
-#11 23.66 crypto
-#11 23.69 crypto/cipher
-#11 23.78 crypto/internal/boring
-#11 23.81 crypto/aes
-#11 23.97 crypto/des
-#11 24.05 crypto/internal/edwards25519/field
-#11 24.18 crypto/internal/nistec/fiat
-#11 24.47 github.com/g-portal/redfish_exporter/pkg/config
-#11 24.49 embed
-#11 24.56 crypto/internal/randutil
-#11 24.58 math/rand
-#11 24.71 math/big
-#11 24.75 crypto/internal/nistec
-#11 25.06 crypto/ecdh
-#11 25.16 crypto/sha512
-#11 25.29 crypto/internal/edwards25519
-#11 25.48 crypto/hmac
-#11 25.50 crypto/elliptic
-#11 25.50 crypto/internal/bigmod
-#11 25.63 crypto/internal/boring/bbig
-#11 25.66 encoding/asn1
-#11 25.66 crypto/rand
-#11 25.71 crypto/ed25519
-#11 25.75 vendor/golang.org/x/crypto/chacha20
-#11 25.81 vendor/golang.org/x/crypto/internal/poly1305
-#11 25.91 vendor/golang.org/x/sys/cpu
-#11 25.93 vendor/golang.org/x/crypto/cryptobyte
-#11 25.98 vendor/golang.org/x/crypto/chacha20poly1305
-#11 26.12 crypto/ecdsa
-#11 26.12 vendor/golang.org/x/crypto/hkdf
-#11 26.14 crypto/internal/hpke
-#11 26.20 vendor/golang.org/x/crypto/sha3
-#11 26.29 crypto/md5
-#11 26.31 crypto/internal/mlkem768
-#11 26.35 crypto/rc4
-#11 26.37 crypto/rsa
-#11 26.41 crypto/sha1
-#11 26.50 crypto/sha256
-#11 26.51 crypto/dsa
-#11 26.55 encoding/hex
-#11 26.60 crypto/x509/pkix
-#11 26.61 encoding/pem
-#11 26.64 vendor/golang.org/x/net/dns/dnsmessage
-#11 26.68 internal/singleflight
-#11 26.71 math/rand/v2
-#11 26.83 internal/concurrent
-#11 26.87 internal/weak
-#11 26.89 unique
-#11 26.97 runtime/cgo
-#11 26.98 net/netip
-#11 27.30 net/url
-#11 27.46 path/filepath
-#11 27.57 encoding/json
-#11 28.09 bufio
-#11 28.19 compress/flate
-#11 28.37 hash/crc32
-#11 28.39 net
-#11 28.44 compress/gzip
-#11 28.49 vendor/golang.org/x/text/transform
-#11 28.57 vendor/golang.org/x/text/unicode/bidi
-#11 28.80 vendor/golang.org/x/text/secure/bidirule
-#11 28.83 vendor/golang.org/x/text/unicode/norm
-#11 29.21 vendor/golang.org/x/net/idna
-#11 29.44 vendor/golang.org/x/net/http2/hpack
-#11 29.56 maps
-#11 29.57 mime
-#11 29.78 mime/quotedprintable
-#11 29.82 net/http/internal
-#11 29.86 net/http/internal/ascii
-#11 29.87 github.com/beorn7/perks/quantile
-#11 29.92 github.com/cespare/xxhash/v2
-#11 30.00 hash/fnv
-#11 30.09 google.golang.org/protobuf/internal/detrand
-#11 30.14 google.golang.org/protobuf/internal/errors
-#11 30.18 google.golang.org/protobuf/encoding/protowire
-#11 30.24 google.golang.org/protobuf/internal/pragma
-#11 30.26 google.golang.org/protobuf/reflect/protoreflect
-#11 30.70 google.golang.org/protobuf/internal/descfmt
-#11 30.85 google.golang.org/protobuf/internal/descopts
-#11 30.89 google.golang.org/protobuf/internal/editiondefaults
-#11 30.91 go/token
-#11 31.04 google.golang.org/protobuf/internal/strs
-#11 31.10 google.golang.org/protobuf/internal/encoding/text
-#11 31.29 crypto/x509
-#11 31.30 net/textproto
-#11 31.41 vendor/golang.org/x/net/http/httpguts
-#11 31.44 vendor/golang.org/x/net/http/httpproxy
-#11 31.50 mime/multipart
-#11 31.68 google.golang.org/protobuf/internal/encoding/defval
-#11 31.75 google.golang.org/protobuf/internal/encoding/messageset
-#11 31.82 google.golang.org/protobuf/internal/genid
-#11 31.89 google.golang.org/protobuf/internal/order
-#11 31.97 google.golang.org/protobuf/reflect/protoregistry
-#11 32.05 crypto/tls
-#11 32.11 google.golang.org/protobuf/runtime/protoiface
-#11 32.13 google.golang.org/protobuf/proto
-#11 32.37 google.golang.org/protobuf/internal/filedesc
-#11 33.17 google.golang.org/protobuf/encoding/prototext
-#11 33.45 google.golang.org/protobuf/internal/encoding/tag
-#11 33.55 io/ioutil
-#11 33.66 google.golang.org/protobuf/internal/impl
-#11 33.93 net/http/httptrace
-#11 33.99 net/http
-#11 36.09 google.golang.org/protobuf/internal/filetype
-#11 36.23 google.golang.org/protobuf/internal/version
-#11 36.26 google.golang.org/protobuf/runtime/protoimpl
-#11 36.33 google.golang.org/protobuf/types/known/timestamppb
-#11 36.44 github.com/prometheus/client_model/go
-#11 36.66 github.com/prometheus/common/model
-#11 37.24 runtime/metrics
-#11 37.29 github.com/prometheus/client_golang/prometheus/internal
-#11 37.45 github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
-#11 37.48 google.golang.org/protobuf/encoding/protodelim
-#11 37.57 github.com/prometheus/procfs/internal/fs
-#11 37.59 github.com/prometheus/procfs/internal/util
-#11 37.64 golang.org/x/sys/unix
-#11 37.73 expvar
-#11 37.88 github.com/prometheus/common/expfmt
-#11 38.25 runtime/debug
-#11 38.44 github.com/stmcginnis/gofish/common
-#11 38.68 github.com/stmcginnis/gofish/redfish
-#11 38.93 github.com/prometheus/procfs
-#11 40.67 github.com/prometheus/client_golang/prometheus
-#11 40.87 github.com/g-portal/redfish_exporter/pkg/oem/hpe
-#11 41.01 github.com/stmcginnis/gofish/swordfish
-#11 41.62 github.com/g-portal/redfish_exporter/pkg/metric/base
-#11 41.71 net/http/httputil
-#11 41.77 encoding/xml
-#11 41.90 github.com/stmcginnis/gofish
-#11 42.14 github.com/g-portal/redfish_exporter/pkg/drivers/redfish/metrics
-#11 42.29 github.com/gin-contrib/sse
-#11 42.30 github.com/g-portal/redfish_exporter/pkg/drivers/redfish
-#11 42.35 github.com/gin-gonic/gin/internal/json
-#11 42.38 golang.org/x/net/html
-#11 42.41 github.com/g-portal/redfish_exporter/pkg/api
-#11 42.46 github.com/g-portal/redfish_exporter/pkg/actions
-#11 42.49 hash/adler32
-#11 42.52 compress/zlib
-#11 42.58 debug/dwarf
-#11 43.01 github.com/gabriel-vasile/mimetype/internal/charset
-#11 43.08 internal/saferio
-#11 43.12 encoding/csv
-#11 43.20 debug/macho
-#11 43.20 github.com/gabriel-vasile/mimetype/internal/json
-#11 43.26 github.com/go-playground/locales
-#11 43.29 github.com/go-playground/universal-translator
-#11 43.41 github.com/gabriel-vasile/mimetype/internal/magic
-#11 43.48 github.com/leodido/go-urn
-#11 43.81 golang.org/x/crypto/sha3
-#11 43.84 github.com/gabriel-vasile/mimetype
-#11 43.94 golang.org/x/text/internal/tag
-#11 43.96 golang.org/x/text/internal/language
-#11 44.04 github.com/pelletier/go-toml/v2/internal/danger
-#11 44.07 github.com/pelletier/go-toml/v2/unstable
-#11 44.26 github.com/pelletier/go-toml/v2/internal/tracker
-#11 44.35 github.com/pelletier/go-toml/v2
-#11 44.36 golang.org/x/text/internal/language/compact
-#11 44.44 golang.org/x/text/language
-#11 44.69 github.com/go-playground/validator/v10
-#11 44.84 encoding/gob
-#11 45.71 html
-#11 45.79 text/template/parse
-#11 45.82 gopkg.in/yaml.v3
-#11 46.20 text/template
-#11 46.78 html/template
-#11 46.93 github.com/mattn/go-isatty
-#11 46.98 golang.org/x/text/transform
-#11 47.08 golang.org/x/text/unicode/bidi
-#11 47.26 net/rpc
-#11 47.34 golang.org/x/text/secure/bidirule
-#11 47.39 golang.org/x/text/unicode/norm
-#11 47.53 github.com/ugorji/go/codec
-#11 47.86 golang.org/x/net/idna
-#11 48.09 golang.org/x/net/http/httpguts
-#11 48.14 golang.org/x/net/http2/hpack
-#11 48.26 golang.org/x/net/http2
-#11 50.06 golang.org/x/net/http2/h2c
-#11 50.22 github.com/prometheus/client_golang/prometheus/promhttp
-#11 51.74 github.com/gin-gonic/gin/binding
-#11 51.74 github.com/gin-gonic/gin/render
-#11 51.94 github.com/gin-gonic/gin
-#11 52.46 github.com/g-portal/redfish_exporter/pkg/metric
-#11 52.46 github.com/g-portal/redfish_exporter/pkg/middleware
-#11 52.54 command-line-arguments
-#11 DONE 54.0s
+#12 [build 5/5] RUN go build -v -o /opt/app-root/redfish_exporter ./cmd
+#12 0.234 go: downloading gopkg.in/yaml.v2 v2.4.0
+#12 0.236 go: downloading github.com/gin-gonic/gin v1.9.1
+#12 5.680 go: downloading github.com/prometheus/client_golang v1.19.0
+#12 5.951 go: downloading github.com/gin-contrib/sse v0.1.0
+#12 5.972 go: downloading github.com/mattn/go-isatty v0.0.20
+#12 6.017 go: downloading golang.org/x/net v0.22.0
+#12 6.641 go: downloading github.com/prometheus/client_model v0.6.0
+#12 6.642 go: downloading github.com/prometheus/common v0.51.1
+#12 6.709 go: downloading github.com/stmcginnis/gofish v0.15.0
+#12 7.140 go: downloading github.com/beorn7/perks v1.0.1
+#12 7.142 go: downloading github.com/cespare/xxhash/v2 v2.2.0
+#12 7.237 go: downloading github.com/prometheus/procfs v0.13.0
+#12 7.240 go: downloading google.golang.org/protobuf v1.33.0
+#12 7.791 go: downloading github.com/go-playground/validator/v10 v10.19.0
+#12 7.797 go: downloading github.com/pelletier/go-toml/v2 v2.2.0
+#12 7.952 go: downloading github.com/ugorji/go/codec v1.2.12
+#12 7.971 go: downloading gopkg.in/yaml.v3 v3.0.1
+#12 8.068 go: downloading golang.org/x/sys v0.18.0
+#12 8.280 go: downloading github.com/gabriel-vasile/mimetype v1.4.3
+#12 8.550 go: downloading github.com/go-playground/universal-translator v0.18.1
+#12 8.632 go: downloading github.com/leodido/go-urn v1.4.0
+#12 8.831 go: downloading golang.org/x/crypto v0.21.0
+#12 9.150 go: downloading golang.org/x/text v0.14.0
+#12 ...
 
-#12 [stage-1 3/4] COPY --from=build /opt/app-root/redfish_exporter /opt/app-root/redfish_exporter
-#12 DONE 0.0s
+#13 [runtime 3/4] RUN apt-get update && apt-get install -y --no-install-recommends     bash     curl     iputils-ping     ca-certificates     less     procps     && rm -rf /var/lib/apt/lists/*
+#13 5.436 Get:1 http://deb.debian.org/debian stable InRelease [140 kB]
+#13 5.525 Get:2 http://deb.debian.org/debian stable-updates InRelease [47.3 kB]
+#13 5.670 Get:3 http://deb.debian.org/debian-security stable-security InRelease [43.4 kB]
+#13 5.704 Get:4 http://deb.debian.org/debian stable/main amd64 Packages [9670 kB]
+#13 5.917 Get:5 http://deb.debian.org/debian stable-updates/main amd64 Packages [5412 B]
+#13 5.945 Get:6 http://deb.debian.org/debian-security stable-security/main amd64 Packages [71.8 kB]
+#13 7.070 Fetched 9978 kB in 7s (1483 kB/s)
+#13 7.070 Reading package lists...
+#13 7.899 Reading package lists...
+#13 8.703 Building dependency tree...
+#13 8.864 Reading state information...
+#13 9.061 bash is already the newest version (5.2.37-2+b5).
+#13 9.061 bash set to manually installed.
+#13 9.061 The following additional packages will be installed:
+#13 9.061   libbrotli1 libcom-err2 libcurl4t64 libffi8 libgnutls30t64 libgssapi-krb5-2
+#13 9.061   libidn2-0 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap2
+#13 9.062   libncursesw6 libnghttp2-14 libnghttp3-9 libp11-kit0 libproc2-0 libpsl5t64
+#13 9.062   librtmp1 libsasl2-2 libsasl2-modules-db libssh2-1t64 libtasn1-6
+#13 9.063   libunistring5 openssl
+#13 9.064 Suggested packages:
+#13 9.064   gnutls-bin krb5-doc krb5-user
+#13 9.064 Recommended packages:
+#13 9.064   bash-completion linux-sysctl-defaults krb5-locales libldap-common libgpm2
+#13 9.065   publicsuffix libsasl2-modules psmisc
+#13 9.341 The following NEW packages will be installed:
+#13 9.341   ca-certificates curl iputils-ping less libbrotli1 libcom-err2 libcurl4t64
+#13 9.342   libffi8 libgnutls30t64 libgssapi-krb5-2 libidn2-0 libk5crypto3 libkeyutils1
+#13 9.342   libkrb5-3 libkrb5support0 libldap2 libncursesw6 libnghttp2-14 libnghttp3-9
+#13 9.343   libp11-kit0 libproc2-0 libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules-db
+#13 9.343   libssh2-1t64 libtasn1-6 libunistring5 openssl procps
+#13 ...
 
-#13 [stage-1 4/4] RUN apt-get update &&     apt-get install -y bash curl iputils-ping &&     rm -rf /var/lib/apt/lists/*
-#13 5.398 Get:1 http://deb.debian.org/debian stable InRelease [140 kB]
-#13 5.608 Get:2 http://deb.debian.org/debian stable-updates InRelease [47.3 kB]
-#13 5.639 Get:3 http://deb.debian.org/debian-security stable-security InRelease [43.4 kB]
-#13 5.671 Get:4 http://deb.debian.org/debian stable/main amd64 Packages [9670 kB]
-#13 6.185 Get:5 http://deb.debian.org/debian stable-updates/main amd64 Packages [5412 B]
-#13 6.215 Get:6 http://deb.debian.org/debian-security stable-security/main amd64 Packages [71.8 kB]
-#13 7.358 Fetched 9978 kB in 7s (1413 kB/s)
-#13 7.358 Reading package lists...
-#13 8.205 Reading package lists...
-#13 9.027 Building dependency tree...
-#13 9.191 Reading state information...
-#13 9.411 bash is already the newest version (5.2.37-2+b5).
-#13 9.411 bash set to manually installed.
-#13 9.411 The following additional packages will be installed:
-#13 9.412   bash-completion ca-certificates krb5-locales libbrotli1 libcom-err2
-#13 9.412   libcurl4t64 libffi8 libgnutls30t64 libgssapi-krb5-2 libidn2-0 libk5crypto3
-#13 9.413   libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2 libnghttp2-14
-#13 9.413   libnghttp3-9 libp11-kit0 libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules
-#13 9.414   libsasl2-modules-db libssh2-1t64 libtasn1-6 libunistring5
-#13 9.414   linux-sysctl-defaults openssl publicsuffix
-#13 9.416 Suggested packages:
-#13 9.416   gnutls-bin krb5-doc krb5-user libsasl2-modules-gssapi-mit
-#13 9.416   | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp
-#13 9.416   libsasl2-modules-sql
-#13 9.744 The following NEW packages will be installed:
-#13 9.745   bash-completion ca-certificates curl iputils-ping krb5-locales libbrotli1
-#13 9.745   libcom-err2 libcurl4t64 libffi8 libgnutls30t64 libgssapi-krb5-2 libidn2-0
-#13 9.745   libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2
-#13 9.746   libnghttp2-14 libnghttp3-9 libp11-kit0 libpsl5t64 librtmp1 libsasl2-2
-#13 9.746   libsasl2-modules libsasl2-modules-db libssh2-1t64 libtasn1-6 libunistring5
-#13 9.747   linux-sysctl-defaults openssl publicsuffix
-#13 14.87 0 upgraded, 32 newly installed, 0 to remove and 0 not upgraded.
-#13 14.87 Need to get 7438 kB of archives.
-#13 14.87 After this operation, 21.5 MB of additional disk space will be used.
-#13 14.87 Get:1 http://deb.debian.org/debian stable/main amd64 libunistring5 amd64 1.3-2 [477 kB]
-#13 15.01 Get:2 http://deb.debian.org/debian stable/main amd64 libidn2-0 amd64 2.3.8-2 [109 kB]
-#13 15.04 Get:3 http://deb.debian.org/debian stable/main amd64 iputils-ping amd64 3:20240905-3 [51.2 kB]
-#13 15.04 Get:4 http://deb.debian.org/debian stable/main amd64 linux-sysctl-defaults all 4.12 [5624 B]
-#13 15.04 Get:5 http://deb.debian.org/debian stable/main amd64 bash-completion all 1:2.16.0-7 [319 kB]
-#13 15.05 Get:6 http://deb.debian.org/debian stable/main amd64 openssl amd64 3.5.4-1~deb13u1 [1495 kB]
-#13 15.12 Get:7 http://deb.debian.org/debian stable/main amd64 ca-certificates all 20250419 [162 kB]
-#13 15.12 Get:8 http://deb.debian.org/debian stable/main amd64 krb5-locales all 1.21.3-5 [101 kB]
-#13 15.12 Get:9 http://deb.debian.org/debian stable/main amd64 libbrotli1 amd64 1.1.0-2+b7 [307 kB]
-#13 15.13 Get:10 http://deb.debian.org/debian stable/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
-#13 15.13 Get:11 http://deb.debian.org/debian stable/main amd64 libcom-err2 amd64 1.47.2-3+b3 [25.0 kB]
-#13 15.16 Get:12 http://deb.debian.org/debian stable/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
-#13 15.16 Get:13 http://deb.debian.org/debian stable/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
-#13 15.16 Get:14 http://deb.debian.org/debian stable/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
-#13 15.17 Get:15 http://deb.debian.org/debian stable/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
-#13 15.17 Get:16 http://deb.debian.org/debian stable/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
-#13 15.18 Get:17 http://deb.debian.org/debian stable/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
-#13 15.18 Get:18 http://deb.debian.org/debian stable/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
-#13 15.18 Get:19 http://deb.debian.org/debian stable/main amd64 libnghttp2-14 amd64 1.64.0-1.1 [76.0 kB]
-#13 15.18 Get:20 http://deb.debian.org/debian stable/main amd64 libnghttp3-9 amd64 1.8.0-1 [67.7 kB]
-#13 15.19 Get:21 http://deb.debian.org/debian stable/main amd64 libpsl5t64 amd64 0.21.2-1.1+b1 [57.2 kB]
-#13 15.21 Get:22 http://deb.debian.org/debian stable/main amd64 libffi8 amd64 3.4.8-2 [24.1 kB]
-#13 15.21 Get:23 http://deb.debian.org/debian stable/main amd64 libp11-kit0 amd64 0.25.5-3 [425 kB]
-#13 15.23 Get:24 http://deb.debian.org/debian stable/main amd64 libtasn1-6 amd64 4.20.0-2 [49.9 kB]
-#13 15.23 Get:25 http://deb.debian.org/debian stable/main amd64 libgnutls30t64 amd64 3.8.9-3 [1465 kB]
-#13 15.28 Get:26 http://deb.debian.org/debian stable/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b5 [58.8 kB]
-#13 15.31 Get:27 http://deb.debian.org/debian stable/main amd64 libssh2-1t64 amd64 1.11.1-1 [245 kB]
-#13 15.39 Get:28 http://deb.debian.org/debian stable/main amd64 libcurl4t64 amd64 8.14.1-2+deb13u2 [391 kB]
-#13 15.40 Get:29 http://deb.debian.org/debian stable/main amd64 curl amd64 8.14.1-2+deb13u2 [270 kB]
-#13 15.46 Get:30 http://deb.debian.org/debian stable/main amd64 libldap-common all 2.6.10+dfsg-1 [35.1 kB]
-#13 15.46 Get:31 http://deb.debian.org/debian stable/main amd64 libsasl2-modules amd64 2.1.28+dfsg1-9 [66.7 kB]
-#13 15.48 Get:32 http://deb.debian.org/debian stable/main amd64 publicsuffix all 20250328.1952-0.1 [296 kB]
-#13 15.70 debconf: unable to initialize frontend: Dialog
-#13 15.70 debconf: (TERM is not set, so the dialog frontend is not usable.)
-#13 15.70 debconf: falling back to frontend: Readline
-#13 15.70 debconf: unable to initialize frontend: Readline
-#13 15.70 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 32.)
-#13 15.70 debconf: falling back to frontend: Teletype
-#13 15.71 debconf: unable to initialize frontend: Teletype
-#13 15.71 debconf: (This frontend requires a controlling tty.)
-#13 15.71 debconf: falling back to frontend: Noninteractive
-#13 17.32 Preconfiguring packages ...
-#13 17.44 Fetched 7438 kB in 6s (1299 kB/s)
-#13 17.47 Selecting previously unselected package libunistring5:amd64.
-#13 17.47 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4935 files and directories currently installed.)
-#13 17.50 Preparing to unpack .../00-libunistring5_1.3-2_amd64.deb ...
-#13 17.50 Unpacking libunistring5:amd64 (1.3-2) ...
-#13 17.59 Selecting previously unselected package libidn2-0:amd64.
-#13 17.60 Preparing to unpack .../01-libidn2-0_2.3.8-2_amd64.deb ...
-#13 17.60 Unpacking libidn2-0:amd64 (2.3.8-2) ...
-#13 17.65 Selecting previously unselected package iputils-ping.
-#13 17.65 Preparing to unpack .../02-iputils-ping_3%3a20240905-3_amd64.deb ...
-#13 17.65 Unpacking iputils-ping (3:20240905-3) ...
-#13 17.69 Selecting previously unselected package linux-sysctl-defaults.
-#13 17.69 Preparing to unpack .../03-linux-sysctl-defaults_4.12_all.deb ...
-#13 17.69 Unpacking linux-sysctl-defaults (4.12) ...
-#13 17.72 Selecting previously unselected package bash-completion.
-#13 17.72 Preparing to unpack .../04-bash-completion_1%3a2.16.0-7_all.deb ...
-#13 17.73 Unpacking bash-completion (1:2.16.0-7) ...
-#13 17.93 Selecting previously unselected package openssl.
-#13 17.93 Preparing to unpack .../05-openssl_3.5.4-1~deb13u1_amd64.deb ...
-#13 17.93 Unpacking openssl (3.5.4-1~deb13u1) ...
-#13 18.07 Selecting previously unselected package ca-certificates.
-#13 18.08 Preparing to unpack .../06-ca-certificates_20250419_all.deb ...
-#13 18.08 Unpacking ca-certificates (20250419) ...
-#13 18.16 Selecting previously unselected package krb5-locales.
-#13 18.16 Preparing to unpack .../07-krb5-locales_1.21.3-5_all.deb ...
-#13 18.16 Unpacking krb5-locales (1.21.3-5) ...
-#13 18.20 Selecting previously unselected package libbrotli1:amd64.
-#13 18.20 Preparing to unpack .../08-libbrotli1_1.1.0-2+b7_amd64.deb ...
-#13 18.20 Unpacking libbrotli1:amd64 (1.1.0-2+b7) ...
-#13 18.27 Selecting previously unselected package libkrb5support0:amd64.
-#13 18.28 Preparing to unpack .../09-libkrb5support0_1.21.3-5_amd64.deb ...
-#13 18.28 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
-#13 18.32 Selecting previously unselected package libcom-err2:amd64.
-#13 18.32 Preparing to unpack .../10-libcom-err2_1.47.2-3+b3_amd64.deb ...
-#13 18.32 Unpacking libcom-err2:amd64 (1.47.2-3+b3) ...
-#13 18.35 Selecting previously unselected package libk5crypto3:amd64.
-#13 18.36 Preparing to unpack .../11-libk5crypto3_1.21.3-5_amd64.deb ...
-#13 18.36 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
-#13 18.40 Selecting previously unselected package libkeyutils1:amd64.
-#13 18.40 Preparing to unpack .../12-libkeyutils1_1.6.3-6_amd64.deb ...
-#13 18.40 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
-#13 18.43 Selecting previously unselected package libkrb5-3:amd64.
-#13 18.43 Preparing to unpack .../13-libkrb5-3_1.21.3-5_amd64.deb ...
-#13 18.44 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
-#13 18.51 Selecting previously unselected package libgssapi-krb5-2:amd64.
-#13 18.51 Preparing to unpack .../14-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
-#13 18.51 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
-#13 18.56 Selecting previously unselected package libsasl2-modules-db:amd64.
-#13 18.56 Preparing to unpack .../15-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
-#13 18.56 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
-#13 18.60 Selecting previously unselected package libsasl2-2:amd64.
-#13 18.60 Preparing to unpack .../16-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
-#13 18.60 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
-#13 18.64 Selecting previously unselected package libldap2:amd64.
-#13 18.64 Preparing to unpack .../17-libldap2_2.6.10+dfsg-1_amd64.deb ...
-#13 18.65 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
-#13 18.70 Selecting previously unselected package libnghttp2-14:amd64.
-#13 18.71 Preparing to unpack .../18-libnghttp2-14_1.64.0-1.1_amd64.deb ...
-#13 18.71 Unpacking libnghttp2-14:amd64 (1.64.0-1.1) ...
-#13 18.75 Selecting previously unselected package libnghttp3-9:amd64.
-#13 18.76 Preparing to unpack .../19-libnghttp3-9_1.8.0-1_amd64.deb ...
-#13 18.76 Unpacking libnghttp3-9:amd64 (1.8.0-1) ...
-#13 18.80 Selecting previously unselected package libpsl5t64:amd64.
-#13 18.80 Preparing to unpack .../20-libpsl5t64_0.21.2-1.1+b1_amd64.deb ...
-#13 18.81 Unpacking libpsl5t64:amd64 (0.21.2-1.1+b1) ...
-#13 18.85 Selecting previously unselected package libffi8:amd64.
-#13 18.85 Preparing to unpack .../21-libffi8_3.4.8-2_amd64.deb ...
-#13 18.86 Unpacking libffi8:amd64 (3.4.8-2) ...
-#13 19.07 Selecting previously unselected package libp11-kit0:amd64.
-#13 19.07 Preparing to unpack .../22-libp11-kit0_0.25.5-3_amd64.deb ...
-#13 19.07 Unpacking libp11-kit0:amd64 (0.25.5-3) ...
-#13 19.16 Selecting previously unselected package libtasn1-6:amd64.
-#13 19.17 Preparing to unpack .../23-libtasn1-6_4.20.0-2_amd64.deb ...
-#13 19.17 Unpacking libtasn1-6:amd64 (4.20.0-2) ...
-#13 19.21 Selecting previously unselected package libgnutls30t64:amd64.
-#13 19.21 Preparing to unpack .../24-libgnutls30t64_3.8.9-3_amd64.deb ...
-#13 19.22 Unpacking libgnutls30t64:amd64 (3.8.9-3) ...
-#13 19.33 Selecting previously unselected package librtmp1:amd64.
-#13 19.33 Preparing to unpack .../25-librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb ...
-#13 19.34 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
-#13 19.37 Selecting previously unselected package libssh2-1t64:amd64.
-#13 19.38 Preparing to unpack .../26-libssh2-1t64_1.11.1-1_amd64.deb ...
-#13 19.38 Unpacking libssh2-1t64:amd64 (1.11.1-1) ...
-#13 19.43 Selecting previously unselected package libcurl4t64:amd64.
-#13 19.43 Preparing to unpack .../27-libcurl4t64_8.14.1-2+deb13u2_amd64.deb ...
-#13 19.43 Unpacking libcurl4t64:amd64 (8.14.1-2+deb13u2) ...
-#13 19.50 Selecting previously unselected package curl.
-#13 19.50 Preparing to unpack .../28-curl_8.14.1-2+deb13u2_amd64.deb ...
-#13 19.50 Unpacking curl (8.14.1-2+deb13u2) ...
-#13 19.55 Selecting previously unselected package libldap-common.
-#13 19.56 Preparing to unpack .../29-libldap-common_2.6.10+dfsg-1_all.deb ...
-#13 19.56 Unpacking libldap-common (2.6.10+dfsg-1) ...
-#13 19.60 Selecting previously unselected package libsasl2-modules:amd64.
-#13 19.60 Preparing to unpack .../30-libsasl2-modules_2.1.28+dfsg1-9_amd64.deb ...
-#13 19.61 Unpacking libsasl2-modules:amd64 (2.1.28+dfsg1-9) ...
-#13 19.65 Selecting previously unselected package publicsuffix.
-#13 19.65 Preparing to unpack .../31-publicsuffix_20250328.1952-0.1_all.deb ...
-#13 19.66 Unpacking publicsuffix (20250328.1952-0.1) ...
-#13 19.73 Setting up libkeyutils1:amd64 (1.6.3-6) ...
-#13 19.74 Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
-#13 19.74 Setting up libsasl2-modules:amd64 (2.1.28+dfsg1-9) ...
-#13 19.76 Setting up libnghttp2-14:amd64 (1.64.0-1.1) ...
-#13 19.76 Setting up krb5-locales (1.21.3-5) ...
-#13 19.77 Setting up libcom-err2:amd64 (1.47.2-3+b3) ...
-#13 19.78 Setting up libldap-common (2.6.10+dfsg-1) ...
-#13 19.79 Setting up libkrb5support0:amd64 (1.21.3-5) ...
-#13 19.79 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
-#13 19.80 Setting up linux-sysctl-defaults (4.12) ...
-#13 19.81 Setting up bash-completion (1:2.16.0-7) ...
-#13 19.82 Setting up libunistring5:amd64 (1.3-2) ...
-#13 19.82 Setting up libk5crypto3:amd64 (1.21.3-5) ...
-#13 19.83 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
-#13 19.83 Setting up libnghttp3-9:amd64 (1.8.0-1) ...
-#13 19.84 Setting up libffi8:amd64 (3.4.8-2) ...
-#13 19.84 Setting up libtasn1-6:amd64 (4.20.0-2) ...
-#13 19.85 Setting up libkrb5-3:amd64 (1.21.3-5) ...
-#13 19.85 Setting up libssh2-1t64:amd64 (1.11.1-1) ...
-#13 19.86 Setting up openssl (3.5.4-1~deb13u1) ...
-#13 19.87 Setting up publicsuffix (20250328.1952-0.1) ...
-#13 19.87 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
-#13 19.88 Setting up libidn2-0:amd64 (2.3.8-2) ...
-#13 19.88 Setting up ca-certificates (20250419) ...
-#13 20.02 debconf: unable to initialize frontend: Dialog
-#13 20.02 debconf: (TERM is not set, so the dialog frontend is not usable.)
-#13 20.02 debconf: falling back to frontend: Readline
-#13 20.02 debconf: unable to initialize frontend: Readline
-#13 20.02 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
-#13 20.02 debconf: falling back to frontend: Teletype
-#13 20.03 debconf: unable to initialize frontend: Teletype
-#13 20.03 debconf: (This frontend requires a controlling tty.)
-#13 20.03 debconf: falling back to frontend: Noninteractive
-#13 20.69 Updating certificates in /etc/ssl/certs...
-#13 21.48 150 added, 0 removed; done.
-#13 21.51 Setting up libp11-kit0:amd64 (0.25.5-3) ...
-#13 21.52 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
-#13 21.52 Setting up iputils-ping (3:20240905-3) ...
-#13 21.53 Setting up libgnutls30t64:amd64 (3.8.9-3) ...
-#13 21.53 Setting up libpsl5t64:amd64 (0.21.2-1.1+b1) ...
-#13 21.54 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
-#13 21.54 Setting up libcurl4t64:amd64 (8.14.1-2+deb13u2) ...
-#13 21.55 Setting up curl (8.14.1-2+deb13u2) ...
-#13 21.55 Processing triggers for libc-bin (2.41-12) ...
-#13 21.57 Processing triggers for ca-certificates (20250419) ...
-#13 21.58 Updating certificates in /etc/ssl/certs...
-#13 22.24 0 added, 0 removed; done.
-#13 22.24 Running hooks in /etc/ca-certificates/update.d...
-#13 22.24 done.
-#13 DONE 22.3s
+#12 [build 5/5] RUN go build -v -o /opt/app-root/redfish_exporter ./cmd
+#12 10.24 go: downloading github.com/go-playground/locales v0.14.1
+#12 ...
 
-#14 exporting to image
-#14 exporting layers
-#14 exporting layers 0.3s done
-#14 writing image sha256:a455ade8004c87f13f9028837cfc9074f498cc1bc04eeca7b4cdd468e62399dc done
-#14 naming to docker.io/library/redfish_exporter:1.5.1-2 done
-#14 DONE 0.3s
+#13 [runtime 3/4] RUN apt-get update && apt-get install -y --no-install-recommends     bash     curl     iputils-ping     ca-certificates     less     procps     && rm -rf /var/lib/apt/lists/*
+#13 14.48 0 upgraded, 30 newly installed, 0 to remove and 0 not upgraded.
+#13 14.48 Need to get 7859 kB of archives.
+#13 14.48 After this operation, 21.4 MB of additional disk space will be used.
+#13 14.48 Get:1 http://deb.debian.org/debian stable/main amd64 libunistring5 amd64 1.3-2 [477 kB]
+#13 14.62 Get:2 http://deb.debian.org/debian stable/main amd64 libidn2-0 amd64 2.3.8-2 [109 kB]
+#13 14.65 Get:3 http://deb.debian.org/debian stable/main amd64 iputils-ping amd64 3:20240905-3 [51.2 kB]
+#13 14.65 Get:4 http://deb.debian.org/debian stable/main amd64 less amd64 668-1 [161 kB]
+#13 14.65 Get:5 http://deb.debian.org/debian stable/main amd64 libncursesw6 amd64 6.5+20250216-2 [135 kB]
+#13 14.68 Get:6 http://deb.debian.org/debian stable/main amd64 libproc2-0 amd64 2:4.0.4-9 [65.6 kB]
+#13 14.68 Get:7 http://deb.debian.org/debian stable/main amd64 procps amd64 2:4.0.4-9 [882 kB]
+#13 14.72 Get:8 http://deb.debian.org/debian stable/main amd64 openssl amd64 3.5.4-1~deb13u1 [1495 kB]
+#13 14.80 Get:9 http://deb.debian.org/debian stable/main amd64 ca-certificates all 20250419 [162 kB]
+#13 14.81 Get:10 http://deb.debian.org/debian stable/main amd64 libbrotli1 amd64 1.1.0-2+b7 [307 kB]
+#13 14.82 Get:11 http://deb.debian.org/debian stable/main amd64 libkrb5support0 amd64 1.21.3-5 [33.0 kB]
+#13 14.82 Get:12 http://deb.debian.org/debian stable/main amd64 libcom-err2 amd64 1.47.2-3+b3 [25.0 kB]
+#13 14.82 Get:13 http://deb.debian.org/debian stable/main amd64 libk5crypto3 amd64 1.21.3-5 [81.5 kB]
+#13 14.82 Get:14 http://deb.debian.org/debian stable/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#13 14.83 Get:15 http://deb.debian.org/debian stable/main amd64 libkrb5-3 amd64 1.21.3-5 [326 kB]
+#13 14.83 Get:16 http://deb.debian.org/debian stable/main amd64 libgssapi-krb5-2 amd64 1.21.3-5 [138 kB]
+#13 14.83 Get:17 http://deb.debian.org/debian stable/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#13 14.83 Get:18 http://deb.debian.org/debian stable/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#13 14.85 Get:19 http://deb.debian.org/debian stable/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#13 14.88 Get:20 http://deb.debian.org/debian stable/main amd64 libnghttp2-14 amd64 1.64.0-1.1 [76.0 kB]
+#13 14.88 Get:21 http://deb.debian.org/debian stable/main amd64 libnghttp3-9 amd64 1.8.0-1 [67.7 kB]
+#13 14.89 Get:22 http://deb.debian.org/debian stable/main amd64 libpsl5t64 amd64 0.21.2-1.1+b1 [57.2 kB]
+#13 14.89 Get:23 http://deb.debian.org/debian stable/main amd64 libffi8 amd64 3.4.8-2 [24.1 kB]
+#13 14.89 Get:24 http://deb.debian.org/debian stable/main amd64 libp11-kit0 amd64 0.25.5-3 [425 kB]
+#13 14.90 Get:25 http://deb.debian.org/debian stable/main amd64 libtasn1-6 amd64 4.20.0-2 [49.9 kB]
+#13 14.90 Get:26 http://deb.debian.org/debian stable/main amd64 libgnutls30t64 amd64 3.8.9-3 [1465 kB]
+#13 15.03 Get:27 http://deb.debian.org/debian stable/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b5 [58.8 kB]
+#13 15.06 Get:28 http://deb.debian.org/debian stable/main amd64 libssh2-1t64 amd64 1.11.1-1 [245 kB]
+#13 15.09 Get:29 http://deb.debian.org/debian stable/main amd64 libcurl4t64 amd64 8.14.1-2+deb13u2 [391 kB]
+#13 15.10 Get:30 http://deb.debian.org/debian stable/main amd64 curl amd64 8.14.1-2+deb13u2 [270 kB]
+#13 15.29 debconf: unable to initialize frontend: Dialog
+#13 15.29 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#13 15.29 debconf: falling back to frontend: Readline
+#13 15.29 debconf: unable to initialize frontend: Readline
+#13 15.29 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 30.)
+#13 15.29 debconf: falling back to frontend: Teletype
+#13 15.30 debconf: unable to initialize frontend: Teletype
+#13 15.30 debconf: (This frontend requires a controlling tty.)
+#13 15.30 debconf: falling back to frontend: Noninteractive
+#13 16.18 Preconfiguring packages ...
+#13 17.14 Fetched 7859 kB in 6s (1361 kB/s)
+#13 17.16 Selecting previously unselected package libunistring5:amd64.
+#13 17.16 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4935 files and directories currently installed.)
+#13 17.17 Preparing to unpack .../00-libunistring5_1.3-2_amd64.deb ...
+#13 17.18 Unpacking libunistring5:amd64 (1.3-2) ...
+#13 17.26 Selecting previously unselected package libidn2-0:amd64.
+#13 17.26 Preparing to unpack .../01-libidn2-0_2.3.8-2_amd64.deb ...
+#13 17.27 Unpacking libidn2-0:amd64 (2.3.8-2) ...
+#13 17.31 Selecting previously unselected package iputils-ping.
+#13 17.31 Preparing to unpack .../02-iputils-ping_3%3a20240905-3_amd64.deb ...
+#13 17.31 Unpacking iputils-ping (3:20240905-3) ...
+#13 17.35 Selecting previously unselected package less.
+#13 17.35 Preparing to unpack .../03-less_668-1_amd64.deb ...
+#13 17.36 Unpacking less (668-1) ...
+#13 17.40 Selecting previously unselected package libncursesw6:amd64.
+#13 17.40 Preparing to unpack .../04-libncursesw6_6.5+20250216-2_amd64.deb ...
+#13 17.40 Unpacking libncursesw6:amd64 (6.5+20250216-2) ...
+#13 17.44 Selecting previously unselected package libproc2-0:amd64.
+#13 17.44 Preparing to unpack .../05-libproc2-0_2%3a4.0.4-9_amd64.deb ...
+#13 17.44 Unpacking libproc2-0:amd64 (2:4.0.4-9) ...
+#13 17.48 Selecting previously unselected package procps.
+#13 17.48 Preparing to unpack .../06-procps_2%3a4.0.4-9_amd64.deb ...
+#13 17.49 Unpacking procps (2:4.0.4-9) ...
+#13 17.63 Selecting previously unselected package openssl.
+#13 17.63 Preparing to unpack .../07-openssl_3.5.4-1~deb13u1_amd64.deb ...
+#13 17.63 Unpacking openssl (3.5.4-1~deb13u1) ...
+#13 17.76 Selecting previously unselected package ca-certificates.
+#13 17.76 Preparing to unpack .../08-ca-certificates_20250419_all.deb ...
+#13 17.76 Unpacking ca-certificates (20250419) ...
+#13 17.87 Selecting previously unselected package libbrotli1:amd64.
+#13 17.87 Preparing to unpack .../09-libbrotli1_1.1.0-2+b7_amd64.deb ...
+#13 17.87 Unpacking libbrotli1:amd64 (1.1.0-2+b7) ...
+#13 17.95 Selecting previously unselected package libkrb5support0:amd64.
+#13 17.95 Preparing to unpack .../10-libkrb5support0_1.21.3-5_amd64.deb ...
+#13 17.95 Unpacking libkrb5support0:amd64 (1.21.3-5) ...
+#13 17.99 Selecting previously unselected package libcom-err2:amd64.
+#13 17.99 Preparing to unpack .../11-libcom-err2_1.47.2-3+b3_amd64.deb ...
+#13 17.99 Unpacking libcom-err2:amd64 (1.47.2-3+b3) ...
+#13 18.02 Selecting previously unselected package libk5crypto3:amd64.
+#13 18.02 Preparing to unpack .../12-libk5crypto3_1.21.3-5_amd64.deb ...
+#13 18.03 Unpacking libk5crypto3:amd64 (1.21.3-5) ...
+#13 18.06 Selecting previously unselected package libkeyutils1:amd64.
+#13 18.06 Preparing to unpack .../13-libkeyutils1_1.6.3-6_amd64.deb ...
+#13 18.07 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+#13 18.09 Selecting previously unselected package libkrb5-3:amd64.
+#13 18.09 Preparing to unpack .../14-libkrb5-3_1.21.3-5_amd64.deb ...
+#13 18.09 Unpacking libkrb5-3:amd64 (1.21.3-5) ...
+#13 18.14 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#13 18.14 Preparing to unpack .../15-libgssapi-krb5-2_1.21.3-5_amd64.deb ...
+#13 18.14 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#13 18.17 Selecting previously unselected package libsasl2-modules-db:amd64.
+#13 18.18 Preparing to unpack .../16-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+#13 18.18 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#13 18.21 Selecting previously unselected package libsasl2-2:amd64.
+#13 18.21 Preparing to unpack .../17-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+#13 18.21 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#13 18.24 Selecting previously unselected package libldap2:amd64.
+#13 18.24 Preparing to unpack .../18-libldap2_2.6.10+dfsg-1_amd64.deb ...
+#13 18.24 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+#13 18.29 Selecting previously unselected package libnghttp2-14:amd64.
+#13 18.29 Preparing to unpack .../19-libnghttp2-14_1.64.0-1.1_amd64.deb ...
+#13 18.30 Unpacking libnghttp2-14:amd64 (1.64.0-1.1) ...
+#13 18.33 Selecting previously unselected package libnghttp3-9:amd64.
+#13 18.33 Preparing to unpack .../20-libnghttp3-9_1.8.0-1_amd64.deb ...
+#13 18.34 Unpacking libnghttp3-9:amd64 (1.8.0-1) ...
+#13 18.37 Selecting previously unselected package libpsl5t64:amd64.
+#13 18.37 Preparing to unpack .../21-libpsl5t64_0.21.2-1.1+b1_amd64.deb ...
+#13 18.37 Unpacking libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+#13 18.40 Selecting previously unselected package libffi8:amd64.
+#13 18.40 Preparing to unpack .../22-libffi8_3.4.8-2_amd64.deb ...
+#13 18.40 Unpacking libffi8:amd64 (3.4.8-2) ...
+#13 18.43 Selecting previously unselected package libp11-kit0:amd64.
+#13 18.43 Preparing to unpack .../23-libp11-kit0_0.25.5-3_amd64.deb ...
+#13 18.43 Unpacking libp11-kit0:amd64 (0.25.5-3) ...
+#13 18.48 Selecting previously unselected package libtasn1-6:amd64.
+#13 18.48 Preparing to unpack .../24-libtasn1-6_4.20.0-2_amd64.deb ...
+#13 18.48 Unpacking libtasn1-6:amd64 (4.20.0-2) ...
+#13 18.51 Selecting previously unselected package libgnutls30t64:amd64.
+#13 18.51 Preparing to unpack .../25-libgnutls30t64_3.8.9-3_amd64.deb ...
+#13 18.52 Unpacking libgnutls30t64:amd64 (3.8.9-3) ...
+#13 18.64 Selecting previously unselected package librtmp1:amd64.
+#13 18.65 Preparing to unpack .../26-librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb ...
+#13 18.65 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#13 18.68 Selecting previously unselected package libssh2-1t64:amd64.
+#13 18.68 Preparing to unpack .../27-libssh2-1t64_1.11.1-1_amd64.deb ...
+#13 18.68 Unpacking libssh2-1t64:amd64 (1.11.1-1) ...
+#13 18.72 Selecting previously unselected package libcurl4t64:amd64.
+#13 18.72 Preparing to unpack .../28-libcurl4t64_8.14.1-2+deb13u2_amd64.deb ...
+#13 18.73 Unpacking libcurl4t64:amd64 (8.14.1-2+deb13u2) ...
+#13 18.79 Selecting previously unselected package curl.
+#13 18.79 Preparing to unpack .../29-curl_8.14.1-2+deb13u2_amd64.deb ...
+#13 18.79 Unpacking curl (8.14.1-2+deb13u2) ...
+#13 18.85 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+#13 18.86 Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
+#13 18.86 Setting up libnghttp2-14:amd64 (1.64.0-1.1) ...
+#13 18.87 Setting up less (668-1) ...
+#13 18.88 Setting up libcom-err2:amd64 (1.47.2-3+b3) ...
+#13 18.88 Setting up libkrb5support0:amd64 (1.21.3-5) ...
+#13 18.89 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+#13 18.89 Setting up libproc2-0:amd64 (2:4.0.4-9) ...
+#13 18.90 Setting up libunistring5:amd64 (1.3-2) ...
+#13 18.90 Setting up libncursesw6:amd64 (6.5+20250216-2) ...
+#13 18.91 Setting up libk5crypto3:amd64 (1.21.3-5) ...
+#13 18.91 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+#13 18.92 Setting up libnghttp3-9:amd64 (1.8.0-1) ...
+#13 18.93 Setting up libffi8:amd64 (3.4.8-2) ...
+#13 18.93 Setting up procps (2:4.0.4-9) ...
+#13 18.97 Setting up libtasn1-6:amd64 (4.20.0-2) ...
+#13 18.97 Setting up libkrb5-3:amd64 (1.21.3-5) ...
+#13 18.98 Setting up libssh2-1t64:amd64 (1.11.1-1) ...
+#13 18.98 Setting up openssl (3.5.4-1~deb13u1) ...
+#13 18.99 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+#13 19.00 Setting up libidn2-0:amd64 (2.3.8-2) ...
+#13 19.00 Setting up ca-certificates (20250419) ...
+#13 19.11 debconf: unable to initialize frontend: Dialog
+#13 19.11 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#13 19.11 debconf: falling back to frontend: Readline
+#13 19.11 debconf: unable to initialize frontend: Readline
+#13 19.11 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#13 19.11 debconf: falling back to frontend: Teletype
+#13 19.12 debconf: unable to initialize frontend: Teletype
+#13 19.12 debconf: (This frontend requires a controlling tty.)
+#13 19.12 debconf: falling back to frontend: Noninteractive
+#13 19.78 Updating certificates in /etc/ssl/certs...
+#13 20.89 150 added, 0 removed; done.
+#13 20.91 Setting up libp11-kit0:amd64 (0.25.5-3) ...
+#13 20.92 Setting up libgssapi-krb5-2:amd64 (1.21.3-5) ...
+#13 20.93 Setting up iputils-ping (3:20240905-3) ...
+#13 21.07 Setting up libgnutls30t64:amd64 (3.8.9-3) ...
+#13 21.07 Setting up libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+#13 21.08 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#13 21.08 Setting up libcurl4t64:amd64 (8.14.1-2+deb13u2) ...
+#13 21.09 Setting up curl (8.14.1-2+deb13u2) ...
+#13 21.09 Processing triggers for libc-bin (2.41-12) ...
+#13 21.11 Processing triggers for ca-certificates (20250419) ...
+#13 21.12 Updating certificates in /etc/ssl/certs...
+#13 21.99 0 added, 0 removed; done.
+#13 21.99 Running hooks in /etc/ca-certificates/update.d...
+#13 21.99 done.
+#13 DONE 23.0s
+
+#12 [build 5/5] RUN go build -v -o /opt/app-root/redfish_exporter ./cmd
+#12 15.50 encoding
+#12 15.50 internal/goarch
+#12 15.52 internal/unsafeheader
+#12 15.53 internal/abi
+#12 15.57 internal/cpu
+#12 15.72 internal/bytealg
+#12 15.91 internal/byteorder
+#12 15.94 internal/coverage/rtcov
+#12 15.95 internal/chacha8rand
+#12 15.97 internal/godebugs
+#12 16.00 internal/goexperiment
+#12 16.04 internal/goos
+#12 16.04 internal/profilerecord
+#12 16.05 internal/runtime/atomic
+#12 16.06 internal/runtime/syscall
+#12 16.09 internal/stringslite
+#12 16.15 runtime/internal/math
+#12 16.15 internal/runtime/exithook
+#12 16.16 runtime/internal/sys
+#12 16.18 cmp
+#12 16.19 internal/itoa
+#12 16.21 runtime
+#12 16.22 internal/race
+#12 16.23 math/bits
+#12 16.28 math
+#12 16.56 unicode/utf8
+#12 16.83 sync/atomic
+#12 17.08 unicode
+#12 17.36 internal/asan
+#12 17.38 internal/msan
+#12 17.40 log/internal
+#12 17.43 container/list
+#12 17.48 crypto/internal/alias
+#12 17.51 crypto/subtle
+#12 17.57 crypto/internal/boring/sig
+#12 17.59 unicode/utf16
+#12 17.62 vendor/golang.org/x/crypto/cryptobyte/asn1
+#12 17.64 vendor/golang.org/x/crypto/internal/alias
+#12 17.66 internal/nettrace
+#12 17.70 google.golang.org/protobuf/internal/flags
+#12 17.73 google.golang.org/protobuf/internal/set
+#12 17.76 github.com/gin-gonic/gin/internal/bytesconv
+#12 17.79 golang.org/x/net/html/atom
+#12 17.85 github.com/go-playground/locales/currency
+#12 17.87 github.com/leodido/go-urn/scim/schema
+#12 17.89 github.com/pelletier/go-toml/v2/internal/characters
+#12 21.90 iter
+#12 21.90 internal/reflectlite
+#12 22.01 sync
+#12 22.55 slices
+#12 22.72 errors
+#12 22.78 internal/bisect
+#12 22.83 strconv
+#12 22.92 io
+#12 23.06 internal/oserror
+#12 23.08 path
+#12 23.13 reflect
+#12 23.13 internal/godebug
+#12 23.19 syscall
+#12 23.85 time
+#12 24.46 io/fs
+#12 24.49 internal/fmtsort
+#12 24.58 internal/syscall/unix
+#12 24.59 internal/filepathlite
+#12 24.61 internal/poll
+#12 24.64 internal/syscall/execenv
+#12 24.66 internal/testlog
+#12 24.68 strings
+#12 24.90 bytes
+#12 24.91 os
+#12 25.05 encoding/binary
+#12 25.31 encoding/base64
+#12 25.39 sort
+#12 25.43 fmt
+#12 25.60 regexp/syntax
+#12 25.85 flag
+#12 26.08 log
+#12 26.08 regexp
+#12 26.16 context
+#12 26.25 hash
+#12 26.29 crypto
+#12 26.32 crypto/cipher
+#12 26.41 gopkg.in/yaml.v2
+#12 26.42 crypto/internal/boring
+#12 26.45 crypto/aes
+#12 26.56 crypto/des
+#12 26.61 crypto/internal/edwards25519/field
+#12 26.71 crypto/internal/nistec/fiat
+#12 27.29 embed
+#12 27.33 crypto/internal/nistec
+#12 27.35 github.com/g-portal/redfish_exporter/pkg/config
+#12 27.37 crypto/internal/randutil
+#12 27.39 math/rand
+#12 27.51 math/big
+#12 27.59 crypto/ecdh
+#12 27.65 crypto/sha512
+#12 27.74 crypto/internal/edwards25519
+#12 27.96 crypto/hmac
+#12 28.02 vendor/golang.org/x/crypto/chacha20
+#12 28.11 vendor/golang.org/x/crypto/internal/poly1305
+#12 28.20 vendor/golang.org/x/sys/cpu
+#12 28.25 crypto/elliptic
+#12 28.26 crypto/internal/bigmod
+#12 28.38 crypto/internal/boring/bbig
+#12 28.40 encoding/asn1
+#12 28.41 crypto/rand
+#12 28.47 crypto/ed25519
+#12 28.52 vendor/golang.org/x/crypto/chacha20poly1305
+#12 28.68 vendor/golang.org/x/crypto/hkdf
+#12 28.68 vendor/golang.org/x/crypto/cryptobyte
+#12 28.69 crypto/internal/hpke
+#12 28.73 vendor/golang.org/x/crypto/sha3
+#12 28.84 crypto/internal/mlkem768
+#12 28.88 crypto/ecdsa
+#12 28.94 crypto/md5
+#12 29.01 crypto/rc4
+#12 29.04 crypto/rsa
+#12 29.06 crypto/sha1
+#12 29.15 crypto/sha256
+#12 29.16 crypto/dsa
+#12 29.20 encoding/hex
+#12 29.22 encoding/pem
+#12 29.27 crypto/x509/pkix
+#12 29.28 vendor/golang.org/x/net/dns/dnsmessage
+#12 29.31 internal/singleflight
+#12 29.34 math/rand/v2
+#12 29.43 internal/concurrent
+#12 29.47 internal/weak
+#12 29.48 unique
+#12 29.59 net/netip
+#12 29.61 runtime/cgo
+#12 29.91 net/url
+#12 30.09 path/filepath
+#12 30.20 encoding/json
+#12 30.71 bufio
+#12 30.84 compress/flate
+#12 30.87 net
+#12 31.04 hash/crc32
+#12 31.09 compress/gzip
+#12 31.14 vendor/golang.org/x/text/transform
+#12 31.20 vendor/golang.org/x/text/unicode/bidi
+#12 31.42 vendor/golang.org/x/text/secure/bidirule
+#12 31.45 vendor/golang.org/x/text/unicode/norm
+#12 31.89 vendor/golang.org/x/net/idna
+#12 32.11 vendor/golang.org/x/net/http2/hpack
+#12 32.24 maps
+#12 32.25 mime
+#12 32.42 mime/quotedprintable
+#12 32.46 net/http/internal
+#12 32.51 net/http/internal/ascii
+#12 32.53 github.com/beorn7/perks/quantile
+#12 32.60 github.com/cespare/xxhash/v2
+#12 32.70 hash/fnv
+#12 32.77 google.golang.org/protobuf/internal/detrand
+#12 32.82 google.golang.org/protobuf/internal/errors
+#12 32.86 google.golang.org/protobuf/encoding/protowire
+#12 32.93 google.golang.org/protobuf/internal/pragma
+#12 32.95 google.golang.org/protobuf/reflect/protoreflect
+#12 33.30 google.golang.org/protobuf/internal/descfmt
+#12 33.46 google.golang.org/protobuf/internal/descopts
+#12 33.49 google.golang.org/protobuf/internal/editiondefaults
+#12 33.52 go/token
+#12 33.65 google.golang.org/protobuf/internal/strs
+#12 33.69 google.golang.org/protobuf/internal/encoding/text
+#12 33.74 crypto/x509
+#12 33.89 net/textproto
+#12 33.99 vendor/golang.org/x/net/http/httpguts
+#12 34.04 vendor/golang.org/x/net/http/httpproxy
+#12 34.13 mime/multipart
+#12 34.32 google.golang.org/protobuf/internal/encoding/defval
+#12 34.38 google.golang.org/protobuf/internal/encoding/messageset
+#12 34.43 google.golang.org/protobuf/internal/genid
+#12 34.47 google.golang.org/protobuf/internal/order
+#12 34.47 crypto/tls
+#12 34.52 google.golang.org/protobuf/reflect/protoregistry
+#12 34.64 google.golang.org/protobuf/runtime/protoiface
+#12 34.66 google.golang.org/protobuf/proto
+#12 34.89 google.golang.org/protobuf/internal/filedesc
+#12 35.60 google.golang.org/protobuf/encoding/prototext
+#12 35.89 google.golang.org/protobuf/internal/encoding/tag
+#12 35.99 io/ioutil
+#12 36.07 google.golang.org/protobuf/internal/impl
+#12 36.45 net/http/httptrace
+#12 36.51 net/http
+#12 38.18 google.golang.org/protobuf/internal/filetype
+#12 38.31 google.golang.org/protobuf/internal/version
+#12 38.34 google.golang.org/protobuf/runtime/protoimpl
+#12 38.40 google.golang.org/protobuf/types/known/timestamppb
+#12 38.49 github.com/prometheus/client_model/go
+#12 38.69 github.com/prometheus/common/model
+#12 39.15 runtime/metrics
+#12 39.20 github.com/prometheus/client_golang/prometheus/internal
+#12 39.38 github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
+#12 39.42 google.golang.org/protobuf/encoding/protodelim
+#12 39.53 github.com/prometheus/procfs/internal/fs
+#12 39.56 github.com/prometheus/procfs/internal/util
+#12 39.62 golang.org/x/sys/unix
+#12 40.28 expvar
+#12 40.46 github.com/prometheus/common/expfmt
+#12 40.87 runtime/debug
+#12 40.94 github.com/prometheus/procfs
+#12 40.97 github.com/stmcginnis/gofish/common
+#12 41.11 github.com/stmcginnis/gofish/redfish
+#12 42.40 github.com/prometheus/client_golang/prometheus
+#12 43.22 github.com/g-portal/redfish_exporter/pkg/oem/hpe
+#12 43.31 github.com/stmcginnis/gofish/swordfish
+#12 43.39 github.com/g-portal/redfish_exporter/pkg/metric/base
+#12 43.45 net/http/httputil
+#12 43.70 encoding/xml
+#12 44.00 github.com/stmcginnis/gofish
+#12 44.19 github.com/g-portal/redfish_exporter/pkg/drivers/redfish/metrics
+#12 44.21 github.com/gin-contrib/sse
+#12 44.29 github.com/gin-gonic/gin/internal/json
+#12 44.30 github.com/g-portal/redfish_exporter/pkg/drivers/redfish
+#12 44.31 golang.org/x/net/html
+#12 44.38 github.com/g-portal/redfish_exporter/pkg/api
+#12 44.43 github.com/g-portal/redfish_exporter/pkg/actions
+#12 44.46 hash/adler32
+#12 44.48 compress/zlib
+#12 44.54 debug/dwarf
+#12 44.97 github.com/gabriel-vasile/mimetype/internal/charset
+#12 45.02 internal/saferio
+#12 45.05 encoding/csv
+#12 45.14 github.com/gabriel-vasile/mimetype/internal/json
+#12 45.15 debug/macho
+#12 45.20 github.com/go-playground/locales
+#12 45.25 github.com/go-playground/universal-translator
+#12 45.33 github.com/gabriel-vasile/mimetype/internal/magic
+#12 45.41 github.com/leodido/go-urn
+#12 45.72 github.com/gabriel-vasile/mimetype
+#12 45.78 golang.org/x/crypto/sha3
+#12 45.89 golang.org/x/text/internal/tag
+#12 45.91 golang.org/x/text/internal/language
+#12 45.94 github.com/pelletier/go-toml/v2/internal/danger
+#12 45.98 github.com/pelletier/go-toml/v2/unstable
+#12 46.14 github.com/pelletier/go-toml/v2/internal/tracker
+#12 46.24 github.com/pelletier/go-toml/v2
+#12 46.29 golang.org/x/text/internal/language/compact
+#12 46.37 golang.org/x/text/language
+#12 46.62 github.com/go-playground/validator/v10
+#12 46.72 encoding/gob
+#12 47.52 html
+#12 47.62 text/template/parse
+#12 47.69 gopkg.in/yaml.v3
+#12 48.06 text/template
+#12 48.65 html/template
+#12 48.75 github.com/mattn/go-isatty
+#12 48.78 golang.org/x/text/transform
+#12 48.85 golang.org/x/text/unicode/bidi
+#12 49.11 golang.org/x/text/secure/bidirule
+#12 49.12 net/rpc
+#12 49.14 golang.org/x/text/unicode/norm
+#12 49.44 github.com/ugorji/go/codec
+#12 49.54 golang.org/x/net/idna
+#12 49.77 golang.org/x/net/http/httpguts
+#12 49.81 golang.org/x/net/http2/hpack
+#12 49.92 golang.org/x/net/http2
+#12 51.50 golang.org/x/net/http2/h2c
+#12 51.66 github.com/prometheus/client_golang/prometheus/promhttp
+#12 53.36 github.com/gin-gonic/gin/binding
+#12 53.36 github.com/gin-gonic/gin/render
+#12 53.55 github.com/gin-gonic/gin
+#12 54.02 github.com/g-portal/redfish_exporter/pkg/metric
+#12 54.02 github.com/g-portal/redfish_exporter/pkg/middleware
+#12 54.11 github.com/g-portal/redfish_exporter/cmd
+#12 DONE 55.3s
+
+#14 [runtime 4/4] COPY --from=build /opt/app-root/redfish_exporter /opt/app-root/redfish_exporter
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 0.2s done
+#15 writing image sha256:b1a6ac3af27322faec656930641b0de2c5ef2f00fa362bcc22d4cf7d9fb44210 done
+#15 naming to docker.io/library/redfish_exporter:1.5.1-2 done
+#15 DONE 0.2s
