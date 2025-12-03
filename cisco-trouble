@@ -1,0 +1,65 @@
+time=2025-12-03T15:44:41.653Z level=INFO source=main.go:211 msg="Starting snmp_exporter" version="(version=0.29.0, branch=HEAD, revision=42f8f2a991516b39ed60ef67eb69263d817ecd52)" concurrency=0xc0000853c0 debug_snmp=0xc0000853c8
+time=2025-12-03T15:44:41.654Z level=INFO source=main.go:212 msg="operational information" build_context="(go=go1.24.1, platform=linux/amd64, user=root@eb19c64890c6, date=20250423-05:51:05, tags=unknown)"
+time=2025-12-03T15:44:41.654Z level=ERROR source=main.go:219 msg="Error parsing config file" err="yaml: unmarshal errors:\n  line 4: cannot unmarshal !!seq into map[string]*config.Auth"
+time=2025-12-03T15:44:41.654Z level=ERROR source=main.go:220 msg="Possible version missmatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version."
+time=2025-12-03T15:44:41.654Z level=ERROR source=main.go:221 msg="See also: https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md"
+
+# snmp.yml
+  version: 3
+auths:
+  - security_level: authPriv
+    username: admin
+    password: Passwd12#$
+modules:
+  nexus3172tq:
+    walk:
+      # Core system info
+      - sysUpTime
+      - sysDescr
+      - sysName
+      - sysLocation
+      # Interface tables (basic + high capacity counters)
+      - ifTable
+      - ifXTable
+      - ifHCInOctets
+      - ifHCOutOctets
+      - ifHCInUcastPkts
+      - ifHCOutUcastPkts
+      - ifHCInMulticastPkts
+      - ifHCOutMulticastPkts
+      - ifHCInBroadcastPkts
+      - ifHCOutBroadcastPkts
+      # CPU and memory (from CISCO-PROCESS-MIB / CISCO-MEMORY-MIB)
+      - cpmCPUTotal5sec
+      - cpmCPUTotal1min
+      - cpmCPUTotal5min
+      - ciscoMemoryPoolTable
+      # Environmental sensors (from CISCO-ENTITY-SENSOR-MIB)
+      - entPhysicalTable
+      - entSensorValue
+      - entSensorType
+      - entSensorScale
+      - entSensorPrecision
+      # Power supply and fan status (from CISCO-ENTITY-FRU-CONTROL-MIB)
+      - cefcFRUPowerStatusTable
+      - cefcFanTrayStatusTable
+
+# prometheus.yml scrape for nexus switch
+
+  - job_name: 'nexus3172tq'
+    metrics_path: /snmp
+    params:
+      module: [nexus3172tq]
+    static_configs:
+      - targets:
+          - '192.168.110.1'   # switch IP
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: instance
+        replacement: '192.168.110.1'   # cisco-switch
+      - target_label: __address__
+        replacement: '192.168.110.191:9116'
+
+
+        
