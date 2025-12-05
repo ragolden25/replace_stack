@@ -1,0 +1,1521 @@
+# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
+modules:
+  ciscoEnvMon:
+    walk:
+    - 1.3.6.1.4.1.9.9.13.1
+    metrics:
+    - name: ciscoEnvMonPresent
+      oid: 1.3.6.1.4.1.9.9.13.1.1
+      type: gauge
+      help: The type of environmental monitor located in the chassis - 1.3.6.1.4.1.9.9.13.1.1
+      enum_values:
+        1: oldAgs
+        2: ags
+        3: c7000
+        4: ci
+        6: cAccessMon
+        7: cat6000
+        8: ubr7200
+        9: cat4000
+        10: c10000
+        11: osr7600
+        12: c7600
+        13: c37xx
+        14: other
+        15: c7301
+        16: c7304
+    - name: ciscoEnvMonVoltageStatusIndex
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.1
+      type: gauge
+      help: Unique index for the testpoint being instrumented - 1.3.6.1.4.1.9.9.13.1.2.1.1
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageStatusDescr
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.2
+      type: DisplayString
+      help: Textual description of the testpoint being instrumented - 1.3.6.1.4.1.9.9.13.1.2.1.2
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageStatusValue
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.3
+      type: gauge
+      help: The current measurement of the testpoint being instrumented. - 1.3.6.1.4.1.9.9.13.1.2.1.3
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageThresholdLow
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.4
+      type: gauge
+      help: The lowest value that the associated instance of the object ciscoEnvMonVoltageStatusValue
+        may obtain before an emergency shutdown of the managed device is initiated.
+        - 1.3.6.1.4.1.9.9.13.1.2.1.4
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageThresholdHigh
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.5
+      type: gauge
+      help: The highest value that the associated instance of the object ciscoEnvMonVoltageStatusValue
+        may obtain before an emergency shutdown of the managed device is initiated.
+        - 1.3.6.1.4.1.9.9.13.1.2.1.5
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageLastShutdown
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.6
+      type: gauge
+      help: The value of the associated instance of the object ciscoEnvMonVoltageStatusValue
+        at the time an emergency shutdown of the managed device was last initiated
+        - 1.3.6.1.4.1.9.9.13.1.2.1.6
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+    - name: ciscoEnvMonVoltageState
+      oid: 1.3.6.1.4.1.9.9.13.1.2.1.7
+      type: gauge
+      help: The current state of the testpoint being instrumented. - 1.3.6.1.4.1.9.9.13.1.2.1.7
+      indexes:
+      - labelname: ciscoEnvMonVoltageStatusIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: warning
+        3: critical
+        4: shutdown
+        5: notPresent
+        6: notFunctioning
+    - name: ciscoEnvMonTemperatureStatusIndex
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.1
+      type: gauge
+      help: Unique index for the testpoint being instrumented - 1.3.6.1.4.1.9.9.13.1.3.1.1
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonTemperatureStatusDescr
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.2
+      type: DisplayString
+      help: Textual description of the testpoint being instrumented - 1.3.6.1.4.1.9.9.13.1.3.1.2
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonTemperatureStatusValue
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.3
+      type: gauge
+      help: The current measurement of the testpoint being instrumented - 1.3.6.1.4.1.9.9.13.1.3.1.3
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonTemperatureThreshold
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.4
+      type: gauge
+      help: The highest value that the associated instance of the object ciscoEnvMonTemperatureStatusValueRev1
+        may obtain before an emergency shutdown of the managed device is initiated.
+        - 1.3.6.1.4.1.9.9.13.1.3.1.4
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonTemperatureLastShutdown
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.5
+      type: gauge
+      help: The value of the associated instance of the object ciscoEnvMonTemperatureStatusValueRev1
+        at the time an emergency shutdown of the managed device was last initiated
+        - 1.3.6.1.4.1.9.9.13.1.3.1.5
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonTemperatureState
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.6
+      type: gauge
+      help: The current state of the testpoint being instrumented. - 1.3.6.1.4.1.9.9.13.1.3.1.6
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: warning
+        3: critical
+        4: shutdown
+        5: notPresent
+        6: notFunctioning
+    - name: ciscoEnvMonTemperatureStatusValueRev1
+      oid: 1.3.6.1.4.1.9.9.13.1.3.1.7
+      type: gauge
+      help: The current measurement of the testpoint being instrumented.It also accomodates
+        negative temperature values. - 1.3.6.1.4.1.9.9.13.1.3.1.7
+      indexes:
+      - labelname: ciscoEnvMonTemperatureStatusIndex
+        type: gauge
+    - name: ciscoEnvMonFanStatusIndex
+      oid: 1.3.6.1.4.1.9.9.13.1.4.1.1
+      type: gauge
+      help: Unique index for the fan being instrumented - 1.3.6.1.4.1.9.9.13.1.4.1.1
+      indexes:
+      - labelname: ciscoEnvMonFanStatusIndex
+        type: gauge
+    - name: ciscoEnvMonFanStatusDescr
+      oid: 1.3.6.1.4.1.9.9.13.1.4.1.2
+      type: DisplayString
+      help: Textual description of the fan being instrumented - 1.3.6.1.4.1.9.9.13.1.4.1.2
+      indexes:
+      - labelname: ciscoEnvMonFanStatusIndex
+        type: gauge
+    - name: ciscoEnvMonFanState
+      oid: 1.3.6.1.4.1.9.9.13.1.4.1.3
+      type: gauge
+      help: The current state of the fan being instrumented. - 1.3.6.1.4.1.9.9.13.1.4.1.3
+      indexes:
+      - labelname: ciscoEnvMonFanStatusIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: warning
+        3: critical
+        4: shutdown
+        5: notPresent
+        6: notFunctioning
+    - name: ciscoEnvMonSupplyStatusIndex
+      oid: 1.3.6.1.4.1.9.9.13.1.5.1.1
+      type: gauge
+      help: Unique index for the power supply being instrumented - 1.3.6.1.4.1.9.9.13.1.5.1.1
+      indexes:
+      - labelname: ciscoEnvMonSupplyStatusIndex
+        type: gauge
+    - name: ciscoEnvMonSupplyStatusDescr
+      oid: 1.3.6.1.4.1.9.9.13.1.5.1.2
+      type: DisplayString
+      help: Textual description of the power supply being instrumented - 1.3.6.1.4.1.9.9.13.1.5.1.2
+      indexes:
+      - labelname: ciscoEnvMonSupplyStatusIndex
+        type: gauge
+    - name: ciscoEnvMonSupplyState
+      oid: 1.3.6.1.4.1.9.9.13.1.5.1.3
+      type: gauge
+      help: The current state of the power supply being instrumented. - 1.3.6.1.4.1.9.9.13.1.5.1.3
+      indexes:
+      - labelname: ciscoEnvMonSupplyStatusIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: warning
+        3: critical
+        4: shutdown
+        5: notPresent
+        6: notFunctioning
+    - name: ciscoEnvMonSupplySource
+      oid: 1.3.6.1.4.1.9.9.13.1.5.1.4
+      type: gauge
+      help: The power supply source - 1.3.6.1.4.1.9.9.13.1.5.1.4
+      indexes:
+      - labelname: ciscoEnvMonSupplyStatusIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: ac
+        3: dc
+        4: externalPowerSupply
+        5: internalRedundant
+    - name: ciscoEnvMonAlarmContacts
+      oid: 1.3.6.1.4.1.9.9.13.1.6
+      type: Bits
+      help: Each bit is set to reflect the respective alarm being set - 1.3.6.1.4.1.9.9.13.1.6
+      enum_values:
+        0: minorVisual
+        1: majorVisual
+        2: criticalVisual
+        3: minorAudible
+        4: majorAudible
+        5: criticalAudible
+        6: input
+  ciscoIfExtension:
+    walk:
+    - 1.3.6.1.4.1.9.9.276.1.1.1
+    - 1.3.6.1.4.1.9.9.276.1.1.2
+    metrics:
+    - name: cieIfLastInTime
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.1
+      type: gauge
+      help: This object represents the elapsed time in milliseconds since last protocol
+        input packet was received - 1.3.6.1.4.1.9.9.276.1.1.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfLastOutTime
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.2
+      type: gauge
+      help: This object represents the elapsed time in milliseconds since last protocol
+        output packet was transmitted - 1.3.6.1.4.1.9.9.276.1.1.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfLastOutHangTime
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.3
+      type: gauge
+      help: This object represents the elapsed time in milliseconds since last protocol
+        output packet could not be successfully transmitted - 1.3.6.1.4.1.9.9.276.1.1.1.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInRuntsErrs
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.4
+      type: counter
+      help: The number of packets input on a particular physical interface which were
+        dropped as they were smaller than the minimum allowable physical media limit
+        - 1.3.6.1.4.1.9.9.276.1.1.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInGiantsErrs
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.5
+      type: counter
+      help: The number of input packets on a particular physical interface which were
+        dropped as they were larger than the ifMtu (largest permitted size of a packet
+        which can be sent/received on an interface) - 1.3.6.1.4.1.9.9.276.1.1.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInFramingErrs
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.6
+      type: counter
+      help: The number of input packets on a physical interface which were misaligned
+        or had framing errors - 1.3.6.1.4.1.9.9.276.1.1.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInOverrunErrs
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.7
+      type: counter
+      help: The number of input packets which arrived on a particular physical interface
+        which were too quick for the hardware to receive and hence the receiver ran
+        out of buffers - 1.3.6.1.4.1.9.9.276.1.1.1.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInIgnored
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.8
+      type: counter
+      help: The number of input packets which were simply ignored by this physical
+        interface due to insufficient resources to handle the incoming packets - 1.3.6.1.4.1.9.9.276.1.1.1.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInAbortErrs
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.9
+      type: counter
+      help: Number of input packets which were dropped because the receiver aborted
+        - 1.3.6.1.4.1.9.9.276.1.1.1.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInputQueueDrops
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.10
+      type: counter
+      help: The number of input packets which were dropped - 1.3.6.1.4.1.9.9.276.1.1.1.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfOutputQueueDrops
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.11
+      type: counter
+      help: This object indicates the number of output packets dropped by the interface
+        even though no error had been detected to prevent them being transmitted -
+        1.3.6.1.4.1.9.9.276.1.1.1.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfPacketDiscontinuityTime
+      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.12
+      type: gauge
+      help: The value of sysUpTime on the most recent occasion at which this interface's
+        counters suffered a discontinuity - 1.3.6.1.4.1.9.9.276.1.1.1.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfResetCount
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.1
+      type: counter
+      help: The number of times the interface was internally reset and brought up
+        - 1.3.6.1.4.1.9.9.276.1.1.2.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfKeepAliveEnabled
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.2
+      type: gauge
+      help: A keepalive is a small, layer-2 message that is transmitted by a network
+        device to let directly-connected network devices know of its presence - 1.3.6.1.4.1.9.9.276.1.1.2.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: cieIfStateChangeReason
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.3
+      type: DisplayString
+      help: This object displays a human-readable textual string which describes the
+        cause of the last state change of the interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfCarrierTransitionCount
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.4
+      type: counter
+      help: Number of times interface saw the carrier signal transition - 1.3.6.1.4.1.9.9.276.1.1.2.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInterfaceDiscontinuityTime
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.5
+      type: gauge
+      help: The value of sysUpTime on the most recent occasion at which this interface's
+        counters suffered a discontinuity - 1.3.6.1.4.1.9.9.276.1.1.2.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfDhcpMode
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.6
+      type: gauge
+      help: The DHCP mode configured by the administrator - 1.3.6.1.4.1.9.9.276.1.1.2.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: cieIfMtu
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.7
+      type: gauge
+      help: The MTU configured by the administrator - 1.3.6.1.4.1.9.9.276.1.1.2.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfContextName
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.8
+      type: OctetString
+      help: The ContextName denotes the interface 'context' and is used to logically
+        separate the MIB management - 1.3.6.1.4.1.9.9.276.1.1.2.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfOperStatusCause
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.9
+      type: gauge
+      help: This object represents the detailed operational cause reason for the current
+        operational state of the interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: other
+        2: none
+        3: hwFailure
+        4: loopbackDiagFailure
+        5: errorDisabled
+        6: swFailure
+        7: linkFailure
+        8: offline
+        9: nonParticipating
+        10: initializing
+        11: vsanInactive
+        12: adminDown
+        13: channelAdminDown
+        14: channelOperSuspended
+        15: channelConfigurationInProgress
+        16: rcfInProgress
+        17: elpFailureIsolation
+        18: escFailureIsolation
+        19: domainOverlapIsolation
+        20: domainAddrAssignFailureIsolation
+        21: domainOtherSideEportIsolation
+        22: domainInvalidRcfReceived
+        23: domainManagerDisabled
+        24: zoneMergeFailureIsolation
+        25: vsanMismatchIsolation
+        26: parentDown
+        27: srcPortNotBound
+        28: interfaceRemoved
+        29: fcotNotPresent
+        30: fcotVendorNotSupported
+        31: incompatibleAdminMode
+        32: incompatibleAdminSpeed
+        33: suspendedByMode
+        34: suspendedBySpeed
+        35: suspendedByWWN
+        36: domainMaxReTxFailure
+        37: eppFailure
+        38: portVsanMismatchIsolation
+        39: loopbackIsolation
+        40: upgradeInProgress
+        41: incompatibleAdminRxBbCredit
+        42: incompatibleAdminRxBufferSize
+        43: portChannelMembersDown
+        44: zoneRemoteNoRespIsolation
+        45: firstPortUpAsEport
+        46: firstPortNotUp
+        47: peerFCIPPortClosedConnection
+        48: peerFCIPPortResetConnection
+        49: fcipPortMaxReTx
+        50: fcipPortKeepAliveTimerExpire
+        51: fcipPortPersistTimerExpire
+        52: fcipPortSrcLinkDown
+        53: fcipPortSrcAdminDown
+        54: fcipPortAdminCfgChange
+        55: fcipSrcPortRemoved
+        56: fcipSrcModuleNotOnline
+        57: invalidConfig
+        58: portBindFailure
+        59: portFabricBindFailure
+        60: noCommonVsanIsolation
+        61: ficonVsanDown
+        62: invalidAttachment
+        63: portBlocked
+        64: incomAdminRxBbCreditPerBuf
+        65: tooManyInvalidFlogis
+        66: deniedDueToPortBinding
+        67: elpFailureRevMismatch
+        68: elpFailureClassFParamErr
+        69: elpFailureClassNParamErr
+        70: elpFailureUnknownFlowCtlCode
+        71: elpFailureInvalidFlowCtlParam
+        72: elpFailureInvalidPortName
+        73: elpFailureInvalidSwitchName
+        74: elpFailureRatovEdtovMismatch
+        75: elpFailureLoopbackDetected
+        76: elpFailureInvalidTxBbCredit
+        77: elpFailureInvalidPayloadSize
+        78: bundleMisCfg
+        79: bitErrRuntimeThreshExceeded
+        80: linkFailLinkReset
+        81: linkFailPortInitFail
+        82: linkFailPortUnusable
+        83: linkFailLossOfSignal
+        84: linkFailLossOfSync
+        85: linkFailNosRcvd
+        86: linkFailOLSRcvd
+        87: linkFailDebounceTimeout
+        88: linkFailLrRcvd
+        89: linkFailCreditLoss
+        90: linkFailRxQOverflow
+        91: linkFailTooManyInterrupts
+        92: linkFailLipRcvdBb
+        93: linkFailBbCreditLoss
+        94: linkFailOpenPrimSignalTimeout
+        95: linkFailOpenPrimSignalReturned
+        96: linkFailLipF8Rcvd
+        97: linkFailLineCardPortShutdown
+        98: fcspAuthenfailure
+        99: fcotChecksumError
+        100: ohmsExtLoopbackTest
+        101: invalidFabricBindExchange
+        102: tovMismatch
+        103: ficonNotEnabled
+        104: ficonNoPortNumber
+        105: ficonBeingEnabled
+        106: ePortProhibited
+        107: portGracefulShutdown
+        108: trunkNotFullyActive
+        109: fabricBindingSwitchWwnNotFound
+        110: fabricBindingDomainInvalid
+        111: fabricBindingDbMismatch
+        112: fabricBindingNoRspFromPeer
+        113: dpvmVsanSuspended
+        114: dpvmVsanNotFound
+        115: trackedPortDown
+        116: ecSuspendedOnLoop
+        117: isolateBundleMisCfg
+        118: noPeerBundleSupport
+        119: portBringupIsolation
+        120: domainNotAllowedIsolated
+        121: virtualIvrDomainOverlapIsolation
+        122: outOfService
+        123: portAuthFailed
+        124: bundleStandby
+        125: portConnectorTypeErr
+        126: errorDisabledReInitLmtReached
+        127: ficonDupPortNum
+        128: localRcf
+        129: twoSwitchesWithSameWWN
+        130: invalidOtherSidePrincEFPReqRecd
+        131: domainOther
+        132: elpFailureAllZeroPeerWWNRcvd
+        133: preferredPathIsolation
+        134: fcRedirectIsolation
+        135: portActLicenseNotAvailable
+        136: sdmIsolation
+        137: fcidAllocationFailed
+        138: externallyDisabled
+        139: unavailableNPVUpstreamPort
+        140: unavailableNPVPrefUpstreamPort
+        141: sfpReadError
+        142: stickyDownOnLinkFailure
+        143: tooManyLinkFlapsErr
+        144: unidirectionalUDLD
+        145: txRxLoopUDLD
+        146: neighborMismatchUDLD
+        147: authzPending
+        148: hotStdbyInBundle
+        149: incompleteConfig
+        150: incompleteTunnelCfg
+        151: hwProgrammingFailed
+        152: tunnelDstUnreachable
+        153: suspendByMtu
+        154: sfpInvalid
+        155: sfpAbsent
+        156: portCapabilitiesUnknown
+        157: channelErrDisabled
+        158: vrfMismatch
+        159: vrfForwardReferencing
+        160: dupTunnelConfigDetected
+        161: primaryVLANDown
+        162: vrfUnusable
+        163: errDisableHandShkFailure
+        164: errDisabledBPDUGuard
+        165: dot1xSecViolationErrDisabled
+        166: emptyEchoUDLD
+        167: vfTaggingCapErr
+        168: portDisabled
+        169: tunnelModeNotConfigured
+        170: tunnelSrcNotConfigured
+        171: tunnelDstNotConfigured
+        172: tunnelUnableToResolveSrcIP
+        173: tunnelUnableToResolveDstIP
+        174: tunnelVrfDown
+        175: sifAdminDown
+        176: phyIntfDown
+        177: ifSifLimitExceeded
+        178: sifHoldDown
+        179: noFcoe
+        180: dcxCompatMismatch
+        181: isolateBundleLimitExceeded
+        182: sifNotBound
+        183: errDisabledLacpMiscfg
+        184: satFabricIfDown
+        185: invalidSatFabricIf
+        186: noRemoteChassis
+        187: vicEnableNotReceived
+        188: vicDisableReceived
+        189: vlanVsanMappingNotEnabled
+        190: stpNotFwdingInFcoeMappedVlan
+        191: moduleOffline
+        192: udldAggModeLinkFailure
+        193: stpInconsVpcPeerDisabled
+        194: setPortStateFailed
+        195: suspendedByVpc
+        196: vpcCfgInProgress
+        197: vpcPeerLinkDown
+        198: vpcNoRspFromPeer
+        199: protoPortSuspend
+        200: tunnelSrcDown
+        201: cdpInfoUnavailable
+        202: fexSfpInvalid
+        203: errDisabledIpConflict
+        204: fcotClkRateMismatch
+        205: portGuardTrustSecViolation
+        206: sdpTimeout
+        207: satIncompatTopo
+        208: waitForFlogi
+        209: satNotConfigured
+        210: npivNotEnabledInUpstream
+        211: vsanMismatchWithUpstreamSwPort
+        212: portGuardBitErrRate
+        213: portGuardSigLoss
+        214: portGuardSyncLoss
+        215: portGuardLinkReset
+        216: portGuardCreditLoss
+        217: ipQosMgrPolicyAppFailure
+        218: pauseRateLimitErrDisabled
+        219: lstGrpUplinkDown
+        220: stickyDnLinkFailure
+        221: routerMacFailure
+        222: dcxMultipleMsapIds
+        223: dcxHundredPdusRcvdNoAck
+        224: enmSatIncompatibleUplink
+        225: enmLoopDetected
+        226: nonStickyExternallyDisabled
+        227: subGroupIdNotAssigned
+        228: vemUnlicensed
+        229: profileNotFound
+        230: nonExistentVlan
+        231: vlanInvalidType
+        232: vlanDown
+        233: vpcPeerUpgrade
+        234: ipQosDcbxpCompatFailure
+        235: nonCiscoHbaVfTag
+        236: domainIdConfigMismatch
+        237: sfpSpeedMismatch
+        238: xcvrInitializing
+        239: xcvrAbsent
+        240: xcvrInvalid
+        241: vfcBindingInvalid
+        242: vlanNotFcoeEnabled
+        243: pvlanNativeVlanErr
+        244: ethL2VlanDown
+        245: ethIntfInvalidBinding
+        246: pmonFailure
+        247: l3NotReady
+        248: speedMismatch
+        249: flowControlMismatch
+        250: vdcMode
+        251: suspendedDueToMinLinks
+        252: enmPinFailLinkDown
+        253: inactiveM1PortFpathActiveVlan
+        254: parentPortDown
+        255: moduleRemoved
+        256: corePortMct
+        257: nonCorePortMct
+        258: ficonInorderNotActive
+        259: invalidEncapsulation
+        260: modemLineDeasserted
+        261: ipSecHndshkInProgress
+        262: sfpEthCompliantErr
+        263: cellularModemUnattached
+        264: outOfGlblRxBuffers
+        265: sfpFcCompliantErr
+        266: ethIntfNotLicensed
+        267: domainIdsInvalid
+        268: fabricNameInvalid
+        269: ficonNoPortSwapLogicalPort
+        270: ficonInvalidPortNum
+        271: remotePortInL2vpnDown
+        272: suspendedDueToNoLacpPdus
+        273: fcotValidationFailedAtDriver
+        274: unsupportedTransceiverMd5DigestNotSame
+        275: unsupportedTransceiver
+        276: adminStateConfigChange
+        277: vlanAllowedList
+        278: vlanAllowedListOverride
+        279: vlanAllowedListAdd
+        280: vlanAllowedRemove
+        281: vlanCfgStateChange
+        282: vlanCfgDelete
+        283: pppPeerNotResponding
+        284: pppAuthFailed
+        285: xcvrAuthFailed
+        286: badFramesRcvdFromLink
+        287: physicalPortHotStandBy
+        288: wimaxModemUnattached
+        289: wpanModemUnattached
+        290: rbhModulo
+        291: fpcMinLinkNotMet
+        292: misCabling
+        293: rcvSrpOnNonFcoeFex
+        294: acessPortOnBd
+        295: lacpMisConfig
+        300: fortyGMemberPort
+        301: goldLoopBackTest
+        302: edpError
+        303: vpcCompCheckFailed
+        304: aclQosNoResource
+        305: vpcShutdown
+        306: notPcMember
+        307: systemIntfShut
+        308: speedGroupConfigMisMatch
+        310: dot1qMisConfig
+        311: mdMisMatch
+        312: vpcPeerLinkShut
+        313: notAvailable
+    - name: cieIfOperStatusCauseDescr
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.10
+      type: DisplayString
+      help: The description for the cause of current operational state of the interface,
+        given by the object 'cieIfOperStatusCause' - 1.3.6.1.4.1.9.9.276.1.1.2.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+  ciscoMemoryPool:
+    walk:
+    - 1.3.6.1.4.1.9.9.48.1.1
+    metrics:
+    - name: ciscoMemoryPoolType
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.1
+      type: gauge
+      help: The type of memory pool for which this entry contains information. - 1.3.6.1.4.1.9.9.48.1.1.1.1
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolName
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.2
+      type: DisplayString
+      help: A textual name assigned to the memory pool - 1.3.6.1.4.1.9.9.48.1.1.1.2
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolAlternate
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.3
+      type: gauge
+      help: Indicates whether or not this memory pool has an alternate pool configured
+        - 1.3.6.1.4.1.9.9.48.1.1.1.3
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolValid
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.4
+      type: gauge
+      help: Indicates whether or not the remaining objects in this entry contain accurate
+        data - 1.3.6.1.4.1.9.9.48.1.1.1.4
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: ciscoMemoryPoolUsed
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.5
+      type: gauge
+      help: Indicates the number of bytes from the memory pool that are currently
+        in use by applications on the managed device. - 1.3.6.1.4.1.9.9.48.1.1.1.5
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolFree
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.6
+      type: gauge
+      help: Indicates the number of bytes from the memory pool that are currently
+        unused on the managed device - 1.3.6.1.4.1.9.9.48.1.1.1.6
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolLargestFree
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.7
+      type: gauge
+      help: Indicates the largest number of contiguous bytes from the memory pool
+        that are currently unused on the managed device. - 1.3.6.1.4.1.9.9.48.1.1.1.7
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+    - name: ciscoMemoryPoolLowMemoryNotifThreshold
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.8
+      type: gauge
+      help: This object is used to indicate the threshold value in percentage of free
+        memory remaining in a memory pool - 1.3.6.1.4.1.9.9.48.1.1.1.8
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: gauge
+  ciscoProcess:
+    walk:
+    - 1.3.6.1.4.1.9.9.109.1.2.1
+    metrics:
+    - name: cpmProcessPID
+      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.1
+      type: gauge
+      help: This object contains the process ID - 1.3.6.1.4.1.9.9.109.1.2.1.1.1
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+      - labelname: cpmProcessPID
+        type: gauge
+    - name: cpmProcessName
+      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.2
+      type: DisplayString
+      help: The name associated with this process - 1.3.6.1.4.1.9.9.109.1.2.1.1.2
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+      - labelname: cpmProcessPID
+        type: gauge
+    - name: cpmProcessuSecs
+      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.4
+      type: gauge
+      help: Average elapsed CPU time in microseconds when the process was active -
+        1.3.6.1.4.1.9.9.109.1.2.1.1.4
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+      - labelname: cpmProcessPID
+        type: gauge
+    - name: cpmProcessTimeCreated
+      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.5
+      type: gauge
+      help: The time when the process was created - 1.3.6.1.4.1.9.9.109.1.2.1.1.5
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+      - labelname: cpmProcessPID
+        type: gauge
+    - name: cpmProcessAverageUSecs
+      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.6
+      type: gauge
+      help: Average elapsed CPU time in microseconds when the process was active -
+        1.3.6.1.4.1.9.9.109.1.2.1.1.6
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+      - labelname: cpmProcessPID
+        type: gauge
+  interfaces:
+    walk:
+    - 1.3.6.1.2.1.2.2
+    - 1.3.6.1.2.1.31.1.1
+    metrics:
+    - name: ifIndex
+      oid: 1.3.6.1.2.1.2.2.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+      help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifType
+      oid: 1.3.6.1.2.1.2.2.1.3
+      type: gauge
+      help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: other
+        2: regular1822
+        3: hdh1822
+        4: ddnX25
+        5: rfc877x25
+        6: ethernetCsmacd
+        7: iso88023Csmacd
+        8: iso88024TokenBus
+        9: iso88025TokenRing
+        10: iso88026Man
+        11: starLan
+        12: proteon10Mbit
+        13: proteon80Mbit
+        14: hyperchannel
+        15: fddi
+        16: lapb
+        17: sdlc
+        18: ds1
+        19: e1
+        20: basicISDN
+        21: primaryISDN
+        22: propPointToPointSerial
+        23: ppp
+        24: softwareLoopback
+        25: eon
+        26: ethernet3Mbit
+        27: nsip
+        28: slip
+        29: ultra
+        30: ds3
+        31: sip
+        32: frameRelay
+        33: rs232
+        34: para
+        35: arcnet
+        36: arcnetPlus
+        37: atm
+        38: miox25
+        39: sonet
+        40: x25ple
+        41: iso88022llc
+        42: localTalk
+        43: smdsDxi
+        44: frameRelayService
+        45: v35
+        46: hssi
+        47: hippi
+        48: modem
+        49: aal5
+        50: sonetPath
+        51: sonetVT
+        52: smdsIcip
+        53: propVirtual
+        54: propMultiplexor
+        55: ieee80212
+        56: fibreChannel
+        57: hippiInterface
+        58: frameRelayInterconnect
+        59: aflane8023
+        60: aflane8025
+        61: cctEmul
+        62: fastEther
+        63: isdn
+        64: v11
+        65: v36
+        66: g703at64k
+        67: g703at2mb
+        68: qllc
+        69: fastEtherFX
+        70: channel
+        71: ieee80211
+        72: ibm370parChan
+        73: escon
+        74: dlsw
+        75: isdns
+        76: isdnu
+        77: lapd
+        78: ipSwitch
+        79: rsrb
+        80: atmLogical
+        81: ds0
+        82: ds0Bundle
+        83: bsc
+        84: async
+        85: cnr
+        86: iso88025Dtr
+        87: eplrs
+        88: arap
+        89: propCnls
+        90: hostPad
+        91: termPad
+        92: frameRelayMPI
+        93: x213
+        94: adsl
+        95: radsl
+        96: sdsl
+        97: vdsl
+        98: iso88025CRFPInt
+        99: myrinet
+        100: voiceEM
+        101: voiceFXO
+        102: voiceFXS
+        103: voiceEncap
+        104: voiceOverIp
+        105: atmDxi
+        106: atmFuni
+        107: atmIma
+        108: pppMultilinkBundle
+        109: ipOverCdlc
+        110: ipOverClaw
+        111: stackToStack
+        112: virtualIpAddress
+        113: mpc
+        114: ipOverAtm
+        115: iso88025Fiber
+        116: tdlc
+        117: gigabitEthernet
+        118: hdlc
+        119: lapf
+        120: v37
+        121: x25mlp
+        122: x25huntGroup
+        123: transpHdlc
+        124: interleave
+        125: fast
+        126: ip
+        127: docsCableMaclayer
+        128: docsCableDownstream
+        129: docsCableUpstream
+        130: a12MppSwitch
+        131: tunnel
+        132: coffee
+        133: ces
+        134: atmSubInterface
+        135: l2vlan
+        136: l3ipvlan
+        137: l3ipxvlan
+        138: digitalPowerline
+        139: mediaMailOverIp
+        140: dtm
+        141: dcn
+        142: ipForward
+        143: msdsl
+        144: ieee1394
+        145: if-gsn
+        146: dvbRccMacLayer
+        147: dvbRccDownstream
+        148: dvbRccUpstream
+        149: atmVirtual
+        150: mplsTunnel
+        151: srp
+        152: voiceOverAtm
+        153: voiceOverFrameRelay
+        154: idsl
+        155: compositeLink
+        156: ss7SigLink
+        157: propWirelessP2P
+        158: frForward
+        159: rfc1483
+        160: usb
+        161: ieee8023adLag
+        162: bgppolicyaccounting
+        163: frf16MfrBundle
+        164: h323Gatekeeper
+        165: h323Proxy
+        166: mpls
+        167: mfSigLink
+        168: hdsl2
+        169: shdsl
+        170: ds1FDL
+        171: pos
+        172: dvbAsiIn
+        173: dvbAsiOut
+        174: plc
+        175: nfas
+        176: tr008
+        177: gr303RDT
+        178: gr303IDT
+        179: isup
+        180: propDocsWirelessMaclayer
+        181: propDocsWirelessDownstream
+        182: propDocsWirelessUpstream
+        183: hiperlan2
+        184: propBWAp2Mp
+        185: sonetOverheadChannel
+        186: digitalWrapperOverheadChannel
+        187: aal2
+        188: radioMAC
+        189: atmRadio
+        190: imt
+        191: mvl
+        192: reachDSL
+        193: frDlciEndPt
+        194: atmVciEndPt
+        195: opticalChannel
+        196: opticalTransport
+        197: propAtm
+        198: voiceOverCable
+        199: infiniband
+        200: teLink
+        201: q2931
+        202: virtualTg
+        203: sipTg
+        204: sipSig
+        205: docsCableUpstreamChannel
+        206: econet
+        207: pon155
+        208: pon622
+        209: bridge
+        210: linegroup
+        211: voiceEMFGD
+        212: voiceFGDEANA
+        213: voiceDID
+        214: mpegTransport
+        215: sixToFour
+        216: gtp
+        217: pdnEtherLoop1
+        218: pdnEtherLoop2
+        219: opticalChannelGroup
+        220: homepna
+        221: gfp
+        222: ciscoISLvlan
+        223: actelisMetaLOOP
+        224: fcipLink
+        225: rpr
+        226: qam
+        227: lmp
+        228: cblVectaStar
+        229: docsCableMCmtsDownstream
+        230: adsl2
+        231: macSecControlledIF
+        232: macSecUncontrolledIF
+        233: aviciOpticalEther
+        234: atmbond
+        235: voiceFGDOS
+        236: mocaVersion1
+        237: ieee80216WMAN
+        238: adsl2plus
+        239: dvbRcsMacLayer
+        240: dvbTdm
+        241: dvbRcsTdma
+        242: x86Laps
+        243: wwanPP
+        244: wwanPP2
+        245: voiceEBS
+        246: ifPwType
+        247: ilan
+        248: pip
+        249: aluELP
+        250: gpon
+        251: vdsl2
+        252: capwapDot11Profile
+        253: capwapDot11Bss
+        254: capwapWtpVirtualRadio
+        255: bits
+        256: docsCableUpstreamRfPort
+        257: cableDownstreamRfPort
+        258: vmwareVirtualNic
+        259: ieee802154
+        260: otnOdu
+        261: otnOtu
+        262: ifVfiType
+        263: g9981
+        264: g9982
+        265: g9983
+        266: aluEpon
+        267: aluEponOnu
+        268: aluEponPhysicalUni
+        269: aluEponLogicalLink
+        270: aluGponOnu
+        271: aluGponPhysicalUni
+        272: vmwareNicTeam
+        277: docsOfdmDownstream
+        278: docsOfdmaUpstream
+        279: gfast
+        280: sdci
+        281: xboxWireless
+        282: fastdsl
+        283: docsCableScte55d1FwdOob
+        284: docsCableScte55d1RetOob
+        285: docsCableScte55d2DsOob
+        286: docsCableScte55d2UsOob
+        287: docsCableNdf
+        288: docsCableNdr
+        289: ptm
+        290: ghn
+        291: otnOtsi
+        292: otnOtuc
+        293: otnOduc
+        294: otnOtsig
+        295: microwaveCarrierTermination
+        296: microwaveRadioLinkTerminal
+        297: ieee8021axDrni
+        298: ax25
+        299: ieee19061nanocom
+    - name: ifMtu
+      oid: 1.3.6.1.2.1.2.2.1.4
+      type: gauge
+      help: The size of the largest packet which can be sent/received on the interface,
+        specified in octets - 1.3.6.1.2.1.2.2.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifSpeed
+      oid: 1.3.6.1.2.1.2.2.1.5
+      type: gauge
+      help: An estimate of the interface's current bandwidth in bits per second -
+        1.3.6.1.2.1.2.2.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifPhysAddress
+      oid: 1.3.6.1.2.1.2.2.1.6
+      type: PhysAddress48
+      help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifAdminStatus
+      oid: 1.3.6.1.2.1.2.2.1.7
+      type: gauge
+      help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+        3: testing
+    - name: ifOperStatus
+      oid: 1.3.6.1.2.1.2.2.1.8
+      type: gauge
+      help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+        3: testing
+        4: unknown
+        5: dormant
+        6: notPresent
+        7: lowerLayerDown
+    - name: ifLastChange
+      oid: 1.3.6.1.2.1.2.2.1.9
+      type: gauge
+      help: The value of sysUpTime at the time the interface entered its current operational
+        state - 1.3.6.1.2.1.2.2.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInOctets
+      oid: 1.3.6.1.2.1.2.2.1.10
+      type: counter
+      help: The total number of octets received on the interface, including framing
+        characters - 1.3.6.1.2.1.2.2.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.11
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were not addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.2.2.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.12
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.2.2.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInDiscards
+      oid: 1.3.6.1.2.1.2.2.1.13
+      type: counter
+      help: The number of inbound packets which were chosen to be discarded even though
+        no errors had been detected to prevent their being deliverable to a higher-layer
+        protocol - 1.3.6.1.2.1.2.2.1.13
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInErrors
+      oid: 1.3.6.1.2.1.2.2.1.14
+      type: counter
+      help: For packet-oriented interfaces, the number of inbound packets that contained
+        errors preventing them from being deliverable to a higher-layer protocol -
+        1.3.6.1.2.1.2.2.1.14
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInUnknownProtos
+      oid: 1.3.6.1.2.1.2.2.1.15
+      type: counter
+      help: For packet-oriented interfaces, the number of packets received via the
+        interface which were discarded because of an unknown or unsupported protocol
+        - 1.3.6.1.2.1.2.2.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutOctets
+      oid: 1.3.6.1.2.1.2.2.1.16
+      type: counter
+      help: The total number of octets transmitted out of the interface, including
+        framing characters - 1.3.6.1.2.1.2.2.1.16
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.17
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were not addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.18
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutDiscards
+      oid: 1.3.6.1.2.1.2.2.1.19
+      type: counter
+      help: The number of outbound packets which were chosen to be discarded even
+        though no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutErrors
+      oid: 1.3.6.1.2.1.2.2.1.20
+      type: counter
+      help: For packet-oriented interfaces, the number of outbound packets that could
+        not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutQLen
+      oid: 1.3.6.1.2.1.2.2.1.21
+      type: gauge
+      help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifSpecific
+      oid: 1.3.6.1.2.1.2.2.1.22
+      type: OctetString
+      help: A reference to MIB definitions specific to the particular media being
+        used to realize the interface - 1.3.6.1.2.1.2.2.1.22
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+      help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.2
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.3
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.4
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.5
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a broadcast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      type: counter
+      help: The total number of octets received on the interface, including framing
+        characters - 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.7
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were not addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.31.1.1.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.8
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.9
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.10
+      type: counter
+      help: The total number of octets transmitted out of the interface, including
+        framing characters - 1.3.6.1.2.1.31.1.1.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.11
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were not addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.12
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.13
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a broadcast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifLinkUpDownTrapEnable
+      oid: 1.3.6.1.2.1.31.1.1.1.14
+      type: gauge
+      help: Indicates whether linkUp/linkDown traps should be generated for this interface
+        - 1.3.6.1.2.1.31.1.1.1.14
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: enabled
+        2: disabled
+    - name: ifHighSpeed
+      oid: 1.3.6.1.2.1.31.1.1.1.15
+      type: gauge
+      help: An estimate of the interface's current bandwidth in units of 1,000,000
+        bits per second - 1.3.6.1.2.1.31.1.1.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifPromiscuousMode
+      oid: 1.3.6.1.2.1.31.1.1.1.16
+      type: gauge
+      help: This object has a value of false(2) if this interface only accepts packets/frames
+        that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: ifConnectorPresent
+      oid: 1.3.6.1.2.1.31.1.1.1.17
+      type: gauge
+      help: This object has the value 'true(1)' if the interface sublayer has a physical
+        connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: ifAlias
+      oid: 1.3.6.1.2.1.31.1.1.1.18
+      type: DisplayString
+      help: This object is an 'alias' name for the interface as specified by a network
+        manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifCounterDiscontinuityTime
+      oid: 1.3.6.1.2.1.31.1.1.1.19
+      type: gauge
+      help: The value of sysUpTime on the most recent occasion at which any one or
+        more of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+  system:
+    get:
+    - 1.3.6.1.2.1.1.1.0
+    - 1.3.6.1.2.1.1.2.0
+    - 1.3.6.1.2.1.1.3.0
+    metrics:
+    - name: sysDescr
+      oid: 1.3.6.1.2.1.1.1
+      type: DisplayString
+      help: A textual description of the entity - 1.3.6.1.2.1.1.1
+    - name: sysObjectID
+      oid: 1.3.6.1.2.1.1.2
+      type: OctetString
+      help: The vendor's authoritative identification of the network management subsystem
+        contained in the entity - 1.3.6.1.2.1.1.2
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+      type: gauge
+      help: The time (in hundredths of a second) since the network management portion
+        of the system was last re-initialized. - 1.3.6.1.2.1.1.3
