@@ -1,8 +1,23 @@
 # WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
+auths:
+  admin_auth:
+    community: public
+    security_level: authPriv
+    username: grafana
+    password: 
+    auth_protocol: SHA
+    priv_protocol: AES
+    priv_password: 
+    version: 3
 modules:
   ciscoEnvMon:
     walk:
-    - 1.3.6.1.4.1.9.9.13.1
+    - 1.3.6.1.4.1.9.9.13.1.2
+    - 1.3.6.1.4.1.9.9.13.1.3
+    - 1.3.6.1.4.1.9.9.13.1.4
+    - 1.3.6.1.4.1.9.9.13.1.5
+    get:
+    - 1.3.6.1.4.1.9.9.13.1.1.0
     metrics:
     - name: ciscoEnvMonPresent
       oid: 1.3.6.1.4.1.9.9.13.1.1
@@ -216,122 +231,15 @@ modules:
         3: dc
         4: externalPowerSupply
         5: internalRedundant
-    - name: ciscoEnvMonAlarmContacts
-      oid: 1.3.6.1.4.1.9.9.13.1.6
-      type: Bits
-      help: Each bit is set to reflect the respective alarm being set - 1.3.6.1.4.1.9.9.13.1.6
-      enum_values:
-        0: minorVisual
-        1: majorVisual
-        2: criticalVisual
-        3: minorAudible
-        4: majorAudible
-        5: criticalAudible
-        6: input
   ciscoIfExtension:
     walk:
-    - 1.3.6.1.4.1.9.9.276.1.1.1
     - 1.3.6.1.4.1.9.9.276.1.1.2
+    - 1.3.6.1.4.1.9.9.276.1.1.3
+    - 1.3.6.1.4.1.9.9.276.1.3.1
+    - 1.3.6.1.4.1.9.9.276.1.4.1
+    - 1.3.6.1.4.1.9.9.276.1.5.1
+    - 1.3.6.1.4.1.9.9.276.1.6.1
     metrics:
-    - name: cieIfLastInTime
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.1
-      type: gauge
-      help: This object represents the elapsed time in milliseconds since last protocol
-        input packet was received - 1.3.6.1.4.1.9.9.276.1.1.1.1.1
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfLastOutTime
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.2
-      type: gauge
-      help: This object represents the elapsed time in milliseconds since last protocol
-        output packet was transmitted - 1.3.6.1.4.1.9.9.276.1.1.1.1.2
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfLastOutHangTime
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.3
-      type: gauge
-      help: This object represents the elapsed time in milliseconds since last protocol
-        output packet could not be successfully transmitted - 1.3.6.1.4.1.9.9.276.1.1.1.1.3
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInRuntsErrs
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.4
-      type: counter
-      help: The number of packets input on a particular physical interface which were
-        dropped as they were smaller than the minimum allowable physical media limit
-        - 1.3.6.1.4.1.9.9.276.1.1.1.1.4
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInGiantsErrs
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.5
-      type: counter
-      help: The number of input packets on a particular physical interface which were
-        dropped as they were larger than the ifMtu (largest permitted size of a packet
-        which can be sent/received on an interface) - 1.3.6.1.4.1.9.9.276.1.1.1.1.5
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInFramingErrs
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.6
-      type: counter
-      help: The number of input packets on a physical interface which were misaligned
-        or had framing errors - 1.3.6.1.4.1.9.9.276.1.1.1.1.6
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInOverrunErrs
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.7
-      type: counter
-      help: The number of input packets which arrived on a particular physical interface
-        which were too quick for the hardware to receive and hence the receiver ran
-        out of buffers - 1.3.6.1.4.1.9.9.276.1.1.1.1.7
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInIgnored
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.8
-      type: counter
-      help: The number of input packets which were simply ignored by this physical
-        interface due to insufficient resources to handle the incoming packets - 1.3.6.1.4.1.9.9.276.1.1.1.1.8
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInAbortErrs
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.9
-      type: counter
-      help: Number of input packets which were dropped because the receiver aborted
-        - 1.3.6.1.4.1.9.9.276.1.1.1.1.9
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfInputQueueDrops
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.10
-      type: counter
-      help: The number of input packets which were dropped - 1.3.6.1.4.1.9.9.276.1.1.1.1.10
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfOutputQueueDrops
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.11
-      type: counter
-      help: This object indicates the number of output packets dropped by the interface
-        even though no error had been detected to prevent them being transmitted -
-        1.3.6.1.4.1.9.9.276.1.1.1.1.11
-      indexes:
-      - labelname: ifIndex
-        type: gauge
-    - name: cieIfPacketDiscontinuityTime
-      oid: 1.3.6.1.4.1.9.9.276.1.1.1.1.12
-      type: gauge
-      help: The value of sysUpTime on the most recent occasion at which this interface's
-        counters suffered a discontinuity - 1.3.6.1.4.1.9.9.276.1.1.1.1.12
-      indexes:
-      - labelname: ifIndex
-        type: gauge
     - name: cieIfResetCount
       oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.1
       type: counter
@@ -724,6 +632,262 @@ modules:
       indexes:
       - labelname: ifIndex
         type: gauge
+    - name: cieIfSpeedReceive
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.11
+      type: gauge
+      help: An estimate of the interface's current receive bandwidth in bits per second
+        - 1.3.6.1.4.1.9.9.276.1.1.2.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfHighSpeedReceive
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.12
+      type: gauge
+      help: An estimate of the interface's current receive bandwidth in units of 1,000,000
+        bits per second - 1.3.6.1.4.1.9.9.276.1.1.2.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfOwner
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.13
+      type: DisplayString
+      help: This data type is used to model an administratively assigned name of the
+        current owner of the interface resource - 1.3.6.1.4.1.9.9.276.1.1.2.1.13
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfSharedConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.14
+      type: gauge
+      help: This object indicates the current configuration of interface sharing on
+        the given interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.14
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: notApplicable
+        2: ownerDedicated
+        3: ownerShared
+        4: sharedOnly
+    - name: cieIfSpeedGroupConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.15
+      type: gauge
+      help: This object specifies the current speed group configuration on the given
+        interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: notApplicable
+        2: tenG
+        3: oneTwoFourEightG
+        4: twoFourEightSixteenG
+        5: fourEightSixteenThirtyTwoG
+        6: eightSixteenThirtyTwoSixtyFourG
+    - name: cieIfTransceiverFrequencyConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.16
+      type: gauge
+      help: This object specifies the current transceiver frequency configuration
+        on the given interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.16
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: notApplicable
+        2: fibreChannel
+        3: ethernet
+    - name: cieIfFillPatternConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.17
+      type: gauge
+      help: This object specifies the current switchport fill pattern configuration
+        on the given interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.17
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: arbff8G
+        2: idle8G
+    - name: cieIfIgnoreBitErrorsConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.18
+      type: gauge
+      help: This object specifies the current switchport biterrors configuration on
+        the given interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.18
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: cieIfIgnoreInterruptThresholdConfig
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.19
+      type: gauge
+      help: This object specifies the current interrupt threshold configuration on
+        the given interface - 1.3.6.1.4.1.9.9.276.1.1.2.1.19
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: cieIfDuplexCfgStatus
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.20
+      type: gauge
+      help: This object specifies the configured duplex status on the given interface.
+        - 1.3.6.1.4.1.9.9.276.1.1.2.1.20
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        0: full
+        1: half
+        2: auto
+        3: unsupported
+    - name: cieIfDuplexDetectStatus
+      oid: 1.3.6.1.4.1.9.9.276.1.1.2.1.21
+      type: gauge
+      help: This object specifies the detected duplex status on the given interface.
+        - 1.3.6.1.4.1.9.9.276.1.1.2.1.21
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        0: full
+        1: half
+        2: auto
+        3: unknown
+        4: invalid
+    - name: cieIfStatusListIndex
+      oid: 1.3.6.1.4.1.9.9.276.1.1.3.1.1
+      type: gauge
+      help: An arbitrary integer value, greater than zero, which identifies a list
+        of 64 interfaces within a module. - 1.3.6.1.4.1.9.9.276.1.1.3.1.1
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      - labelname: cieIfStatusListIndex
+        type: gauge
+    - name: cieInterfacesIndex
+      oid: 1.3.6.1.4.1.9.9.276.1.1.3.1.2
+      type: OctetString
+      help: This object represents the 'ifIndex' for a set of 64 interfaces in the
+        module. - 1.3.6.1.4.1.9.9.276.1.1.3.1.2
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      - labelname: cieIfStatusListIndex
+        type: gauge
+    - name: cieInterfacesOperMode
+      oid: 1.3.6.1.4.1.9.9.276.1.1.3.1.3
+      type: OctetString
+      help: This object represents the operational mode for a set of 64 interfaces
+        in the module. - 1.3.6.1.4.1.9.9.276.1.1.3.1.3
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      - labelname: cieIfStatusListIndex
+        type: gauge
+    - name: cieInterfacesOperCause
+      oid: 1.3.6.1.4.1.9.9.276.1.1.3.1.4
+      type: OctetString
+      help: This object represents the operational status cause for a set of 64 interfaces
+        in the module. - 1.3.6.1.4.1.9.9.276.1.1.3.1.4
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      - labelname: cieIfStatusListIndex
+        type: gauge
+    - name: cieInterfaceOwnershipBitmap
+      oid: 1.3.6.1.4.1.9.9.276.1.1.3.1.5
+      type: OctetString
+      help: This object indicates the status for a set of 64 interfaces in a module
+        regarding whether or not each interface is administratively assigned a name
+        of the current owner of the interface resource as per cieIfOwner. - 1.3.6.1.4.1.9.9.276.1.1.3.1.5
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      - labelname: cieIfStatusListIndex
+        type: gauge
+    - name: cieIfDot1qCustomAdminEtherType
+      oid: 1.3.6.1.4.1.9.9.276.1.3.1.1.1
+      type: gauge
+      help: The Dot1qEtherType allow administrator to select a non-standard (other
+        than 0x8100) 2-byte ethertype for the interface to interoperate with third
+        party vendor's system that do not use the standard 0x8100 ethertype to identify
+        802.1q-tagged frames - 1.3.6.1.4.1.9.9.276.1.3.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfDot1qCustomOperEtherType
+      oid: 1.3.6.1.4.1.9.9.276.1.3.1.1.2
+      type: gauge
+      help: The current operational value of the 802.1q ethertype for the interface.
+        - 1.3.6.1.4.1.9.9.276.1.3.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInPktRate
+      oid: 1.3.6.1.4.1.9.9.276.1.4.1.1.1
+      type: counter
+      help: By default, this is the five minute exponentially-decayed moving average
+        of the inbound packet rate for this interface - 1.3.6.1.4.1.9.9.276.1.4.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInOctetRate
+      oid: 1.3.6.1.4.1.9.9.276.1.4.1.1.2
+      type: counter
+      help: By default, this is the five minute exponentially-decayed moving average
+        of the inbound octet rate for this interface - 1.3.6.1.4.1.9.9.276.1.4.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfOutPktRate
+      oid: 1.3.6.1.4.1.9.9.276.1.4.1.1.3
+      type: counter
+      help: By default, this is the five minute exponentially-decayed moving average
+        of the outbound packet rate for this interface - 1.3.6.1.4.1.9.9.276.1.4.1.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfOutOctetRate
+      oid: 1.3.6.1.4.1.9.9.276.1.4.1.1.4
+      type: counter
+      help: By default, this is the five minute exponentially-decayed moving average
+        of the outbound octet rate for this interface - 1.3.6.1.4.1.9.9.276.1.4.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfInterval
+      oid: 1.3.6.1.4.1.9.9.276.1.4.1.1.5
+      type: gauge
+      help: This object specifies the time interval over which the inbound and outbound
+        traffic rates are calculated for this interface. - 1.3.6.1.4.1.9.9.276.1.4.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfDot1dBaseMappingPort
+      oid: 1.3.6.1.4.1.9.9.276.1.5.1.1.1
+      type: gauge
+      help: The dot1dBasePort value for this interface. - 1.3.6.1.4.1.9.9.276.1.5.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: cieIfName
+      oid: 1.3.6.1.4.1.9.9.276.1.6.1.1.1
+      type: DisplayString
+      help: Represents an interface name mentioned in the 'ifName' object of this
+        system. - 1.3.6.1.4.1.9.9.276.1.6.1.1.1
+      indexes:
+      - labelname: cieIfName
+        type: DisplayString
+    - name: cieIfIndex
+      oid: 1.3.6.1.4.1.9.9.276.1.6.1.1.2
+      type: gauge
+      help: This object represents the 'ifIndex' corresponding to the interface name
+        mentioned in the 'cieIfName' object of this instance - 1.3.6.1.4.1.9.9.276.1.6.1.1.2
+      indexes:
+      - labelname: cieIfName
+        type: DisplayString
   ciscoMemoryPool:
     walk:
     - 1.3.6.1.4.1.9.9.48.1.1
@@ -795,54 +959,80 @@ modules:
         type: gauge
   ciscoProcess:
     walk:
-    - 1.3.6.1.4.1.9.9.109.1.2.1
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.10
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.11
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.3
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.4
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.5
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.6
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.9
     metrics:
-    - name: cpmProcessPID
-      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.1
+    - name: cpmCPUTotalMonIntervalValue
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.10
       type: gauge
-      help: This object contains the process ID - 1.3.6.1.4.1.9.9.109.1.2.1.1.1
+      help: The overall CPU busy percentage in the last cpmCPUMonInterval period -
+        1.3.6.1.4.1.9.9.109.1.1.1.1.10
       indexes:
       - labelname: cpmCPUTotalIndex
         type: gauge
-      - labelname: cpmProcessPID
-        type: gauge
-    - name: cpmProcessName
-      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.2
-      type: DisplayString
-      help: The name associated with this process - 1.3.6.1.4.1.9.9.109.1.2.1.1.2
-      indexes:
-      - labelname: cpmCPUTotalIndex
-        type: gauge
-      - labelname: cpmProcessPID
-        type: gauge
-    - name: cpmProcessuSecs
-      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.4
+    - name: cpmCPUInterruptMonIntervalValue
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.11
       type: gauge
-      help: Average elapsed CPU time in microseconds when the process was active -
-        1.3.6.1.4.1.9.9.109.1.2.1.1.4
+      help: The overall CPU busy percentage in the interrupt context in the last cpmCPUMonInterval
+        period. - 1.3.6.1.4.1.9.9.109.1.1.1.1.11
       indexes:
       - labelname: cpmCPUTotalIndex
         type: gauge
-      - labelname: cpmProcessPID
-        type: gauge
-    - name: cpmProcessTimeCreated
-      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.5
+    - name: cpmCPUTotal5sec
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.3
       type: gauge
-      help: The time when the process was created - 1.3.6.1.4.1.9.9.109.1.2.1.1.5
+      help: The overall CPU busy percentage in the last 5 second period - 1.3.6.1.4.1.9.9.109.1.1.1.1.3
       indexes:
       - labelname: cpmCPUTotalIndex
         type: gauge
-      - labelname: cpmProcessPID
-        type: gauge
-    - name: cpmProcessAverageUSecs
-      oid: 1.3.6.1.4.1.9.9.109.1.2.1.1.6
+    - name: cpmCPUTotal1min
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.4
       type: gauge
-      help: Average elapsed CPU time in microseconds when the process was active -
-        1.3.6.1.4.1.9.9.109.1.2.1.1.6
+      help: The overall CPU busy percentage in the last 1 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.4
       indexes:
       - labelname: cpmCPUTotalIndex
         type: gauge
-      - labelname: cpmProcessPID
+    - name: cpmCPUTotal5min
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.5
+      type: gauge
+      help: The overall CPU busy percentage in the last 5 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.5
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cpmCPUTotal5secRev
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.6
+      type: gauge
+      help: The overall CPU busy percentage in the last 5 second period - 1.3.6.1.4.1.9.9.109.1.1.1.1.6
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cpmCPUTotal1minRev
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+      type: gauge
+      help: The overall CPU busy percentage in the last 1 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cpmCPUTotal5minRev
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+      type: gauge
+      help: The overall CPU busy percentage in the last 5 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cpmCPUMonInterval
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.9
+      type: gauge
+      help: CPU usage monitoring interval - 1.3.6.1.4.1.9.9.109.1.1.1.1.9
+      indexes:
+      - labelname: cpmCPUTotalIndex
         type: gauge
   interfaces:
     walk:
@@ -852,7 +1042,7 @@ modules:
     - name: ifIndex
       oid: 1.3.6.1.2.1.2.2.1.1
       type: gauge
-      help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+      help: A unique value for each interface - 1.3.6.1.2.1.2.2.1.1
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -866,7 +1056,8 @@ modules:
     - name: ifType
       oid: 1.3.6.1.2.1.2.2.1.3
       type: gauge
-      help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+      help: The type of interface, distinguished according to the physical/link protocol(s)
+        immediately `below' the network layer in the protocol stack. - 1.3.6.1.2.1.2.2.1.3
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -874,16 +1065,16 @@ modules:
         1: other
         2: regular1822
         3: hdh1822
-        4: ddnX25
-        5: rfc877x25
-        6: ethernetCsmacd
-        7: iso88023Csmacd
-        8: iso88024TokenBus
-        9: iso88025TokenRing
-        10: iso88026Man
+        4: ddn-x25
+        5: rfc877-x25
+        6: ethernet-csmacd
+        7: iso88023-csmacd
+        8: iso88024-tokenBus
+        9: iso88025-tokenRing
+        10: iso88026-man
         11: starLan
-        12: proteon10Mbit
-        13: proteon80Mbit
+        12: proteon-10Mbit
+        13: proteon-80Mbit
         14: hyperchannel
         15: fddi
         16: lapb
@@ -896,280 +1087,17 @@ modules:
         23: ppp
         24: softwareLoopback
         25: eon
-        26: ethernet3Mbit
+        26: ethernet-3Mbit
         27: nsip
         28: slip
         29: ultra
         30: ds3
         31: sip
-        32: frameRelay
-        33: rs232
-        34: para
-        35: arcnet
-        36: arcnetPlus
-        37: atm
-        38: miox25
-        39: sonet
-        40: x25ple
-        41: iso88022llc
-        42: localTalk
-        43: smdsDxi
-        44: frameRelayService
-        45: v35
-        46: hssi
-        47: hippi
-        48: modem
-        49: aal5
-        50: sonetPath
-        51: sonetVT
-        52: smdsIcip
-        53: propVirtual
-        54: propMultiplexor
-        55: ieee80212
-        56: fibreChannel
-        57: hippiInterface
-        58: frameRelayInterconnect
-        59: aflane8023
-        60: aflane8025
-        61: cctEmul
-        62: fastEther
-        63: isdn
-        64: v11
-        65: v36
-        66: g703at64k
-        67: g703at2mb
-        68: qllc
-        69: fastEtherFX
-        70: channel
-        71: ieee80211
-        72: ibm370parChan
-        73: escon
-        74: dlsw
-        75: isdns
-        76: isdnu
-        77: lapd
-        78: ipSwitch
-        79: rsrb
-        80: atmLogical
-        81: ds0
-        82: ds0Bundle
-        83: bsc
-        84: async
-        85: cnr
-        86: iso88025Dtr
-        87: eplrs
-        88: arap
-        89: propCnls
-        90: hostPad
-        91: termPad
-        92: frameRelayMPI
-        93: x213
-        94: adsl
-        95: radsl
-        96: sdsl
-        97: vdsl
-        98: iso88025CRFPInt
-        99: myrinet
-        100: voiceEM
-        101: voiceFXO
-        102: voiceFXS
-        103: voiceEncap
-        104: voiceOverIp
-        105: atmDxi
-        106: atmFuni
-        107: atmIma
-        108: pppMultilinkBundle
-        109: ipOverCdlc
-        110: ipOverClaw
-        111: stackToStack
-        112: virtualIpAddress
-        113: mpc
-        114: ipOverAtm
-        115: iso88025Fiber
-        116: tdlc
-        117: gigabitEthernet
-        118: hdlc
-        119: lapf
-        120: v37
-        121: x25mlp
-        122: x25huntGroup
-        123: transpHdlc
-        124: interleave
-        125: fast
-        126: ip
-        127: docsCableMaclayer
-        128: docsCableDownstream
-        129: docsCableUpstream
-        130: a12MppSwitch
-        131: tunnel
-        132: coffee
-        133: ces
-        134: atmSubInterface
-        135: l2vlan
-        136: l3ipvlan
-        137: l3ipxvlan
-        138: digitalPowerline
-        139: mediaMailOverIp
-        140: dtm
-        141: dcn
-        142: ipForward
-        143: msdsl
-        144: ieee1394
-        145: if-gsn
-        146: dvbRccMacLayer
-        147: dvbRccDownstream
-        148: dvbRccUpstream
-        149: atmVirtual
-        150: mplsTunnel
-        151: srp
-        152: voiceOverAtm
-        153: voiceOverFrameRelay
-        154: idsl
-        155: compositeLink
-        156: ss7SigLink
-        157: propWirelessP2P
-        158: frForward
-        159: rfc1483
-        160: usb
-        161: ieee8023adLag
-        162: bgppolicyaccounting
-        163: frf16MfrBundle
-        164: h323Gatekeeper
-        165: h323Proxy
-        166: mpls
-        167: mfSigLink
-        168: hdsl2
-        169: shdsl
-        170: ds1FDL
-        171: pos
-        172: dvbAsiIn
-        173: dvbAsiOut
-        174: plc
-        175: nfas
-        176: tr008
-        177: gr303RDT
-        178: gr303IDT
-        179: isup
-        180: propDocsWirelessMaclayer
-        181: propDocsWirelessDownstream
-        182: propDocsWirelessUpstream
-        183: hiperlan2
-        184: propBWAp2Mp
-        185: sonetOverheadChannel
-        186: digitalWrapperOverheadChannel
-        187: aal2
-        188: radioMAC
-        189: atmRadio
-        190: imt
-        191: mvl
-        192: reachDSL
-        193: frDlciEndPt
-        194: atmVciEndPt
-        195: opticalChannel
-        196: opticalTransport
-        197: propAtm
-        198: voiceOverCable
-        199: infiniband
-        200: teLink
-        201: q2931
-        202: virtualTg
-        203: sipTg
-        204: sipSig
-        205: docsCableUpstreamChannel
-        206: econet
-        207: pon155
-        208: pon622
-        209: bridge
-        210: linegroup
-        211: voiceEMFGD
-        212: voiceFGDEANA
-        213: voiceDID
-        214: mpegTransport
-        215: sixToFour
-        216: gtp
-        217: pdnEtherLoop1
-        218: pdnEtherLoop2
-        219: opticalChannelGroup
-        220: homepna
-        221: gfp
-        222: ciscoISLvlan
-        223: actelisMetaLOOP
-        224: fcipLink
-        225: rpr
-        226: qam
-        227: lmp
-        228: cblVectaStar
-        229: docsCableMCmtsDownstream
-        230: adsl2
-        231: macSecControlledIF
-        232: macSecUncontrolledIF
-        233: aviciOpticalEther
-        234: atmbond
-        235: voiceFGDOS
-        236: mocaVersion1
-        237: ieee80216WMAN
-        238: adsl2plus
-        239: dvbRcsMacLayer
-        240: dvbTdm
-        241: dvbRcsTdma
-        242: x86Laps
-        243: wwanPP
-        244: wwanPP2
-        245: voiceEBS
-        246: ifPwType
-        247: ilan
-        248: pip
-        249: aluELP
-        250: gpon
-        251: vdsl2
-        252: capwapDot11Profile
-        253: capwapDot11Bss
-        254: capwapWtpVirtualRadio
-        255: bits
-        256: docsCableUpstreamRfPort
-        257: cableDownstreamRfPort
-        258: vmwareVirtualNic
-        259: ieee802154
-        260: otnOdu
-        261: otnOtu
-        262: ifVfiType
-        263: g9981
-        264: g9982
-        265: g9983
-        266: aluEpon
-        267: aluEponOnu
-        268: aluEponPhysicalUni
-        269: aluEponLogicalLink
-        270: aluGponOnu
-        271: aluGponPhysicalUni
-        272: vmwareNicTeam
-        277: docsOfdmDownstream
-        278: docsOfdmaUpstream
-        279: gfast
-        280: sdci
-        281: xboxWireless
-        282: fastdsl
-        283: docsCableScte55d1FwdOob
-        284: docsCableScte55d1RetOob
-        285: docsCableScte55d2DsOob
-        286: docsCableScte55d2UsOob
-        287: docsCableNdf
-        288: docsCableNdr
-        289: ptm
-        290: ghn
-        291: otnOtsi
-        292: otnOtuc
-        293: otnOduc
-        294: otnOtsig
-        295: microwaveCarrierTermination
-        296: microwaveRadioLinkTerminal
-        297: ieee8021axDrni
-        298: ax25
-        299: ieee19061nanocom
+        32: frame-relay
     - name: ifMtu
       oid: 1.3.6.1.2.1.2.2.1.4
       type: gauge
-      help: The size of the largest packet which can be sent/received on the interface,
+      help: The size of the largest datagram which can be sent/received on the interface,
         specified in octets - 1.3.6.1.2.1.2.2.1.4
       indexes:
       - labelname: ifIndex
@@ -1185,7 +1113,8 @@ modules:
     - name: ifPhysAddress
       oid: 1.3.6.1.2.1.2.2.1.6
       type: PhysAddress48
-      help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+      help: The interface's address at the protocol layer immediately `below' the
+        network layer in the protocol stack - 1.3.6.1.2.1.2.2.1.6
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -1211,10 +1140,6 @@ modules:
         1: up
         2: down
         3: testing
-        4: unknown
-        5: dormant
-        6: notPresent
-        7: lowerLayerDown
     - name: ifLastChange
       oid: 1.3.6.1.2.1.2.2.1.9
       type: gauge
@@ -1227,15 +1152,14 @@ modules:
       oid: 1.3.6.1.2.1.2.2.1.10
       type: counter
       help: The total number of octets received on the interface, including framing
-        characters - 1.3.6.1.2.1.2.2.1.10
+        characters. - 1.3.6.1.2.1.2.2.1.10
       indexes:
       - labelname: ifIndex
         type: gauge
     - name: ifInUcastPkts
       oid: 1.3.6.1.2.1.2.2.1.11
       type: counter
-      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-        which were not addressed to a multicast or broadcast address at this sub-layer
+      help: The number of subnetwork-unicast packets delivered to a higher-layer protocol.
         - 1.3.6.1.2.1.2.2.1.11
       indexes:
       - labelname: ifIndex
@@ -1243,9 +1167,8 @@ modules:
     - name: ifInNUcastPkts
       oid: 1.3.6.1.2.1.2.2.1.12
       type: counter
-      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-        which were addressed to a multicast or broadcast address at this sub-layer
-        - 1.3.6.1.2.1.2.2.1.12
+      help: The number of non-unicast (i.e., subnetwork- broadcast or subnetwork-multicast)
+        packets delivered to a higher-layer protocol. - 1.3.6.1.2.1.2.2.1.12
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -1261,18 +1184,16 @@ modules:
     - name: ifInErrors
       oid: 1.3.6.1.2.1.2.2.1.14
       type: counter
-      help: For packet-oriented interfaces, the number of inbound packets that contained
-        errors preventing them from being deliverable to a higher-layer protocol -
-        1.3.6.1.2.1.2.2.1.14
+      help: The number of inbound packets that contained errors preventing them from
+        being deliverable to a higher-layer protocol. - 1.3.6.1.2.1.2.2.1.14
       indexes:
       - labelname: ifIndex
         type: gauge
     - name: ifInUnknownProtos
       oid: 1.3.6.1.2.1.2.2.1.15
       type: counter
-      help: For packet-oriented interfaces, the number of packets received via the
-        interface which were discarded because of an unknown or unsupported protocol
-        - 1.3.6.1.2.1.2.2.1.15
+      help: The number of packets received via the interface which were discarded
+        because of an unknown or unsupported protocol. - 1.3.6.1.2.1.2.2.1.15
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -1280,25 +1201,25 @@ modules:
       oid: 1.3.6.1.2.1.2.2.1.16
       type: counter
       help: The total number of octets transmitted out of the interface, including
-        framing characters - 1.3.6.1.2.1.2.2.1.16
+        framing characters. - 1.3.6.1.2.1.2.2.1.16
       indexes:
       - labelname: ifIndex
         type: gauge
     - name: ifOutUcastPkts
       oid: 1.3.6.1.2.1.2.2.1.17
       type: counter
-      help: The total number of packets that higher-level protocols requested be transmitted,
-        and which were not addressed to a multicast or broadcast address at this sub-layer,
-        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+      help: The total number of packets that higher-level protocols requested be transmitted
+        to a subnetwork-unicast address, including those that were discarded or not
+        sent. - 1.3.6.1.2.1.2.2.1.17
       indexes:
       - labelname: ifIndex
         type: gauge
     - name: ifOutNUcastPkts
       oid: 1.3.6.1.2.1.2.2.1.18
       type: counter
-      help: The total number of packets that higher-level protocols requested be transmitted,
-        and which were addressed to a multicast or broadcast address at this sub-layer,
-        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+      help: The total number of packets that higher-level protocols requested be transmitted
+        to a non- unicast (i.e., a subnetwork-broadcast or subnetwork-multicast) address,
+        including those that were discarded or not sent. - 1.3.6.1.2.1.2.2.1.18
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -1313,8 +1234,8 @@ modules:
     - name: ifOutErrors
       oid: 1.3.6.1.2.1.2.2.1.20
       type: counter
-      help: For packet-oriented interfaces, the number of outbound packets that could
-        not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+      help: The number of outbound packets that could not be transmitted because of
+        errors. - 1.3.6.1.2.1.2.2.1.20
       indexes:
       - labelname: ifIndex
         type: gauge
@@ -1504,6 +1425,9 @@ modules:
     - 1.3.6.1.2.1.1.1.0
     - 1.3.6.1.2.1.1.2.0
     - 1.3.6.1.2.1.1.3.0
+    - 1.3.6.1.2.1.1.4.0
+    - 1.3.6.1.2.1.1.5.0
+    - 1.3.6.1.2.1.1.6.0
     metrics:
     - name: sysDescr
       oid: 1.3.6.1.2.1.1.1
@@ -1519,3 +1443,17 @@ modules:
       type: gauge
       help: The time (in hundredths of a second) since the network management portion
         of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+    - name: sysContact
+      oid: 1.3.6.1.2.1.1.4
+      type: DisplayString
+      help: The textual identification of the contact person for this managed node,
+        together with information on how to contact this person. - 1.3.6.1.2.1.1.4
+    - name: sysName
+      oid: 1.3.6.1.2.1.1.5
+      type: DisplayString
+      help: An administratively-assigned name for this managed node - 1.3.6.1.2.1.1.5
+    - name: sysLocation
+      oid: 1.3.6.1.2.1.1.6
+      type: DisplayString
+      help: The physical location of this node (e.g., `telephone closet, 3rd floor').
+        - 1.3.6.1.2.1.1.6
