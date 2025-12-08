@@ -3,7 +3,7 @@ auths:
   admin_auth:
     community: public
     security_level: authPriv
-    username: grafana
+    username: 
     password: 
     auth_protocol: SHA
     priv_protocol: AES
