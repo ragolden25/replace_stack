@@ -1,0 +1,165 @@
+#18 226.1 [INFO] <s> [webpack.Progress] 70% building 560/560 modules 0 active
+#18 226.1 [INFO] <s> [webpack.Progress] 69% building 560/561 modules 1 active /tmp/guacamole-docker-BUILD/guacamole/src/main/frontend/node_modules/babel-loader/lib/index.js??ref--4!/tmp/guacamole-docker-BUILD/guacamole/src/main/frontend/node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js
+#18 226.1 [INFO] <s> [webpack.Progress] 70% building 561/561 modules 0 active
+#18 226.1 [INFO] <s> [webpack.Progress] 70% building 561/561 modules 0 active
+#18 226.1 [INFO] <s> [webpack.Progress] 70% finish module graph
+#18 226.1 [INFO] <s> [webpack.Progress] 70% finish module graph FlagDependencyExportsPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 70% finish module graph WasmFinalizeExportsPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 70% sealing
+#18 226.1 [INFO] <s> [webpack.Progress] 70% sealing WarnCaseSensitiveModulesPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 72% basic dependencies optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 72% dependencies optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 72% dependencies optimization SideEffectsFlagPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 72% dependencies optimization FlagDependencyUsagePlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 73% advanced dependencies optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 73% after dependencies optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 73% after dependencies optimization closure-compiler-plugin
+#18 226.1 [INFO] <s> [webpack.Progress] 71% chunk graph
+#18 226.1 [INFO] <s> [webpack.Progress] 71% after chunk graph
+#18 226.1 [INFO] <s> [webpack.Progress] 71% after chunk graph WebAssemblyModulesPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 74% optimizing
+#18 226.1 [INFO] <s> [webpack.Progress] 74% basic module optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 75% module optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 75% advanced module optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 76% after module optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 76% basic chunk optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 76% basic chunk optimization EnsureChunkConditionsPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 76% basic chunk optimization RemoveParentModulesPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 76% basic chunk optimization RemoveEmptyChunksPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 76% basic chunk optimization MergeDuplicateChunksPlugin
+#18 226.1 [INFO] <s> [webpack.Progress] 77% chunk optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 77% advanced chunk optimization
+#18 226.1 [INFO] <s> [webpack.Progress] 77% advanced chunk optimization SplitChunksPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 77% advanced chunk optimization RemoveEmptyChunksPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 77% after chunk optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 78% module and chunk tree optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 78% module and chunk tree optimization PersistentChildCompilerSingletonPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 78% after module and chunk tree optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 79% basic chunk modules optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 80% chunk modules optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 80% chunk modules optimization ModuleConcatenationPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 80% advanced chunk modules optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 81% after chunk modules optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 81% module reviving
+#18 226.2 [INFO] <s> [webpack.Progress] 81% module reviving RecordIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 82% module order optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 82% module order optimization OccurrenceOrderModuleIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 82% advanced module order optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 83% before module ids
+#18 226.2 [INFO] <s> [webpack.Progress] 83% module ids
+#18 226.2 [INFO] <s> [webpack.Progress] 84% module id optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 84% module id optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 85% chunk reviving
+#18 226.2 [INFO] <s> [webpack.Progress] 85% chunk reviving RecordIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 85% chunk order optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 85% chunk order optimization OccurrenceOrderChunkIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 86% before chunk ids
+#18 226.2 [INFO] <s> [webpack.Progress] 86% chunk id optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 86% chunk id optimization FlagIncludedChunksPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 87% after chunk id optimization
+#18 226.2 [INFO] <s> [webpack.Progress] 87% record modules
+#18 226.2 [INFO] <s> [webpack.Progress] 87% record modules RecordIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 87% record chunks
+#18 226.2 [INFO] <s> [webpack.Progress] 87% record chunks RecordIdsPlugin
+#18 226.2 [INFO] <s> [webpack.Progress] 88% hashing
+#18 226.2 [INFO] <s> [webpack.Progress] 88% after hashing
+#18 226.2 [INFO] <s> [webpack.Progress] 89% record hash
+#18 226.2 [INFO] <s> [webpack.Progress] 89% module assets processing
+#18 226.2 [INFO] <s> [webpack.Progress] 90% chunk assets processing
+#18 226.5 [INFO] <s> [webpack.Progress] 90% additional chunk assets processing
+#18 226.5 [INFO] <s> [webpack.Progress] 91% recording
+#18 226.5 [INFO] <s> [webpack.Progress] 92% additional asset processing
+#18 226.5 [INFO] <s> [webpack.Progress] 92% additional asset processing AngularTemplateCacheWebpackPlugin
+#18 226.5 [INFO] <s> [webpack.Progress] 92% additional asset processing PersistentChildCompilerSingletonPlugin
+#18 226.5 [INFO] <s> [webpack.Progress] 92% chunk asset optimization
+#18 226.5 [INFO] <s> [webpack.Progress] 92% chunk asset optimization closure-compiler-plugin
+#18 229.7 [INFO] undefined:1
+#18 229.7 [INFO]
+#18 229.7 [INFO]
+#18 229.7 [INFO] SyntaxError: Unexpected end of JSON input
+#18 229.7 [INFO]     at JSON.parse (<anonymous>)
+#18 229.7 [INFO]     at ChildProcess.<anonymous> (/tmp/guacamole-docker-BUILD/guacamole/src/main/frontend/node_modules/closure-webpack-plugin/src/closure-compiler-plugin.js:1007:34)
+#18 229.7 [INFO]     at ChildProcess.emit (node:events:517:28)
+#18 229.7 [INFO]     at maybeClose (node:internal/child_process:1098:16)
+#18 229.7 [INFO]     at Socket.<anonymous> (node:internal/child_process:450:11)
+#18 229.7 [INFO]     at Socket.emit (node:events:517:28)
+#18 229.7 [INFO]     at Pipe.<anonymous> (node:net:350:12)
+#18 229.7 [INFO]
+#18 229.7 [INFO] Node.js v18.18.0
+#18 229.8 [INFO] ------------------------------------------------------------------------
+#18 229.8 [INFO] Reactor Summary for guacamole-client 1.6.0:
+#18 229.8 [INFO]
+#18 229.8 [INFO] guacamole-client ................................... SUCCESS [ 31.826 s]
+#18 229.8 [INFO] guacamole-common ................................... SUCCESS [ 21.749 s]
+#18 229.8 [INFO] guacamole-ext ...................................... SUCCESS [ 14.648 s]
+#18 229.8 [INFO] guacamole-common-js ................................ SUCCESS [01:13 min]
+#18 229.8 [INFO] guacamole .......................................... FAILURE [01:25 min]
+#18 229.8 [INFO] extensions ......................................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-ban ................................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-duo ................................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-header .............................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc ................................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc-base ........................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc-mysql .......................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc-postgresql ..................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc-sqlserver ...................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-jdbc-dist ........................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-json ................................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-ldap ................................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-quickconnect ........................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-restrict ............................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso ................................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-base ............................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-cas ............................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-openid .......................... SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-saml ............................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-ssl ............................. SKIPPED
+#18 229.8 [INFO] guacamole-auth-sso-dist ............................ SKIPPED
+#18 229.8 [INFO] guacamole-auth-totp ................................ SKIPPED
+#18 229.8 [INFO] guacamole-history-recording-storage ................ SKIPPED
+#18 229.8 [INFO] guacamole-vault .................................... SKIPPED
+#18 229.8 [INFO] guacamole-vault-base ............................... SKIPPED
+#18 229.8 [INFO] guacamole-vault-ksm ................................ SKIPPED
+#18 229.8 [INFO] guacamole-vault-dist ............................... SKIPPED
+#18 229.8 [INFO] guacamole-display-statistics ....................... SKIPPED
+#18 229.8 [INFO] guacamole-example .................................. SKIPPED
+#18 229.8 [INFO] guacamole-playback-example ......................... SKIPPED
+#18 229.8 [INFO] ------------------------------------------------------------------------
+#18 229.8 [INFO] BUILD FAILURE
+#18 229.8 [INFO] ------------------------------------------------------------------------
+#18 229.8 [INFO] Total time:  03:47 min
+#18 229.8 [INFO] Finished at: 2026-04-27T14:52:32Z
+#18 229.8 [INFO] ------------------------------------------------------------------------
+#18 229.8 [ERROR] Failed to execute goal com.github.eirslett:frontend-maven-plugin:1.11.3:npm (npm-build) on project guacamole: Failed to run task: 'npm run build' failed. org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
+#18 229.8 [ERROR]
+#18 229.8 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+#18 229.8 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+#18 229.8 [ERROR]
+#18 229.8 [ERROR] For more information about the errors and possible solutions, please read the following articles:
+#18 229.8 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+#18 229.8 [ERROR]
+#18 229.8 [ERROR] After correcting the problems, you can resume the build with the command
+#18 229.8 [ERROR]   mvn <args> -rf :guacamole
+#18 ERROR: process "/bin/sh -c /opt/guacamole/bin/build-guacamole.sh \"$BUILD_DIR\" /opt/guacamole" did not complete successfully: exit code: 1
+------
+ > [builder 10/11] RUN /opt/guacamole/bin/build-guacamole.sh "/tmp/guacamole-docker-BUILD" /opt/guacamole:
+229.8 [ERROR] Failed to execute goal com.github.eirslett:frontend-maven-plugin:1.11.3:npm (npm-build) on project guacamole: Failed to run task: 'npm run build' failed. org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
+229.8 [ERROR]
+229.8 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+229.8 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+229.8 [ERROR]
+229.8 [ERROR] For more information about the errors and possible solutions, please read the following articles:
+229.8 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+229.8 [ERROR]
+229.8 [ERROR] After correcting the problems, you can resume the build with the command
+229.8 [ERROR]   mvn <args> -rf :guacamole
+------
+Dockerfile:72
+--------------------
+  70 |
+  71 |     # Run the build itself
+  72 | >>> RUN /opt/guacamole/bin/build-guacamole.sh "$BUILD_DIR" /opt/guacamole
+  73 |
+  74 |     RUN rm -rf /opt/guacamole/build.d /opt/guacamole/bin/build-guacamole.sh
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c /opt/guacamole/bin/build-guacamole.sh \"$BUILD_DIR\" /opt/guacamole" did not complete successfully: exit code: 1
