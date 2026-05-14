@@ -1,0 +1,585 @@
+---
+# Build images for the Avocado (Guacamole) stack on ansible only
+
+# =====================================================================
+# 1.0 Ensure unified build root + quarterly dirs exist on ansible
+# =====================================================================
+
+- name: 1.1 Ensure guacd quarterly build directory exists
+  file:
+    path: "/opt/ansible/files/build/guacd/{{ quarter }}"
+    state: directory
+
+- name: 1.2 Ensure guacamole quarterly build directory exists
+  file:
+    path: "/opt/ansible/files/build/guacamole/{{ quarter }}"
+    state: directory
+
+# =====================================================================
+# 2.0 Build images locally on ansible
+# =====================================================================
+
+- name: 2.1 Build guacd image (local)
+  command:
+    cmd: "/opt/ansible/files/build/guacd/scripts/build_guacd.sh {{ guacd_version }} {{ quarter }}"
+    chdir: "/opt/ansible/files/build/guacd/{{ quarter }}"
+
+- name: 2.2 Build guacamole image (local)
+  command:
+    cmd: "/opt/ansible/files/build/guacamole/scripts/build_guacamole.sh {{ guacamole_version }} {{ quarter }}"
+    chdir: "/opt/ansible/files/build/guacamole/{{ quarter }}"
+
+# =====================================================================
+# 3.0 Cleanup on ansible
+# =====================================================================
+
+- name: 3.1 Prune unused Docker data on ansible
+  command: docker system prune -f
+---
+- name: Ensure quarterly directory exists
+  file:
+    path: "{{ guac_files }}/{{ quarter }}"
+    state: directory
+    mode: "2770"
+  delegate_to: localhost
+
+- name: Remove metadata files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ guac_files }}/{{ quarter }}/metadata.json"
+    - "{{ guac_files }}/{{ quarter }}/build_info.json"
+
+- name: Remove rendered compose/env files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ guac_files }}/{{ quarter }}/docker-compose.yml"
+    - "{{ guac_files }}/{{ quarter }}/.env"
+
+- name: Remove versions.env
+  file:
+    path: "{{ guac_files }}/{{ quarter }}/versions.env"
+    state: absent
+
+- name: Find old tarballs
+  find:
+    paths: "{{ guac_files }}/{{ quarter }}"
+    patterns: "*.tar.gz"
+    recurse: yes
+  register: old_tarballs
+
+- name: Delete old tarballs
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ old_tarballs.files }}"
+---
+# create_directories.yml
+
+# 1. Ensure delivery quarter directory exists
+- name: Ensure delivery quarter directory exists
+  file:
+    path: "{{ guac_files }}/{{ quarter }}"
+    state: directory
+    owner: ansible
+    group: ansible-admin
+    mode: "2770"
+  delegate_to: localhost
+
+# 2. Ensure build quarter directories exist
+- name: Ensure build quarter directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: ansible
+    group: ansible-admin
+    mode: "2770"
+  loop:
+    - "{{ guacamole_build }}/{{ quarter }}"
+    - "{{ guacd_build }}/{{ quarter }}"
+  delegate_to: localhost
+
+# 3. Seed delivery directory from previous quarter (only if it exists)
+- name: Seed delivery directory from previous quarter
+  command: >
+    rsync -a --exclude='*.tar.gz'
+    {{ guac_files }}/{{ previous_quarter }}/
+    {{ guac_files }}/{{ quarter }}/
+  when:
+    - previous_quarter is defined
+    - quarter != previous_quarter
+    - (guac_files + '/' + previous_quarter) is directory
+  delegate_to: localhost
+
+# 4. Seed build directories from previous quarter (only if they exist)
+- name: Seed build directories from previous quarter
+  command: >
+    rsync -a --exclude='*.tar.gz'
+    {{ item }}/{{ previous_quarter }}/
+    {{ item }}/{{ quarter }}/
+  loop:
+    - "{{ guacamole_build }}"
+    - "{{ guacd_build }}"
+  when:
+    - previous_quarter is defined
+    - quarter != previous_quarter
+    - (item + '/' + previous_quarter) is directory
+  delegate_to: localhost
+
+# 5. Remove stale compose and version files (weekly builds must regenerate these)
+- name: Remove stale compose and version files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ guac_files }}/{{ quarter }}/docker-compose.yml"
+    - "{{ guac_files }}/{{ quarter }}/versions.env"
+  delegate_to: localhost
+
+# 6. Ensure component directories exist in delivery tree
+- name: Ensure component directories exist
+  file:
+    path: "{{ guac_files }}/{{ quarter }}/{{ item }}"
+    state: directory
+    owner: ansible
+    group: ansible-admin
+    mode: "2770"
+  loop:
+    - guacamole
+    - guacd
+  delegate_to: localhost
+---
+# detect_versions.yml
+# Detects versions for the entire Guacamole stack and writes:
+#   - versions.env (stack-wide)
+#   - VERSION files (per-component)
+
+###############################################
+# GUACAMOLE + GUACD VERSION DETECTION
+###############################################
+
+- name: Detect latest Guacamole client version
+  command: "{{ guacamole_build }}/scripts/detect_guacamole_version.sh"
+  register: guac_detect
+  delegate_to: localhost
+  run_once: true
+
+- name: Set guacamole_version fact
+  set_fact:
+    guacamole_version: "{{ guac_detect.stdout | trim }}"
+  run_once: true
+
+- name: Detect latest guacd server version
+  command: "{{ guacd_build }}/scripts/detect_guacd_version.sh"
+  register: guacd_detect
+  delegate_to: localhost
+  run_once: true
+
+- name: Set guacd_version fact
+  set_fact:
+    guacd_version: "{{ guacd_detect.stdout | trim }}"
+  run_once: true
+
+###############################################
+# NGINX VERSION DETECTION
+###############################################
+
+- name: Detect latest nginx version
+  command: "/opt/ansible/files/avocado/scripts/detect_nginx_version.sh"
+  register: nginx_detect
+  delegate_to: localhost
+  run_once: true
+
+- name: Set nginx_version fact
+  set_fact:
+    nginx_version: "{{ nginx_detect.stdout | trim }}"
+  run_once: true
+
+###############################################
+# POSTGRES VERSION PREDICTION
+###############################################
+
+- name: Detect current postgres version
+  command: /opt/ansible/files/avocado/scripts/predict_postgres.py
+  register: pg_detect
+
+- set_fact:
+    postgres_version: "{{ pg_detect.stdout }}"
+
+###############################################
+# WRITE versions.env (STACK-WIDE)
+###############################################
+
+- name: Write versions.env for Guacamole stack
+  copy:
+    dest: "/opt/ansible/files/avocado/{{ quarter }}/versions.env"
+    content: |
+      GUACAMOLE_VERSION={{ guacamole_version }}
+      GUACD_VERSION={{ guacd_version }}
+      NGINX_VERSION={{ nginx_version }}
+      POSTGRES_VERSION={{ postgres_version }}
+  delegate_to: localhost
+  run_once: true
+
+###############################################
+# WRITE VERSION FILES (PER-COMPONENT)
+###############################################
+
+- name: Write Guacamole VERSION file
+  copy:
+    dest: "{{ guacamole_build }}/{{ quarter }}/VERSION"
+    content: "{{ guacamole_version }}"
+  delegate_to: localhost
+  run_once: true
+
+- name: Write guacd VERSION file
+  copy:
+    dest: "{{ guacd_build }}/{{ quarter }}/VERSION"
+    content: "{{ guacd_version }}"
+  delegate_to: localhost
+  run_once: true
+---
+# ============================================================
+#  Generate metadata.json and build_info.json for Guac Stack
+# ============================================================
+
+- name: Ensure metadata directory exists
+  file:
+    path: "{{ guac_files }}/{{ quarter }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+
+
+# -------------------------
+# metadata.json
+# -------------------------
+- name: Generate metadata.json
+  copy:
+    dest: "{{ guac_files }}/{{ quarter }}/metadata.json"
+    content: |
+      {
+        "quarter": "{{ quarter }}",
+        "build_timestamp": "{{ lookup('pipe', 'date -Iseconds') }}",
+        "versions": {
+          "guacamole": "{{ guacamole_version }}",
+          "guacd": "{{ guacd_version }}",
+          "nginx": "{{ nginx_version }}",
+          "postgres": "{{ postgres_version }}"
+        }
+      }
+  delegate_to: localhost
+
+
+# -------------------------
+# build_info.json
+# -------------------------
+- name: Generate build_info.json
+  copy:
+    dest: "{{ guac_files }}/{{ quarter }}/build_info.json"
+    content: |
+      {
+        "ansible_version": "{{ ansible_version.full }}",
+        "host": "{{ lookup('pipe', 'hostname') }}",
+        "user": "{{ lookup('pipe', 'id -un') }}",
+        "git_branch": "{{ quarter }}",
+        "os": "{{ lookup('pipe', 'uname -s') }} {{ lookup('pipe', 'uname -r') }}"
+      }
+  delegate_to: localhost
+---
+# build_guac_release main tasks
+# Full quarterly/weekly pipeline with explicit paths and updated build/save tasks
+
+# ---------------------------------------------------------
+# 1. DETERMINE QUARTER AUTOMATICALLY
+# ---------------------------------------------------------
+
+- name: Determine quarter automatically
+  command: /opt/ansible/files/common/scripts/determine_quarters.sh
+  args:
+    chdir: /opt/ansible/files/common
+  register: quarter_info
+  delegate_to: localhost
+  changed_when: false
+  run_once: true
+
+- name: Set raw quarter facts
+  set_fact:
+    quarter: "{{ quarter_info.stdout_lines[0] }}"
+    previous_quarter: "{{ quarter_info.stdout_lines[1] }}"
+  run_once: true
+
+# ---------------------------------------------------------
+# 1A. NORMALIZE + VALIDATE QUARTER VARIABLES (NEW)
+# ---------------------------------------------------------
+
+- name: Normalize quarter variables
+  set_fact:
+    quarter: "{{ quarter | trim }}"
+    previous_quarter: "{{ previous_quarter | trim }}"
+  run_once: true
+
+- name: Fail if quarter and previous_quarter are identical
+  fail:
+    msg: >
+      determine_quarters.sh returned identical values for quarter and previous_quarter:
+      {{ quarter }}. Aborting to prevent recursive nesting.
+  when: quarter == previous_quarter
+  run_once: true
+
+- name: Set is_new_quarter fact
+  set_fact:
+    is_new_quarter: "{{ quarter != previous_quarter }}"
+  run_once: true
+
+# ---------------------------------------------------------
+# 2. CREATE DIRECTORIES + SEED FROM PREVIOUS QUARTER
+# ---------------------------------------------------------
+
+- name: Create and seed quarterly directories
+  include_tasks: create_directories.yml
+
+- name: Update "current" symlink to point to new quarter
+  file:
+    src: "{{ guac_files }}/{{ quarter }}"
+    dest: "{{ guac_files }}/current"
+    state: link
+    force: true
+  run_once: true
+
+# ---------------------------------------------------------
+# 3. CLEAN NEW QUARTER DIRECTORY (ONLY GENERATED FILES)
+# ---------------------------------------------------------
+
+- name: Clean new quarter directory
+  include_tasks: clean_task.yml
+  when: is_new_quarter
+
+# ---------------------------------------------------------
+# 4. DETECT COMPONENT VERSIONS (SCRIPT-BASED)
+# ---------------------------------------------------------
+
+- name: Detect component versions
+  include_tasks: detect_versions.yml
+  when: is_new_quarter
+
+# ---------------------------------------------------------
+# 5. GENERATE METADATA FILES
+# ---------------------------------------------------------
+
+- name: Generate metadata files
+  include_tasks: generate_metadata.yml
+  when: is_new_quarter
+
+# ---------------------------------------------------------
+# 6. BUILD GUACAMOLE + GUACD + NGINX + POSTGRES IMAGES
+# ---------------------------------------------------------
+
+- name: Build images
+  include_tasks: build_images.yml
+
+# ---------------------------------------------------------
+# 7. PULL IMAGES (Hybrid)
+# ---------------------------------------------------------
+
+- name: Pull images
+  include_tasks: pull_images.yml
+
+# ---------------------------------------------------------
+# 8. SAVE IMAGES (SCRIPT-BASED)
+# ---------------------------------------------------------
+
+- name: Save built images
+  include_tasks: save_images.yml
+
+# ---------------------------------------------------------
+# 9. RENDER DOCKER COMPOSE + ENV FILES
+# ---------------------------------------------------------
+
+- name: Read GUACAMOLE_VERSION from versions.env
+  shell: "grep '^GUACAMOLE_VERSION=' {{ guac_files }}/{{ quarter }}/versions.env | cut -d'=' -f2"
+  register: guacamole_version_cmd
+  changed_when: false
+
+- name: Read GUACD_VERSION from versions.env
+  shell: "grep '^GUACD_VERSION=' {{ guac_files }}/{{ quarter }}/versions.env | cut -d'=' -f2"
+  register: guacd_version_cmd
+  changed_when: false
+
+- name: Read NGINX_VERSION from versions.env
+  shell: "grep '^NGINX_VERSION=' {{ guac_files }}/{{ quarter }}/versions.env | cut -d'=' -f2"
+  register: nginx_version_cmd
+  changed_when: false
+
+- name: Read POSTGRES_VERSION from versions.env
+  shell: "grep '^POSTGRES_VERSION=' {{ guac_files }}/{{ quarter }}/versions.env | cut -d'=' -f2"
+  register: postgres_version_cmd
+  changed_when: false
+
+- name: Promote version vars into facts
+  set_fact:
+    GUACAMOLE_VERSION: "{{ guacamole_version_cmd.stdout }}"
+    GUACD_VERSION: "{{ guacd_version_cmd.stdout }}"
+    NGINX_VERSION: "{{ nginx_version_cmd.stdout }}"
+    POSTGRES_VERSION: "{{ postgres_version_cmd.stdout }}"
+
+- name: Render docker-compose.yml and .env
+  include_tasks: render_compose.yml
+
+# ---------------------------------------------------------
+# 10. FINAL PERMISSIONS NORMALIZATION
+# ---------------------------------------------------------
+
+- name: Normalize permissions
+  include_tasks: set_permissions.yml
+---
+
+# Pull NGINX hardened image (weekly, retry)
+# Script expects ONLY the version.
+- name: Pull NGINX hardened image (weekly, retry)
+  command: "{{ guac_files }}/scripts/pull_nginx_image.sh {{ nginx_version }}"
+  register: nginx_pull
+  retries: 3
+  delay: 10
+  until: nginx_pull.rc == 0
+  delegate_to: localhost
+  run_once: true
+
+# Pull Postgres hardened image (weekly, retry)
+# Script expects NO arguments — it reads version internally.
+- name: Pull Postgres hardened image (weekly, retry)
+  command: "{{ guac_files }}/scripts/pull_postgres_image.py"
+  args:
+    chdir: "{{ guac_files }}/postgres"
+  register: postgres_pull
+  retries: 3
+  delay: 10
+  until: postgres_pull.rc == 0
+  delegate_to: localhost
+  run_once: true
+---
+- name: Render docker-compose.yml
+  template:
+    src: "{{ guac_files }}/{{ quarter }}/docker-compose.yml.j2"
+    dest: "{{ guac_files }}/{{ quarter }}/docker-compose.yml"
+    owner: ansible
+    group: ansible-admin
+    mode: "0660"
+  delegate_to: localhost
+
+- name: Render .env
+  template:
+    src: "{{ guac_files }}/{{ quarter }}/compose.env.j2"
+    dest: "{{ guac_files }}/{{ quarter }}/.env"
+    owner: ansible
+    group: ansible-admin
+    mode: "0660"
+  delegate_to: localhost
+---
+# =====================================================================
+# 1.0 Read versions (local)
+# =====================================================================
+
+- name: 1.1 Read guacd version
+  slurp:
+    src: "/opt/ansible/files/build/guacd/{{ quarter }}/VERSION"
+  register: guacd_version_raw
+
+- name: 1.2 Read guacamole version
+  slurp:
+    src: "/opt/ansible/files/build/guacamole/{{ quarter }}/VERSION"
+  register: guacamole_version_raw
+
+- set_fact:
+    guacd_version: "{{ guacd_version_raw.content | b64decode | trim }}"
+    guacamole_version: "{{ guacamole_version_raw.content | b64decode | trim }}"
+
+# =====================================================================
+# 2.0 Save Docker images to tar.gz (local)
+# =====================================================================
+
+- name: 2.1 Save guacd image
+  command:
+    cmd: >
+      docker save nucleus/guacd:{{ guacd_version }}
+      -o guacd-{{ guacd_version }}.tar.gz
+    chdir: "/opt/ansible/files/build/guacd/{{ quarter }}"
+
+- name: 2.2 Save guacamole image
+  command:
+    cmd: >
+      docker save nucleus/guacamole:{{ guacamole_version }}
+      -o guacamole-{{ guacamole_version }}.tar.gz
+    chdir: "/opt/ansible/files/build/guacamole/{{ quarter }}"
+
+# =====================================================================
+# 3.0 Move artifacts into avocado tree (local copy)
+# =====================================================================
+
+- name: 3.1 Ensure quarterly artifact directory exists
+  file:
+    path: "/opt/ansible/files/avocado/{{ quarter }}/images"
+    state: directory
+
+- name: 3.2 Copy guacd artifact into avocado images
+  copy:
+    src: "/opt/ansible/files/build/guacd/{{ quarter }}/guacd-{{ guacd_version }}.tar.gz"
+    dest: "/opt/ansible/files/avocado/{{ quarter }}/images/guacd-{{ guacd_version }}.tar.gz"
+    remote_src: yes
+
+- name: 3.3 Copy guacamole artifact into avocado images
+  copy:
+    src: "/opt/ansible/files/build/guacamole/{{ quarter }}/guacamole-{{ guacamole_version }}.tar.gz"
+    dest: "/opt/ansible/files/avocado/{{ quarter }}/images/guacamole-{{ guacamole_version }}.tar.gz"
+    remote_src: yes
+
+# =====================================================================
+# 4.0 Save nginx and postgres (already local)
+# =====================================================================
+
+- name: 4.1 Save nginx image
+  command:
+    cmd: "/opt/ansible/files/avocado/scripts/save_nginx_image.sh {{ nginx_version }} {{ quarter }}"
+
+- name: 4.2 Save postgres image
+  command:
+    cmd: "/opt/ansible/files/avocado/scripts/save_postgres_image.sh {{ postgres_version }} {{ quarter }}"
+
+# =====================================================================
+# 5.0 Cleanup on ansible
+# =====================================================================
+
+- name: 5.1 Prune unused Docker data on ansible
+  command: docker system prune -f
+---
+- name: Set directory permissions
+  file:
+    path: "{{ guac_files }}/{{ quarter }}"
+    state: directory
+    owner: ansible
+    group: ansible-admin
+    mode: "2770"
+    recurse: yes
+  delegate_to: localhost
+  become: true
+
+- name: Find files
+  find:
+    paths: "{{ guac_files }}/{{ quarter }}"
+    file_type: file
+  register: found_files
+  delegate_to: localhost
+  become: true
+
+- name: Apply file permissions
+  file:
+    path: "{{ item.path }}"
+    owner: ansible
+    group: ansible-admin
+    mode: "0660"
+  loop: "{{ found_files.files }}"
+  delegate_to: localhost
+  become: true
