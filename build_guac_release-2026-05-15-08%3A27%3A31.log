@@ -1,0 +1,1806 @@
+=== Build started at 2026-05-15-08:27:31 ===
+ansible-playbook [core 2.14.18]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.25 (main, Apr 17 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-11)] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+Using /etc/ansible/ansible.cfg as config file
+host_list declined parsing /opt/ansible/vars/inventory.ini as it did not pass its verify_file() method
+script declined parsing /opt/ansible/vars/inventory.ini as it did not pass its verify_file() method
+auto declined parsing /opt/ansible/vars/inventory.ini as it did not pass its verify_file() method
+yaml declined parsing /opt/ansible/vars/inventory.ini as it did not pass its verify_file() method
+Parsed /opt/ansible/vars/inventory.ini inventory source with ini plugin
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+
+PLAYBOOK: build_guac_release.yml ***********************************************
+1 plays in build_guac_release.yml
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+PLAY [localhost] ***************************************************************
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Determine quarter automatically] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:8
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658 `" && echo ansible-tmp-1778848052.3611085-7962-2890560576658="` echo /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpbaql0hal TO /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658/ /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848052.3611085-7962-2890560576658/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => {
+    "changed": false,
+    "cmd": [
+        "/opt/ansible/files/common/scripts/determine_quarters.sh"
+    ],
+    "delta": "0:00:00.022991",
+    "end": "2026-05-15 08:27:32.856802",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/common/scripts/determine_quarters.sh",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": "/opt/ansible/files/common",
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2026-05-15 08:27:32.833811",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "quarter=fy26q3\nprevious_quarter=fy26q2",
+    "stdout_lines": [
+        "quarter=fy26q3",
+        "previous_quarter=fy26q2"
+    ]
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Set raw quarter facts] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:17
+ok: [localhost] => {
+    "ansible_facts": {
+        "previous_quarter": "previous_quarter=fy26q2",
+        "quarter": "quarter=fy26q3"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Normalize quarter variables] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:26
+ok: [localhost] => {
+    "ansible_facts": {
+        "previous_quarter": "previous_quarter=fy26q2",
+        "quarter": "quarter=fy26q3"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Fail if quarter and previous_quarter are identical] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:32
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Set is_new_quarter fact] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:40
+ok: [localhost] => {
+    "ansible_facts": {
+        "is_new_quarter": true
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Create and seed quarterly directories] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:48
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+included: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml for localhost
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure delivery quarter directory exists] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:5
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003 `" && echo ansible-tmp-1778848053.3970928-7999-172073401146003="` echo /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpiuxvmj7g TO /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003/ /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848053.3970928-7999-172073401146003/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "diff": {
+        "after": {
+            "group": 1002,
+            "mode": "02770",
+            "owner": 1000,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "state": "directory"
+        },
+        "before": {
+            "group": 0,
+            "mode": "0700",
+            "owner": 0,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "state": "absent"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": "ansible-admin",
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": "ansible",
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 6,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure build quarter directories exist] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:15
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158 `" && echo ansible-tmp-1778848053.9905422-8015-225284696411158="` echo /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmps4t7_p1e TO /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158/ /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848053.9905422-8015-225284696411158/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=/opt/ansible/files/build/guacamole/quarter=fy26q3) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "group": 1002,
+            "mode": "02770",
+            "owner": 1000,
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+            "state": "directory"
+        },
+        "before": {
+            "group": 0,
+            "mode": "0700",
+            "owner": 0,
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+            "state": "absent"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": "ansible-admin",
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": "ansible",
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 6,
+    "state": "directory",
+    "uid": 1000
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277 `" && echo ansible-tmp-1778848054.2908905-8015-117409839919277="` echo /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpyxw542d_ TO /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277/ /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848054.2908905-8015-117409839919277/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=/opt/ansible/files/build/guacd/quarter=fy26q3) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "group": 1002,
+            "mode": "02770",
+            "owner": 1000,
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+            "state": "directory"
+        },
+        "before": {
+            "group": 0,
+            "mode": "0700",
+            "owner": 0,
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+            "state": "absent"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": "ansible-admin",
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": "ansible",
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 6,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Seed delivery directory from previous quarter] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:28
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Seed build directories from previous quarter] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:40
+skipping: [localhost] => (item=/opt/ansible/files/build/guacamole)  => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/opt/ansible/files/build/guacamole",
+    "skip_reason": "Conditional result was False"
+}
+skipping: [localhost] => (item=/opt/ansible/files/build/guacd)  => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "/opt/ansible/files/build/guacd",
+    "skip_reason": "Conditional result was False"
+}
+skipping: [localhost] => {
+    "changed": false,
+    "msg": "All items skipped"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Remove stale compose and version files] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:55
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631 `" && echo ansible-tmp-1778848054.9748623-8049-22953257957631="` echo /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmps_6wk87u TO /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631/ /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848054.9748623-8049-22953257957631/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+    "state": "absent"
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008 `" && echo ansible-tmp-1778848055.2666698-8049-71128056577008="` echo /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpy909a6if TO /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008/ /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848055.2666698-8049-71128056577008/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/versions.env) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+    "state": "absent"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure component directories exist] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/create_directories.yml:65
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840 `" && echo ansible-tmp-1778848055.6577516-8079-40300964807840="` echo /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpcoqb2vzd TO /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840/ /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848055.6577516-8079-40300964807840/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=guacamole) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "mode": "02770",
+            "owner": 1000,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacamole",
+            "state": "directory"
+        },
+        "before": {
+            "mode": "02700",
+            "owner": 0,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacamole",
+            "state": "absent"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": "ansible-admin",
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": "ansible",
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacamole",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "guacamole",
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacamole",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 6,
+    "state": "directory",
+    "uid": 1000
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533 `" && echo ansible-tmp-1778848056.0136325-8079-87332317426533="` echo /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp48im5uhd TO /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533/ /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848056.0136325-8079-87332317426533/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=guacd) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "mode": "02770",
+            "owner": 1000,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacd",
+            "state": "directory"
+        },
+        "before": {
+            "mode": "02700",
+            "owner": 0,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacd",
+            "state": "absent"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": "ansible-admin",
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": "ansible",
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacd",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "guacd",
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/guacd",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 6,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Update "current" symlink to point to new quarter] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:51
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981 `" && echo ansible-tmp-1778848056.390208-8109-152935118550981="` echo /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp9u0rafdo TO /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981/ /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848056.390208-8109-152935118550981/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "dest": "/opt/ansible/files/avocado/current",
+    "diff": {
+        "after": {
+            "path": "/opt/ansible/files/avocado/current",
+            "src": "/opt/ansible/files/avocado/quarter=fy26q3"
+        },
+        "before": {
+            "path": "/opt/ansible/files/avocado/current",
+            "src": "/opt/ansible/files/avocado/fy26q3"
+        }
+    },
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "dest": "/opt/ansible/files/avocado/current",
+            "follow": true,
+            "force": true,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/current",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "state": "link",
+            "unsafe_writes": false
+        }
+    },
+    "mode": "0777",
+    "owner": "root",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 41,
+    "src": "/opt/ansible/files/avocado/quarter=fy26q3",
+    "state": "link",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Clean new quarter directory] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:62
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+included: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml for localhost
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure quarterly directory exists] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:2
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374 `" && echo ansible-tmp-1778848056.9362493-8127-243190710790374="` echo /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpda7jhf2d TO /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374/ /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848056.9362493-8127-243190710790374/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => {
+    "changed": false,
+    "diff": {
+        "after": {
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3"
+        },
+        "before": {
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": "2770",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "mode": "02770",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 36,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Remove metadata files] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:9
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508 `" && echo ansible-tmp-1778848057.3544986-8143-26761805026508="` echo /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpfz4m6rez TO /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508/ /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848057.3544986-8143-26761805026508/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/metadata.json) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/metadata.json",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/metadata.json",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/metadata.json",
+    "state": "absent"
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525 `" && echo ansible-tmp-1778848057.6355789-8143-52334869470525="` echo /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpcwnclx_b TO /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525/ /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848057.6355789-8143-52334869470525/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/build_info.json) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/build_info.json",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/build_info.json",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/build_info.json",
+    "state": "absent"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Remove rendered compose/env files] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:17
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109 `" && echo ansible-tmp-1778848057.9792564-8173-266550151511109="` echo /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp1as8igr_ TO /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109/ /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848057.9792564-8173-266550151511109/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/docker-compose.yml",
+    "state": "absent"
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607 `" && echo ansible-tmp-1778848058.3035731-8173-195944162382607="` echo /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpazn616wx TO /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607/ /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848058.3035731-8173-195944162382607/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => (item=/opt/ansible/files/avocado/quarter=fy26q3/.env) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/.env",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/avocado/quarter=fy26q3/.env",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/.env",
+    "state": "absent"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Remove versions.env] *****
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:25
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376 `" && echo ansible-tmp-1778848058.672745-8203-148121929022376="` echo /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpt6jae8pu TO /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376/ /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848058.672745-8203-148121929022376/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": null,
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "absent",
+            "unsafe_writes": false
+        }
+    },
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+    "state": "absent"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Find old tarballs] *******
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:30
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202 `" && echo ansible-tmp-1778848059.0577588-8219-48053216693202="` echo /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/find.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpq8pe1o4_ TO /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202/AnsiballZ_find.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202/ /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202/AnsiballZ_find.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202/AnsiballZ_find.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848059.0577588-8219-48053216693202/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => {
+    "changed": false,
+    "examined": 2,
+    "files": [],
+    "invocation": {
+        "module_args": {
+            "age": null,
+            "age_stamp": "mtime",
+            "contains": null,
+            "depth": null,
+            "excludes": null,
+            "file_type": "file",
+            "follow": false,
+            "get_checksum": false,
+            "hidden": false,
+            "paths": [
+                "/opt/ansible/files/avocado/quarter=fy26q3"
+            ],
+            "patterns": [
+                "*.tar.gz"
+            ],
+            "read_whole_file": false,
+            "recurse": true,
+            "size": null,
+            "use_regex": false
+        }
+    },
+    "matched": 0,
+    "msg": "All paths examined",
+    "skipped_paths": {}
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Delete old tarballs] *****
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/clean_task.yml:37
+skipping: [localhost] => {
+    "changed": false,
+    "skipped_reason": "No items in the list"
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Detect component versions] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:69
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+included: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml for localhost
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Detect latest Guacamole client version] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:11
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923 `" && echo ansible-tmp-1778848059.75475-8239-182870170340923="` echo /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpnj0vypr8 TO /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923/ /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848059.75475-8239-182870170340923/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/build/guacamole/scripts/detect_guacamole_version.sh"
+    ],
+    "delta": "0:00:05.364440",
+    "end": "2026-05-15 08:27:45.353811",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/build/guacamole/scripts/detect_guacamole_version.sh",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2026-05-15 08:27:39.989371",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "1.6.0",
+    "stdout_lines": [
+        "1.6.0"
+    ]
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Set guacamole_version fact] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:17
+ok: [localhost] => {
+    "ansible_facts": {
+        "guacamole_version": "1.6.0"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Detect latest guacd server version] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:26
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193 `" && echo ansible-tmp-1778848065.6395664-8264-248526639183193="` echo /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmps_cc7xa0 TO /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193/ /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848065.6395664-8264-248526639183193/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/build/guacd/scripts/detect_guacd_version.sh"
+    ],
+    "delta": "0:00:05.319230",
+    "end": "2026-05-15 08:27:51.216341",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/build/guacd/scripts/detect_guacd_version.sh",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2026-05-15 08:27:45.897111",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "1.6.0",
+    "stdout_lines": [
+        "1.6.0"
+    ]
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Set guacd_version fact] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:32
+ok: [localhost] => {
+    "ansible_facts": {
+        "guacd_version": "1.6.0"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Detect latest nginx version] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:41
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529 `" && echo ansible-tmp-1778848071.4983127-8289-195179439451529="` echo /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp7cnjnqf0 TO /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529/ /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848071.4983127-8289-195179439451529/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/avocado/scripts/detect_nginx_version.sh"
+    ],
+    "delta": "0:00:11.913668",
+    "end": "2026-05-15 08:28:03.645371",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/avocado/scripts/detect_nginx_version.sh",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2026-05-15 08:27:51.731703",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "1.31.0",
+    "stdout_lines": [
+        "1.31.0"
+    ]
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Set nginx_version fact] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:47
+ok: [localhost] => {
+    "ansible_facts": {
+        "nginx_version": "1.31.0"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Detect current postgres version] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:56
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950 `" && echo ansible-tmp-1778848083.9290826-8322-68888438936950="` echo /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp9gjs9z0g TO /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950/ /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848083.9290826-8322-68888438936950/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/avocado/scripts/predict_postgres.py"
+    ],
+    "delta": "0:00:00.088887",
+    "end": "2026-05-15 08:28:04.258836",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/avocado/scripts/predict_postgres.py",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2026-05-15 08:28:04.169949",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "18.3",
+    "stdout_lines": [
+        "18.3"
+    ]
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : set_fact] ****************
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:62
+ok: [localhost] => {
+    "ansible_facts": {
+        "postgres_version": "18.3"
+    },
+    "changed": false
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Write versions.env for Guacamole stack] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:70
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605 `" && echo ansible-tmp-1778848084.496255-8341-62214390247605="` echo /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp9ii8xx1o TO /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_stat.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/ /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpqy5euseo TO /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/source
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/ /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/source && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/copy.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp607sdaef TO /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_copy.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/ /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "checksum": "31b3cb21e623b453d16353cc7437e103edff6181",
+    "dest": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+    "diff": [],
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_original_basename": "tmpqy5euseo",
+            "attributes": null,
+            "backup": false,
+            "checksum": "31b3cb21e623b453d16353cc7437e103edff6181",
+            "content": null,
+            "dest": "/opt/ansible/files/avocado/quarter=fy26q3/versions.env",
+            "directory_mode": null,
+            "follow": false,
+            "force": true,
+            "group": null,
+            "local_follow": null,
+            "mode": null,
+            "owner": null,
+            "remote_src": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/source",
+            "unsafe_writes": false,
+            "validate": null
+        }
+    },
+    "md5sum": "b7b41eb4bbb50f8cd504513cd0e3f4b7",
+    "mode": "0600",
+    "owner": "root",
+    "secontext": "system_u:object_r:usr_t:s0",
+    "size": 87,
+    "src": "/root/.ansible/tmp/ansible-tmp-1778848084.496255-8341-62214390247605/source",
+    "state": "file",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Write Guacamole VERSION file] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:85
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418 `" && echo ansible-tmp-1778848085.5275068-8363-251120263060418="` echo /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmplrx_1snp TO /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_stat.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/ /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp6ooss78o TO /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/source
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/ /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/source && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/copy.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp_vi3xx65 TO /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_copy.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/ /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "checksum": "40e124dcbde01bd9224f2d58906f34c83d1441ae",
+    "dest": "/opt/ansible/files/build/guacamole/quarter=fy26q3/VERSION",
+    "diff": [],
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_original_basename": "tmp6ooss78o",
+            "attributes": null,
+            "backup": false,
+            "checksum": "40e124dcbde01bd9224f2d58906f34c83d1441ae",
+            "content": null,
+            "dest": "/opt/ansible/files/build/guacamole/quarter=fy26q3/VERSION",
+            "directory_mode": null,
+            "follow": false,
+            "force": true,
+            "group": null,
+            "local_follow": null,
+            "mode": null,
+            "owner": null,
+            "remote_src": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/source",
+            "unsafe_writes": false,
+            "validate": null
+        }
+    },
+    "md5sum": "ca9f0d77f73d954e88e6ab43539ac7cb",
+    "mode": "0600",
+    "owner": "root",
+    "secontext": "system_u:object_r:usr_t:s0",
+    "size": 5,
+    "src": "/root/.ansible/tmp/ansible-tmp-1778848085.5275068-8363-251120263060418/source",
+    "state": "file",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Write guacd VERSION file] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/detect_versions.yml:92
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896 `" && echo ansible-tmp-1778848086.1889994-8385-244851888210896="` echo /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpgzkpyuzc TO /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_stat.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/ /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp4s4eth3h TO /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/source
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/ /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/source && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/copy.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpuoy_z3z6 TO /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_copy.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/ /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "checksum": "40e124dcbde01bd9224f2d58906f34c83d1441ae",
+    "dest": "/opt/ansible/files/build/guacd/quarter=fy26q3/VERSION",
+    "diff": [],
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_original_basename": "tmp4s4eth3h",
+            "attributes": null,
+            "backup": false,
+            "checksum": "40e124dcbde01bd9224f2d58906f34c83d1441ae",
+            "content": null,
+            "dest": "/opt/ansible/files/build/guacd/quarter=fy26q3/VERSION",
+            "directory_mode": null,
+            "follow": false,
+            "force": true,
+            "group": null,
+            "local_follow": null,
+            "mode": null,
+            "owner": null,
+            "remote_src": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/source",
+            "unsafe_writes": false,
+            "validate": null
+        }
+    },
+    "md5sum": "ca9f0d77f73d954e88e6ab43539ac7cb",
+    "mode": "0600",
+    "owner": "root",
+    "secontext": "system_u:object_r:usr_t:s0",
+    "size": 5,
+    "src": "/root/.ansible/tmp/ansible-tmp-1778848086.1889994-8385-244851888210896/source",
+    "state": "file",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Generate metadata files] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:76
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+included: /opt/ansible/nucleus/roles/build_guac_release/tasks/generate_metadata.yml for localhost
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure metadata directory exists] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/generate_metadata.yml:6
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152 `" && echo ansible-tmp-1778848086.925923-8409-204967230395152="` echo /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpfm91102f TO /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152/ /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848086.925923-8409-204967230395152/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "diff": {
+        "after": {
+            "mode": "0755",
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3"
+        },
+        "before": {
+            "mode": "02770",
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": "0755",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "mode": "0755",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/avocado/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 56,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Generate metadata.json] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/generate_metadata.yml:17
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196 `" && echo ansible-tmp-1778848087.3436863-8425-153172596363196="` echo /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp1wpm1l7h TO /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_stat.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/ /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpszdvywgp TO /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/source
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/ /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/source && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/copy.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp795jxbvt TO /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_copy.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/ /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "checksum": "f7b8aca11d84621dc1227e226f8c61db30ab3bdc",
+    "dest": "/opt/ansible/files/avocado/quarter=fy26q3/metadata.json",
+    "diff": [],
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_original_basename": "tmpszdvywgp",
+            "attributes": null,
+            "backup": false,
+            "checksum": "f7b8aca11d84621dc1227e226f8c61db30ab3bdc",
+            "content": null,
+            "dest": "/opt/ansible/files/avocado/quarter=fy26q3/metadata.json",
+            "directory_mode": null,
+            "follow": false,
+            "force": true,
+            "group": null,
+            "local_follow": null,
+            "mode": null,
+            "owner": null,
+            "remote_src": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/source",
+            "unsafe_writes": false,
+            "validate": null
+        }
+    },
+    "md5sum": "6784313195eacd0681b022bde6f8b011",
+    "mode": "0600",
+    "owner": "root",
+    "secontext": "system_u:object_r:usr_t:s0",
+    "size": 170,
+    "src": "/root/.ansible/tmp/ansible-tmp-1778848087.3436863-8425-153172596363196/source",
+    "state": "file",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Generate build_info.json] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/generate_metadata.yml:37
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064 `" && echo ansible-tmp-1778848088.0425663-8448-122486042781064="` echo /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpxmlg1716 TO /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_stat.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/ /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_stat.py && sleep 0'
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpsxu58d9q TO /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/source
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/ /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/source && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/copy.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpkmt2pe25 TO /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_copy.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/ /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/AnsiballZ_copy.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "checksum": "c5b4177deb75e8d7ed7ecb6c44059e4e9cce2fb0",
+    "dest": "/opt/ansible/files/avocado/quarter=fy26q3/build_info.json",
+    "diff": [],
+    "gid": 0,
+    "group": "root",
+    "invocation": {
+        "module_args": {
+            "_original_basename": "tmpsxu58d9q",
+            "attributes": null,
+            "backup": false,
+            "checksum": "c5b4177deb75e8d7ed7ecb6c44059e4e9cce2fb0",
+            "content": null,
+            "dest": "/opt/ansible/files/avocado/quarter=fy26q3/build_info.json",
+            "directory_mode": null,
+            "follow": false,
+            "force": true,
+            "group": null,
+            "local_follow": null,
+            "mode": null,
+            "owner": null,
+            "remote_src": null,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": "/root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/source",
+            "unsafe_writes": false,
+            "validate": null
+        }
+    },
+    "md5sum": "c6a404d273c12bdc1097f5c0f559c69e",
+    "mode": "0600",
+    "owner": "root",
+    "secontext": "system_u:object_r:usr_t:s0",
+    "size": 141,
+    "src": "/root/.ansible/tmp/ansible-tmp-1778848088.0425663-8448-122486042781064/source",
+    "state": "file",
+    "uid": 0
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Build images] ************
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/main.yml:83
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+included: /opt/ansible/nucleus/roles/build_guac_release/tasks/build_images.yml for localhost
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Ensure quarterly build directories exist] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/build_images.yml:10
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871 `" && echo ansible-tmp-1778848088.7912405-8476-265649509364871="` echo /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmplaf_zgkf TO /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871/ /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848088.7912405-8476-265649509364871/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=/opt/ansible/files/build/guacd/quarter=fy26q3) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "mode": "0755",
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3"
+        },
+        "before": {
+            "mode": "02770",
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": "0755",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+    "mode": "0755",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 21,
+    "state": "directory",
+    "uid": 1000
+}
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724 `" && echo ansible-tmp-1778848089.0934474-8476-241793967236724="` echo /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/file.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmpeqwuvmiq TO /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724/AnsiballZ_file.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724/ /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724/AnsiballZ_file.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848089.0934474-8476-241793967236724/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => (item=/opt/ansible/files/build/guacamole/quarter=fy26q3) => {
+    "ansible_loop_var": "item",
+    "changed": true,
+    "diff": {
+        "after": {
+            "mode": "0755",
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3"
+        },
+        "before": {
+            "mode": "02770",
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3"
+        }
+    },
+    "gid": 1002,
+    "group": "ansible-admin",
+    "invocation": {
+        "module_args": {
+            "_diff_peek": null,
+            "_original_basename": null,
+            "access_time": null,
+            "access_time_format": "%Y%m%d%H%M.%S",
+            "attributes": null,
+            "follow": true,
+            "force": false,
+            "group": null,
+            "mode": "0755",
+            "modification_time": null,
+            "modification_time_format": "%Y%m%d%H%M.%S",
+            "owner": null,
+            "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+            "recurse": false,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "state": "directory",
+            "unsafe_writes": false
+        }
+    },
+    "item": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+    "mode": "0755",
+    "owner": "ansible",
+    "path": "/opt/ansible/files/build/guacamole/quarter=fy26q3",
+    "secontext": "unconfined_u:object_r:usr_t:s0",
+    "size": 21,
+    "state": "directory",
+    "uid": 1000
+}
+Read vars_file '/opt/ansible/vars/master_vars.yml'
+Read vars_file '/opt/ansible/vars/vault.yml'
+
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Build guacd image (local)] ***
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/build_images.yml:20
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: root
+<192.168.110.175> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890 `" && echo ansible-tmp-1778848089.50859-8506-105685538703890="` echo /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /root/.ansible/tmp/ansible-local-7957nqegnjso/tmp3shz4txx TO /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890/ /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1778848089.50859-8506-105685538703890/ > /dev/null 2>&1 && sleep 0'
+fatal: [localhost]: FAILED! => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/build/guacd/scripts/build_guacd.sh",
+        "1.6.0",
+        "quarter=fy26q3"
+    ],
+    "delta": "0:00:00.877389",
+    "end": "2026-05-15 08:28:10.612826",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/build/guacd/scripts/build_guacd.sh 1.6.0 quarter=fy26q3",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": "/opt/ansible/files/build/guacd/quarter=fy26q3",
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "non-zero return code",
+    "rc": 1,
+    "start": "2026-05-15 08:28:09.735437",
+    "stderr": "#0 building with \"default\" instance using docker driver\n\n#1 [internal] load build definition from Dockerfile.guacd\n#1 transferring dockerfile: 2B done\n#1 DONE 0.0s\nERROR: failed to build: failed to solve: failed to read dockerfile: open Dockerfile.guacd: no such file or directory",
+    "stderr_lines": [
+        "#0 building with \"default\" instance using docker driver",
+        "",
+        "#1 [internal] load build definition from Dockerfile.guacd",
+        "#1 transferring dockerfile: 2B done",
+        "#1 DONE 0.0s",
+        "ERROR: failed to build: failed to solve: failed to read dockerfile: open Dockerfile.guacd: no such file or directory"
+    ],
+    "stdout": "Building guacd 1.6.0 for quarter=fy26q3 in /opt/ansible/files/build/guacd/quarter=fy26q3...",
+    "stdout_lines": [
+        "Building guacd 1.6.0 for quarter=fy26q3 in /opt/ansible/files/build/guacd/quarter=fy26q3..."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=34   changed=15   unreachable=0    failed=1    skipped=4    rescued=0    ignored=0   
+
+=== Build finished at 2026-05-15-08:28:10 ===
+=== Total time: 0 minutes 39 seconds ===
