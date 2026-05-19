@@ -1,0 +1,2968 @@
+.
+├── debian13_fips.tar.gz
+├── debian13fips.tar.gz
+├── Dockerfile.guacamole
+├── Dockerfile.guacamole.functional
+├── Dockerfile.tomcat.functional
+├── Dockerfile.tomcat.hardened
+├── guacamole-1.6.0.tar.gz
+├── guacamole-1.6.0.war
+├── guacamole-1.6.0.war.asc
+├── guacamole-1.6.0.war.sha256
+├── guacamole.env
+├── guacamole.quarterly-tree
+├── guac_build.log
+├── scripts
+│   ├── build_guacamole_functional.sh
+│   ├── build_tomcat_functional.sh
+│   ├── build_tomcat_hardened.sh
+│   ├── detect_guacamole_version.sh
+│   └── prepare_guacamole_src.sh
+├── src
+│   ├── CONTRIBUTING
+│   ├── doc
+│   │   ├── guacamole-branding-example
+│   │   │   ├── css
+│   │   │   │   ├── 0-font-raleway.css
+│   │   │   │   └── example.css
+│   │   │   ├── guac-manifest.json
+│   │   │   ├── html
+│   │   │   │   └── warning.html
+│   │   │   ├── licenses
+│   │   │   │   ├── LICENSE
+│   │   │   │   └── NOTICE
+│   │   │   ├── README
+│   │   │   ├── resources
+│   │   │   │   ├── fonts
+│   │   │   │   │   └── raleway
+│   │   │   │   │       ├── LICENSE
+│   │   │   │   │       ├── Raleway-BoldItalic.otf
+│   │   │   │   │       ├── Raleway-BoldItalic.ttf
+│   │   │   │   │       ├── Raleway-BoldItalic.woff
+│   │   │   │   │       ├── Raleway-Bold.otf
+│   │   │   │   │       ├── Raleway-Bold.ttf
+│   │   │   │   │       ├── Raleway-Bold.woff
+│   │   │   │   │       ├── Raleway-Italic.otf
+│   │   │   │   │       ├── Raleway-Italic.ttf
+│   │   │   │   │       ├── Raleway-Italic.woff
+│   │   │   │   │       ├── Raleway-Regular.otf
+│   │   │   │   │       ├── Raleway-Regular.ttf
+│   │   │   │   │       └── Raleway-Regular.woff
+│   │   │   │   └── images
+│   │   │   │       └── saturn
+│   │   │   │           ├── LICENSE
+│   │   │   │           └── saturn.png
+│   │   │   └── translations
+│   │   │       └── en.json
+│   │   ├── guacamole-example
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── net
+│   │   │           │                   └── example
+│   │   │           │                       └── DummyGuacamoleTunnelServlet.java
+│   │   │           └── webapp
+│   │   │               ├── dot.gif
+│   │   │               ├── guacamole.css
+│   │   │               ├── index.html
+│   │   │               └── WEB-INF
+│   │   │                   └── web.xml
+│   │   ├── guacamole-playback-example
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           └── webapp
+│   │   │               ├── index.html
+│   │   │               ├── playback.css
+│   │   │               ├── playback.js
+│   │   │               ├── recording.guac
+│   │   │               └── WEB-INF
+│   │   │                   └── web.xml
+│   │   └── licenses
+│   │       ├── angular-1.8.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── angular-translate-2.19.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── antlr-2.7.7
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── aopalliance-1.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── apache-commons-1.16.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-1.17.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-beanutils-1.7.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-chain-1.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-codec-1.11
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-collections-3.2.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-collections-4.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-configuration-1.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-digester-1.8
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-lang-2.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-lang-3.17.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-logging-1.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-pool-1.5.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-pool-2.12.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-commons-text-1.12.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE.txt
+│   │       │   └── README
+│   │       ├── apache-mina-2.2.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── apache-santuario-2.2.6
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── assert-1.5.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── base64-js-1.5.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── blob-polyfill-9.0.20240710
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── bouncycastle-1.44
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── bouncycastle-1.80
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── bouncycastle-fips-2.1.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── bouncycastle-pkix-fips-2.1.9
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── bouncycastle-util-fips-2.1.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── buffer-4.9.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── byte-buddy-1.15.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── caffeine-2.9.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── cas-client-3.6.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── checker-qual-3.19.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── checker-qual-3.37.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── core-util-is-1.0.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── css-loader-5.2.7
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── csv-6.3.9
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── d3-path-3.1.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── d3-shape-3.2.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── datalist-polyfill-1.25.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── directory-api-2.1.7
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── dom4j-2.1.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── duo-universal-sdk-1.3.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── ehcache-2.4.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── error-prone-2.10.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── error-prone-2.21.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── events-3.3.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── file-saver-2.0.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── findbugs-jsr305-3.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── fuzzysort-3.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── generate-license-files.sh
+│   │       ├── glassfish-hk2-2.6.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── guava-32.1.3-jre
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── guice-5.1.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── ieee754-1.2.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── inherits-2.0.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── inherits-2.0.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── ipaddress-5.5.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── isarray-1.0.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── j2objc-annotations-2.8
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── jackson-2.19.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jackson-databind-2.19.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jai-imageio-core-1.4.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── jakarta-activation-1.2.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jakarta-activation-1.2.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jakarta-annotation-api-1.3.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jakarta-jaxb-2.3.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jakarta-jaxb-2.3.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jakarta-validation-api-2.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jakarta-validation-api-2.1.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jakarta-ws-rs-api-2.1.6
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── javaee-activation-1.2.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── java-jwt-4.0.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── java-saml-2.9.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── javassist-3.30.2-ga
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── javax.inject-1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── jaxb-api-2.2.12
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── jaxb-api-2.3.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── jcommander-1.82
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jersey-2.46
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── jetbrains-annotations-13.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── joda-time-2.10.6
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jose4j-0.9.6
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── jquery-3.7.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── jradius-1.1.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── jsr250-api-1.0
+│   │       │   ├── CDDLv1.0.txt
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── jstz-2.1.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── kotlin-1.4.10
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE.txt
+│   │       │   └── README
+│   │       ├── kotlin-1.9.25
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE.txt
+│   │       │   └── README
+│   │       ├── kotlinx-serialization-1.7.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE.txt
+│   │       │   └── README
+│   │       ├── ksm-sdk-17.0.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── lodash-4.17.21
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── logback-1.3.15
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── logging-interceptor-4.9.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── make-plural-3.0.6
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── messageformat-1.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── messageformat-parser-1.1.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── mybatis-3.5.19
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── mybatis-guice-3.18
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── object-assign-4.1.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── okhttp-4.12.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── okio-3.6.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── osgi-resource-locator-1.0.3
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── pickr-1.8.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── process-0.11.10
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── process-nextick-args-2.0.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── license.md
+│   │       │   └── README
+│   │       ├── readable-stream-2.3.7
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── README
+│   │       ├── reserved-words-0.1.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── retrofit-2.11.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       ├── safe-buffer-5.1.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── setimmediate-1.0.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── slf4j-api-2.0.17
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   └── README
+│   │       ├── snakeyaml-2.4
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── spring-framework-3.0.5
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── stream-browserify-2.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── string_decoder-1.1.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── timers-browserify-2.0.12
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.md
+│   │       │   └── README
+│   │       ├── util-0.11.1
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── util-deprecate-1.0.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── webpack-4.47.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── woodstox-core-5.4.0
+│   │       │   ├── dep-coordinates.txt
+│   │       │   └── README
+│   │       ├── woodstox-stax2-api-4.2
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE
+│   │       │   └── README
+│   │       ├── xpp3-1.1.4c
+│   │       │   ├── dep-coordinates.txt
+│   │       │   ├── LICENSE.txt
+│   │       │   ├── NOTICE
+│   │       │   └── README
+│   │       └── zxing-3.5.3
+│   │           ├── AUTHORS
+│   │           ├── dep-coordinates.txt
+│   │           ├── NOTICE
+│   │           └── README
+│   ├── Dockerfile
+│   ├── extensions
+│   │   ├── guacamole-auth-ban
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── auth
+│   │   │           │                   └── ban
+│   │   │           │                       ├── BanningAuthenticationListener.java
+│   │   │           │                       └── status
+│   │   │           │                           ├── AuthenticationFailureStatus.java
+│   │   │           │                           ├── AuthenticationFailureTracker.java
+│   │   │           │                           ├── InMemoryAuthenticationFailureTracker.java
+│   │   │           │                           └── NullAuthenticationFailureTracker.java
+│   │   │           └── resources
+│   │   │               ├── guac-manifest.json
+│   │   │               └── translations
+│   │   │                   ├── en.json
+│   │   │                   └── pl.json
+│   │   ├── guacamole-auth-duo
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── auth
+│   │   │           │                   └── duo
+│   │   │           │                       ├── conf
+│   │   │           │                       │   └── ConfigurationService.java
+│   │   │           │                       ├── DuoAuthenticationProvider.java
+│   │   │           │                       ├── DuoAuthenticationProviderModule.java
+│   │   │           │                       ├── DuoAuthenticationSession.java
+│   │   │           │                       ├── DuoAuthenticationSessionManager.java
+│   │   │           │                       └── UserVerificationService.java
+│   │   │           └── resources
+│   │   │               ├── guac-manifest.json
+│   │   │               └── translations
+│   │   │                   ├── ca.json
+│   │   │                   ├── de.json
+│   │   │                   ├── en.json
+│   │   │                   ├── fr.json
+│   │   │                   ├── it.json
+│   │   │                   ├── ja.json
+│   │   │                   ├── ko.json
+│   │   │                   ├── pl.json
+│   │   │                   ├── pt.json
+│   │   │                   ├── ru.json
+│   │   │                   └── zh.json
+│   │   ├── guacamole-auth-header
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── auth
+│   │   │           │                   └── header
+│   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │           │                       ├── ConfigurationService.java
+│   │   │           │                       ├── HTTPHeaderAuthenticationProvider.java
+│   │   │           │                       ├── HTTPHeaderAuthenticationProviderModule.java
+│   │   │           │                       ├── HTTPHeaderGuacamoleProperties.java
+│   │   │           │                       └── user
+│   │   │           │                           └── AuthenticatedUser.java
+│   │   │           └── resources
+│   │   │               └── guac-manifest.json
+│   │   ├── guacamole-auth-jdbc
+│   │   │   ├── modules
+│   │   │   │   ├── guacamole-auth-jdbc-base
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── jdbc
+│   │   │   │   │           │                       ├── activeconnection
+│   │   │   │   │           │                       │   ├── ActiveConnectionDirectory.java
+│   │   │   │   │           │                       │   ├── ActiveConnectionPermissionService.java
+│   │   │   │   │           │                       │   ├── ActiveConnectionPermissionSet.java
+│   │   │   │   │           │                       │   ├── ActiveConnectionService.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   └── TrackedActiveConnection.java
+│   │   │   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │   │   │           │                       ├── base
+│   │   │   │   │           │                       │   ├── ActivityRecordMapper.java
+│   │   │   │   │           │                       │   ├── ActivityRecordModel.java
+│   │   │   │   │           │                       │   ├── ActivityRecordSearchTerm.java
+│   │   │   │   │           │                       │   ├── ActivityRecordSortPredicate.java
+│   │   │   │   │           │                       │   ├── ArbitraryAttributeMap.java
+│   │   │   │   │           │                       │   ├── ArbitraryAttributeModel.java
+│   │   │   │   │           │                       │   ├── ChildObjectModel.java
+│   │   │   │   │           │                       │   ├── DirectoryObjectService.java
+│   │   │   │   │           │                       │   ├── EntityMapper.java
+│   │   │   │   │           │                       │   ├── EntityModel.java
+│   │   │   │   │           │                       │   ├── EntityService.java
+│   │   │   │   │           │                       │   ├── EntityType.java
+│   │   │   │   │           │                       │   ├── JDBCDirectory.java
+│   │   │   │   │           │                       │   ├── ModeledActivityRecord.java
+│   │   │   │   │           │                       │   ├── ModeledActivityRecordSet.java
+│   │   │   │   │           │                       │   ├── ModeledChildDirectoryObject.java
+│   │   │   │   │           │                       │   ├── ModeledChildDirectoryObjectService.java
+│   │   │   │   │           │                       │   ├── ModeledDirectoryObject.java
+│   │   │   │   │           │                       │   ├── ModeledDirectoryObjectMapper.java
+│   │   │   │   │           │                       │   ├── ModeledDirectoryObjectService.java
+│   │   │   │   │           │                       │   ├── ModeledObject.java
+│   │   │   │   │           │                       │   ├── ModeledPermissions.java
+│   │   │   │   │           │                       │   ├── ObjectModel.java
+│   │   │   │   │           │                       │   ├── ObjectRelationMapper.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   ├── RelatedObjectSet.java
+│   │   │   │   │           │                       │   └── RestrictedObject.java
+│   │   │   │   │           │                       ├── connection
+│   │   │   │   │           │                       │   ├── ConnectionDirectory.java
+│   │   │   │   │           │                       │   ├── ConnectionMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionModel.java
+│   │   │   │   │           │                       │   ├── ConnectionParameterMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionParameterModel.java
+│   │   │   │   │           │                       │   ├── ConnectionRecordMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionRecordModel.java
+│   │   │   │   │           │                       │   ├── ConnectionRecordSet.java
+│   │   │   │   │           │                       │   ├── ConnectionService.java
+│   │   │   │   │           │                       │   ├── ModeledConnection.java
+│   │   │   │   │           │                       │   ├── ModeledConnectionRecord.java
+│   │   │   │   │           │                       │   ├── ModeledGuacamoleConfiguration.java
+│   │   │   │   │           │                       │   └── package-info.java
+│   │   │   │   │           │                       ├── connectiongroup
+│   │   │   │   │           │                       │   ├── ConnectionGroupDirectory.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupModel.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupService.java
+│   │   │   │   │           │                       │   ├── ModeledConnectionGroup.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   └── RootConnectionGroup.java
+│   │   │   │   │           │                       ├── DynamicallyAuthenticatedDataSource.java
+│   │   │   │   │           │                       ├── HistoryTrackingConnectionDirectory.java
+│   │   │   │   │           │                       ├── HistoryTrackingConnection.java
+│   │   │   │   │           │                       ├── HistoryTrackingTunnel.java
+│   │   │   │   │           │                       ├── HistoryTrackingUserContext.java
+│   │   │   │   │           │                       ├── InjectedAuthenticationProvider.java
+│   │   │   │   │           │                       ├── JDBCAuthenticationProviderModule.java
+│   │   │   │   │           │                       ├── JDBCAuthenticationProviderService.java
+│   │   │   │   │           │                       ├── JDBCEnvironment.java
+│   │   │   │   │           │                       ├── JDBCInjectorProvider.java
+│   │   │   │   │           │                       ├── package-info.java
+│   │   │   │   │           │                       ├── permission
+│   │   │   │   │           │                       │   ├── AbstractPermissionService.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupPermissionMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupPermissionService.java
+│   │   │   │   │           │                       │   ├── ConnectionGroupPermissionSet.java
+│   │   │   │   │           │                       │   ├── ConnectionPermissionMapper.java
+│   │   │   │   │           │                       │   ├── ConnectionPermissionService.java
+│   │   │   │   │           │                       │   ├── ConnectionPermissionSet.java
+│   │   │   │   │           │                       │   ├── ModeledObjectPermissionService.java
+│   │   │   │   │           │                       │   ├── ModeledPermissionService.java
+│   │   │   │   │           │                       │   ├── ObjectPermissionMapper.java
+│   │   │   │   │           │                       │   ├── ObjectPermissionModel.java
+│   │   │   │   │           │                       │   ├── ObjectPermissionService.java
+│   │   │   │   │           │                       │   ├── ObjectPermissionSet.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   ├── PermissionMapper.java
+│   │   │   │   │           │                       │   ├── PermissionModel.java
+│   │   │   │   │           │                       │   ├── PermissionService.java
+│   │   │   │   │           │                       │   ├── SharingProfilePermissionMapper.java
+│   │   │   │   │           │                       │   ├── SharingProfilePermissionService.java
+│   │   │   │   │           │                       │   ├── SharingProfilePermissionSet.java
+│   │   │   │   │           │                       │   ├── SystemPermissionMapper.java
+│   │   │   │   │           │                       │   ├── SystemPermissionModel.java
+│   │   │   │   │           │                       │   ├── SystemPermissionService.java
+│   │   │   │   │           │                       │   ├── SystemPermissionSet.java
+│   │   │   │   │           │                       │   ├── UserGroupPermissionMapper.java
+│   │   │   │   │           │                       │   ├── UserGroupPermissionService.java
+│   │   │   │   │           │                       │   ├── UserGroupPermissionSet.java
+│   │   │   │   │           │                       │   ├── UserPermissionMapper.java
+│   │   │   │   │           │                       │   ├── UserPermissionService.java
+│   │   │   │   │           │                       │   └── UserPermissionSet.java
+│   │   │   │   │           │                       ├── security
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   ├── PasswordContainsUsernameException.java
+│   │   │   │   │           │                       │   ├── PasswordEncryptionService.java
+│   │   │   │   │           │                       │   ├── PasswordMinimumLengthException.java
+│   │   │   │   │           │                       │   ├── PasswordPolicyException.java
+│   │   │   │   │           │                       │   ├── PasswordPolicy.java
+│   │   │   │   │           │                       │   ├── PasswordPolicyService.java
+│   │   │   │   │           │                       │   ├── PasswordRequiresDigitException.java
+│   │   │   │   │           │                       │   ├── PasswordRequiresMultipleCaseException.java
+│   │   │   │   │           │                       │   ├── PasswordRequiresSymbolException.java
+│   │   │   │   │           │                       │   ├── PasswordReusedException.java
+│   │   │   │   │           │                       │   ├── PasswordTooYoungException.java
+│   │   │   │   │           │                       │   ├── SaltService.java
+│   │   │   │   │           │                       │   ├── SecureRandomSaltService.java
+│   │   │   │   │           │                       │   └── SHA256PasswordEncryptionService.java
+│   │   │   │   │           │                       ├── sharing
+│   │   │   │   │           │                       │   ├── connection
+│   │   │   │   │           │                       │   │   ├── SharedConnectionDefinition.java
+│   │   │   │   │           │                       │   │   ├── SharedConnectionDirectory.java
+│   │   │   │   │           │                       │   │   └── SharedConnection.java
+│   │   │   │   │           │                       │   ├── connectiongroup
+│   │   │   │   │           │                       │   │   └── SharedRootConnectionGroup.java
+│   │   │   │   │           │                       │   ├── ConnectionSharingService.java
+│   │   │   │   │           │                       │   ├── HashSharedConnectionMap.java
+│   │   │   │   │           │                       │   ├── permission
+│   │   │   │   │           │                       │   │   └── SharedObjectPermissionSet.java
+│   │   │   │   │           │                       │   ├── SecureRandomShareKeyGenerator.java
+│   │   │   │   │           │                       │   ├── SharedAuthenticationProviderService.java
+│   │   │   │   │           │                       │   ├── SharedConnectionMap.java
+│   │   │   │   │           │                       │   ├── SharedObjectManager.java
+│   │   │   │   │           │                       │   ├── ShareKeyGenerator.java
+│   │   │   │   │           │                       │   └── user
+│   │   │   │   │           │                       │       ├── SharedAuthenticatedUser.java
+│   │   │   │   │           │                       │       ├── SharedUserContext.java
+│   │   │   │   │           │                       │       └── SharedUser.java
+│   │   │   │   │           │                       ├── sharingprofile
+│   │   │   │   │           │                       │   ├── ModeledSharingProfile.java
+│   │   │   │   │           │                       │   ├── SharingProfileDirectory.java
+│   │   │   │   │           │                       │   ├── SharingProfileMapper.java
+│   │   │   │   │           │                       │   ├── SharingProfileModel.java
+│   │   │   │   │           │                       │   ├── SharingProfileParameterMapper.java
+│   │   │   │   │           │                       │   ├── SharingProfileParameterModel.java
+│   │   │   │   │           │                       │   └── SharingProfileService.java
+│   │   │   │   │           │                       ├── tunnel
+│   │   │   │   │           │                       │   ├── AbstractGuacamoleTunnelService.java
+│   │   │   │   │           │                       │   ├── ActiveConnectionMultimap.java
+│   │   │   │   │           │                       │   ├── ActiveConnectionRecord.java
+│   │   │   │   │           │                       │   ├── GuacamoleTunnelService.java
+│   │   │   │   │           │                       │   ├── ManagedInetGuacamoleSocket.java
+│   │   │   │   │           │                       │   ├── ManagedSSLGuacamoleSocket.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   ├── RestrictedGuacamoleTunnelService.java
+│   │   │   │   │           │                       │   └── Seat.java
+│   │   │   │   │           │                       ├── user
+│   │   │   │   │           │                       │   ├── ModeledAuthenticatedUser.java
+│   │   │   │   │           │                       │   ├── ModeledUserContext.java
+│   │   │   │   │           │                       │   ├── ModeledUser.java
+│   │   │   │   │           │                       │   ├── package-info.java
+│   │   │   │   │           │                       │   ├── PasswordRecordMapper.java
+│   │   │   │   │           │                       │   ├── PasswordRecordModel.java
+│   │   │   │   │           │                       │   ├── PrivilegedModeledAuthenticatedUser.java
+│   │   │   │   │           │                       │   ├── RemoteAuthenticatedUser.java
+│   │   │   │   │           │                       │   ├── UserDirectory.java
+│   │   │   │   │           │                       │   ├── UserMapper.java
+│   │   │   │   │           │                       │   ├── UserModel.java
+│   │   │   │   │           │                       │   ├── UserParentUserGroupMapper.java
+│   │   │   │   │           │                       │   ├── UserParentUserGroupSet.java
+│   │   │   │   │           │                       │   ├── UserRecordMapper.java
+│   │   │   │   │           │                       │   ├── UserRecordSet.java
+│   │   │   │   │           │                       │   └── UserService.java
+│   │   │   │   │           │                       └── usergroup
+│   │   │   │   │           │                           ├── ModeledUserGroup.java
+│   │   │   │   │           │                           ├── UserGroupDirectory.java
+│   │   │   │   │           │                           ├── UserGroupMapper.java
+│   │   │   │   │           │                           ├── UserGroupMemberUserGroupMapper.java
+│   │   │   │   │           │                           ├── UserGroupMemberUserGroupSet.java
+│   │   │   │   │           │                           ├── UserGroupMemberUserMapper.java
+│   │   │   │   │           │                           ├── UserGroupMemberUserSet.java
+│   │   │   │   │           │                           ├── UserGroupModel.java
+│   │   │   │   │           │                           ├── UserGroupParentUserGroupMapper.java
+│   │   │   │   │           │                           ├── UserGroupParentUserGroupSet.java
+│   │   │   │   │           │                           └── UserGroupService.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── html
+│   │   │   │   │               │   └── shared-connection.html
+│   │   │   │   │               ├── styles
+│   │   │   │   │               │   └── jdbc.css
+│   │   │   │   │               └── translations
+│   │   │   │   │                   ├── ca.json
+│   │   │   │   │                   ├── de.json
+│   │   │   │   │                   ├── en.json
+│   │   │   │   │                   ├── es.json
+│   │   │   │   │                   ├── fr.json
+│   │   │   │   │                   ├── it.json
+│   │   │   │   │                   ├── ja.json
+│   │   │   │   │                   ├── ko.json
+│   │   │   │   │                   ├── pl.json
+│   │   │   │   │                   ├── pt.json
+│   │   │   │   │                   ├── ru.json
+│   │   │   │   │                   └── zh.json
+│   │   │   │   ├── guacamole-auth-jdbc-dist
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           └── assembly
+│   │   │   │   │               └── dist.xml
+│   │   │   │   ├── guacamole-auth-jdbc-mysql
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   ├── schema
+│   │   │   │   │   │   ├── 001-create-schema.sql
+│   │   │   │   │   │   ├── 002-create-admin-user.sql
+│   │   │   │   │   │   └── upgrade
+│   │   │   │   │   │       ├── upgrade-pre-0.8.2.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.10.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.11.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.13.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.14.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.6.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.7.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.8.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.9.sql
+│   │   │   │   │   │       ├── upgrade-pre-1.0.0.sql
+│   │   │   │   │   │       └── upgrade-pre-1.6.0.sql
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── mysql
+│   │   │   │   │           │                       ├── conf
+│   │   │   │   │           │                       │   ├── MySQLDriver.java
+│   │   │   │   │           │                       │   ├── MySQLEnvironment.java
+│   │   │   │   │           │                       │   ├── MySQLGuacamoleProperties.java
+│   │   │   │   │           │                       │   ├── MySQLPasswordPolicy.java
+│   │   │   │   │           │                       │   ├── MySQLSSLMode.java
+│   │   │   │   │           │                       │   └── MySQLVersion.java
+│   │   │   │   │           │                       ├── MySQLAuthenticationProvider.java
+│   │   │   │   │           │                       ├── MySQLAuthenticationProviderModule.java
+│   │   │   │   │           │                       ├── MySQLInjectorProvider.java
+│   │   │   │   │           │                       ├── MySQLSharedAuthenticationProvider.java
+│   │   │   │   │           │                       └── package-info.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── guac-manifest.json
+│   │   │   │   │               └── org
+│   │   │   │   │                   └── apache
+│   │   │   │   │                       └── guacamole
+│   │   │   │   │                           └── auth
+│   │   │   │   │                               └── jdbc
+│   │   │   │   │                                   ├── base
+│   │   │   │   │                                   │   └── EntityMapper.xml
+│   │   │   │   │                                   ├── connection
+│   │   │   │   │                                   │   ├── ConnectionMapper.xml
+│   │   │   │   │                                   │   ├── ConnectionParameterMapper.xml
+│   │   │   │   │                                   │   └── ConnectionRecordMapper.xml
+│   │   │   │   │                                   ├── connectiongroup
+│   │   │   │   │                                   │   └── ConnectionGroupMapper.xml
+│   │   │   │   │                                   ├── permission
+│   │   │   │   │                                   │   ├── ConnectionGroupPermissionMapper.xml
+│   │   │   │   │                                   │   ├── ConnectionPermissionMapper.xml
+│   │   │   │   │                                   │   ├── SharingProfilePermissionMapper.xml
+│   │   │   │   │                                   │   ├── SystemPermissionMapper.xml
+│   │   │   │   │                                   │   ├── UserGroupPermissionMapper.xml
+│   │   │   │   │                                   │   └── UserPermissionMapper.xml
+│   │   │   │   │                                   ├── sharingprofile
+│   │   │   │   │                                   │   ├── SharingProfileMapper.xml
+│   │   │   │   │                                   │   └── SharingProfileParameterMapper.xml
+│   │   │   │   │                                   ├── user
+│   │   │   │   │                                   │   ├── PasswordRecordMapper.xml
+│   │   │   │   │                                   │   ├── UserMapper.xml
+│   │   │   │   │                                   │   ├── UserParentUserGroupMapper.xml
+│   │   │   │   │                                   │   └── UserRecordMapper.xml
+│   │   │   │   │                                   └── usergroup
+│   │   │   │   │                                       ├── UserGroupMapper.xml
+│   │   │   │   │                                       ├── UserGroupMemberUserGroupMapper.xml
+│   │   │   │   │                                       ├── UserGroupMemberUserMapper.xml
+│   │   │   │   │                                       └── UserGroupParentUserGroupMapper.xml
+│   │   │   │   ├── guacamole-auth-jdbc-postgresql
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   ├── schema
+│   │   │   │   │   │   ├── 001-create-schema.sql
+│   │   │   │   │   │   ├── 002-create-admin-user.sql
+│   │   │   │   │   │   └── upgrade
+│   │   │   │   │   │       ├── upgrade-pre-0.9.10.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.11.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.13.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.14.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.7.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.8.sql
+│   │   │   │   │   │       ├── upgrade-pre-0.9.9.sql
+│   │   │   │   │   │       ├── upgrade-pre-1.0.0.sql
+│   │   │   │   │   │       └── upgrade-pre-1.6.0.sql
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── postgresql
+│   │   │   │   │           │                       ├── conf
+│   │   │   │   │           │                       │   ├── PostgreSQLEnvironment.java
+│   │   │   │   │           │                       │   ├── PostgreSQLGuacamoleProperties.java
+│   │   │   │   │           │                       │   ├── PostgreSQLPasswordPolicy.java
+│   │   │   │   │           │                       │   └── PostgreSQLSSLMode.java
+│   │   │   │   │           │                       ├── package-info.java
+│   │   │   │   │           │                       ├── PostgreSQLAuthenticationProvider.java
+│   │   │   │   │           │                       ├── PostgreSQLAuthenticationProviderModule.java
+│   │   │   │   │           │                       ├── PostgreSQLInjectorProvider.java
+│   │   │   │   │           │                       └── PostgreSQLSharedAuthenticationProvider.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── guac-manifest.json
+│   │   │   │   │               └── org
+│   │   │   │   │                   └── apache
+│   │   │   │   │                       └── guacamole
+│   │   │   │   │                           └── auth
+│   │   │   │   │                               └── jdbc
+│   │   │   │   │                                   ├── base
+│   │   │   │   │                                   │   └── EntityMapper.xml
+│   │   │   │   │                                   ├── connection
+│   │   │   │   │                                   │   ├── ConnectionMapper.xml
+│   │   │   │   │                                   │   ├── ConnectionParameterMapper.xml
+│   │   │   │   │                                   │   └── ConnectionRecordMapper.xml
+│   │   │   │   │                                   ├── connectiongroup
+│   │   │   │   │                                   │   └── ConnectionGroupMapper.xml
+│   │   │   │   │                                   ├── permission
+│   │   │   │   │                                   │   ├── ConnectionGroupPermissionMapper.xml
+│   │   │   │   │                                   │   ├── ConnectionPermissionMapper.xml
+│   │   │   │   │                                   │   ├── SharingProfilePermissionMapper.xml
+│   │   │   │   │                                   │   ├── SystemPermissionMapper.xml
+│   │   │   │   │                                   │   ├── UserGroupPermissionMapper.xml
+│   │   │   │   │                                   │   └── UserPermissionMapper.xml
+│   │   │   │   │                                   ├── sharingprofile
+│   │   │   │   │                                   │   ├── SharingProfileMapper.xml
+│   │   │   │   │                                   │   └── SharingProfileParameterMapper.xml
+│   │   │   │   │                                   ├── user
+│   │   │   │   │                                   │   ├── PasswordRecordMapper.xml
+│   │   │   │   │                                   │   ├── UserMapper.xml
+│   │   │   │   │                                   │   ├── UserParentUserGroupMapper.xml
+│   │   │   │   │                                   │   └── UserRecordMapper.xml
+│   │   │   │   │                                   └── usergroup
+│   │   │   │   │                                       ├── UserGroupMapper.xml
+│   │   │   │   │                                       ├── UserGroupMemberUserGroupMapper.xml
+│   │   │   │   │                                       ├── UserGroupMemberUserMapper.xml
+│   │   │   │   │                                       └── UserGroupParentUserGroupMapper.xml
+│   │   │   │   └── guacamole-auth-jdbc-sqlserver
+│   │   │   │       ├── pom.xml
+│   │   │   │       ├── schema
+│   │   │   │       │   ├── 001-create-schema.sql
+│   │   │   │       │   ├── 002-create-admin-user.sql
+│   │   │   │       │   └── upgrade
+│   │   │   │       │       ├── upgrade-pre-1.0.0.sql
+│   │   │   │       │       └── upgrade-pre-1.6.0.sql
+│   │   │   │       └── src
+│   │   │   │           └── main
+│   │   │   │               ├── java
+│   │   │   │               │   └── org
+│   │   │   │               │       └── apache
+│   │   │   │               │           └── guacamole
+│   │   │   │               │               └── auth
+│   │   │   │               │                   └── sqlserver
+│   │   │   │               │                       ├── conf
+│   │   │   │               │                       │   ├── SQLServerDriver.java
+│   │   │   │               │                       │   ├── SQLServerEnvironment.java
+│   │   │   │               │                       │   ├── SQLServerGuacamoleProperties.java
+│   │   │   │               │                       │   └── SQLServerPasswordPolicy.java
+│   │   │   │               │                       ├── package-info.java
+│   │   │   │               │                       ├── SQLServerAuthenticationProvider.java
+│   │   │   │               │                       ├── SQLServerAuthenticationProviderModule.java
+│   │   │   │               │                       ├── SQLServerInjectorProvider.java
+│   │   │   │               │                       └── SQLServerSharedAuthenticationProvider.java
+│   │   │   │               └── resources
+│   │   │   │                   ├── guac-manifest.json
+│   │   │   │                   └── org
+│   │   │   │                       └── apache
+│   │   │   │                           └── guacamole
+│   │   │   │                               └── auth
+│   │   │   │                                   └── jdbc
+│   │   │   │                                       ├── base
+│   │   │   │                                       │   └── EntityMapper.xml
+│   │   │   │                                       ├── connection
+│   │   │   │                                       │   ├── ConnectionMapper.xml
+│   │   │   │                                       │   ├── ConnectionParameterMapper.xml
+│   │   │   │                                       │   └── ConnectionRecordMapper.xml
+│   │   │   │                                       ├── connectiongroup
+│   │   │   │                                       │   └── ConnectionGroupMapper.xml
+│   │   │   │                                       ├── permission
+│   │   │   │                                       │   ├── ConnectionGroupPermissionMapper.xml
+│   │   │   │                                       │   ├── ConnectionPermissionMapper.xml
+│   │   │   │                                       │   ├── SharingProfilePermissionMapper.xml
+│   │   │   │                                       │   ├── SystemPermissionMapper.xml
+│   │   │   │                                       │   ├── UserGroupPermissionMapper.xml
+│   │   │   │                                       │   └── UserPermissionMapper.xml
+│   │   │   │                                       ├── sharingprofile
+│   │   │   │                                       │   ├── SharingProfileMapper.xml
+│   │   │   │                                       │   └── SharingProfileParameterMapper.xml
+│   │   │   │                                       ├── user
+│   │   │   │                                       │   ├── PasswordRecordMapper.xml
+│   │   │   │                                       │   ├── UserMapper.xml
+│   │   │   │                                       │   ├── UserParentUserGroupMapper.xml
+│   │   │   │                                       │   └── UserRecordMapper.xml
+│   │   │   │                                       └── usergroup
+│   │   │   │                                           ├── UserGroupMapper.xml
+│   │   │   │                                           ├── UserGroupMemberUserGroupMapper.xml
+│   │   │   │                                           ├── UserGroupMemberUserMapper.xml
+│   │   │   │                                           └── UserGroupParentUserGroupMapper.xml
+│   │   │   └── pom.xml
+│   │   ├── guacamole-auth-json
+│   │   │   ├── doc
+│   │   │   │   ├── encrypt-json.sh
+│   │   │   │   └── README.md
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       ├── main
+│   │   │       │   ├── assembly
+│   │   │       │   │   └── dist.xml
+│   │   │       │   ├── java
+│   │   │       │   │   └── org
+│   │   │       │   │       └── apache
+│   │   │       │   │           └── guacamole
+│   │   │       │   │               └── auth
+│   │   │       │   │                   └── json
+│   │   │       │   │                       ├── AuthenticationProviderService.java
+│   │   │       │   │                       ├── ConfigurationService.java
+│   │   │       │   │                       ├── connection
+│   │   │       │   │                       │   └── ConnectionService.java
+│   │   │       │   │                       ├── CryptoService.java
+│   │   │       │   │                       ├── JSONAuthenticationProvider.java
+│   │   │       │   │                       ├── JSONAuthenticationProviderModule.java
+│   │   │       │   │                       ├── RequestValidationService.java
+│   │   │       │   │                       └── user
+│   │   │       │   │                           ├── AuthenticatedUser.java
+│   │   │       │   │                           ├── UserContext.java
+│   │   │       │   │                           ├── UserDataConnection.java
+│   │   │       │   │                           ├── UserDataDenylist.java
+│   │   │       │   │                           ├── UserData.java
+│   │   │       │   │                           └── UserDataService.java
+│   │   │       │   └── resources
+│   │   │       │       ├── guac-manifest.json
+│   │   │       │       └── translations
+│   │   │       │           └── en.json
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── org
+│   │   │                   └── apache
+│   │   │                       └── guacamole
+│   │   │                           └── auth
+│   │   │                               └── json
+│   │   │                                   └── RequestValidationServiceTest.java
+│   │   ├── guacamole-auth-ldap
+│   │   │   ├── doc
+│   │   │   │   └── examples
+│   │   │   │       └── exampleConfigGroup.ldif
+│   │   │   ├── pom.xml
+│   │   │   ├── schema
+│   │   │   │   ├── guacConfigGroup.ldif
+│   │   │   │   └── guacConfigGroup.schema
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── auth
+│   │   │           │                   └── ldap
+│   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │           │                       ├── conf
+│   │   │           │                       │   ├── CaseInsensitivePatternDeserializer.java
+│   │   │           │                       │   ├── ConfigurationService.java
+│   │   │           │                       │   ├── DefaultLDAPConfiguration.java
+│   │   │           │                       │   ├── EncryptionMethod.java
+│   │   │           │                       │   ├── EnvironmentLDAPConfiguration.java
+│   │   │           │                       │   ├── JacksonLDAPConfiguration.java
+│   │   │           │                       │   ├── LDAPConfiguration.java
+│   │   │           │                       │   ├── LdapDnGuacamoleProperty.java
+│   │   │           │                       │   ├── LdapFilterGuacamoleProperty.java
+│   │   │           │                       │   ├── LDAPGuacamoleProperties.java
+│   │   │           │                       │   ├── LDAPSSLProtocol.java
+│   │   │           │                       │   └── MemberAttributeType.java
+│   │   │           │                       ├── ConnectedLDAPConfiguration.java
+│   │   │           │                       ├── connection
+│   │   │           │                       │   └── ConnectionService.java
+│   │   │           │                       ├── group
+│   │   │           │                       │   └── UserGroupService.java
+│   │   │           │                       ├── LDAPAuthenticationProvider.java
+│   │   │           │                       ├── LDAPAuthenticationProviderModule.java
+│   │   │           │                       ├── LDAPConnectionService.java
+│   │   │           │                       ├── ObjectQueryService.java
+│   │   │           │                       └── user
+│   │   │           │                           ├── LDAPAuthenticatedUser.java
+│   │   │           │                           ├── LDAPUserContext.java
+│   │   │           │                           ├── UserLDAPConfiguration.java
+│   │   │           │                           └── UserService.java
+│   │   │           └── resources
+│   │   │               ├── guac-manifest.json
+│   │   │               └── translations
+│   │   │                   ├── en.json
+│   │   │                   └── zh.json
+│   │   ├── guacamole-auth-quickconnect
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       ├── main
+│   │   │       │   ├── assembly
+│   │   │       │   │   └── dist.xml
+│   │   │       │   ├── java
+│   │   │       │   │   └── org
+│   │   │       │   │       └── apache
+│   │   │       │   │           └── guacamole
+│   │   │       │   │               └── auth
+│   │   │       │   │                   └── quickconnect
+│   │   │       │   │                       ├── conf
+│   │   │       │   │                       │   └── ConfigurationService.java
+│   │   │       │   │                       ├── QuickConnectAuthenticationProvider.java
+│   │   │       │   │                       ├── QuickConnectAuthenticationProviderModule.java
+│   │   │       │   │                       ├── QuickConnectDirectory.java
+│   │   │       │   │                       ├── QuickConnectionGroup.java
+│   │   │       │   │                       ├── QuickConnectUserContext.java
+│   │   │       │   │                       ├── rest
+│   │   │       │   │                       │   └── QuickConnectREST.java
+│   │   │       │   │                       └── utility
+│   │   │       │   │                           └── QCParser.java
+│   │   │       │   └── resources
+│   │   │       │       ├── controllers
+│   │   │       │       │   └── quickconnectController.js
+│   │   │       │       ├── guac-manifest.json
+│   │   │       │       ├── quickconnectModule.js
+│   │   │       │       ├── services
+│   │   │       │       │   └── quickConnectService.js
+│   │   │       │       ├── styles
+│   │   │       │       │   └── quickconnect.css
+│   │   │       │       ├── templates
+│   │   │       │       │   └── quickconnectField.html
+│   │   │       │       └── translations
+│   │   │       │           ├── ca.json
+│   │   │       │           ├── de.json
+│   │   │       │           ├── en.json
+│   │   │       │           ├── fr.json
+│   │   │       │           ├── it.json
+│   │   │       │           ├── ja.json
+│   │   │       │           ├── ko.json
+│   │   │       │           ├── pl.json
+│   │   │       │           ├── pt.json
+│   │   │       │           ├── ru.json
+│   │   │       │           └── zh.json
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── org
+│   │   │                   └── apache
+│   │   │                       └── guacamole
+│   │   │                           └── auth
+│   │   │                               └── quickconnect
+│   │   │                                   └── utility
+│   │   │                                       └── QCParserTest.java
+│   │   ├── guacamole-auth-radius
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── auth
+│   │   │           │                   └── radius
+│   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │           │                       ├── conf
+│   │   │           │                       │   ├── ConfigurationService.java
+│   │   │           │                       │   ├── RadiusAuthenticationProtocol.java
+│   │   │           │                       │   └── RadiusGuacamoleProperties.java
+│   │   │           │                       ├── form
+│   │   │           │                       │   ├── GuacamoleRadiusChallenge.java
+│   │   │           │                       │   └── RadiusStateField.java
+│   │   │           │                       ├── RadiusAuthenticationProvider.java
+│   │   │           │                       ├── RadiusAuthenticationProviderModule.java
+│   │   │           │                       ├── RadiusConnectionService.java
+│   │   │           │                       └── user
+│   │   │           │                           └── AuthenticatedUser.java
+│   │   │           └── resources
+│   │   │               ├── config
+│   │   │               │   └── radiusConfig.js
+│   │   │               ├── controllers
+│   │   │               │   └── radiusStateController.js
+│   │   │               ├── guac-manifest.json
+│   │   │               ├── license.txt
+│   │   │               ├── radiusModule.js
+│   │   │               ├── templates
+│   │   │               │   └── radiusStateField.html
+│   │   │               └── translations
+│   │   │                   ├── ca.json
+│   │   │                   ├── de.json
+│   │   │                   ├── en.json
+│   │   │                   ├── ja.json
+│   │   │                   ├── ru.json
+│   │   │                   └── zh.json
+│   │   ├── guacamole-auth-restrict
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               ├── auth
+│   │   │           │               │   └── restrict
+│   │   │           │               │       ├── connection
+│   │   │           │               │       │   └── RestrictedConnection.java
+│   │   │           │               │       ├── connectiongroup
+│   │   │           │               │       │   └── RestrictedConnectionGroup.java
+│   │   │           │               │       ├── form
+│   │   │           │               │       │   ├── HostRestrictionField.java
+│   │   │           │               │       │   └── TimeRestrictionField.java
+│   │   │           │               │       ├── Restrictable.java
+│   │   │           │               │       ├── RestrictionAuthenticationProvider.java
+│   │   │           │               │       ├── RestrictionVerificationService.java
+│   │   │           │               │       ├── TranslatableInvalidHostConnectionException.java
+│   │   │           │               │       ├── TranslatableInvalidHostLoginException.java
+│   │   │           │               │       ├── TranslatableInvalidTimeConnectionException.java
+│   │   │           │               │       ├── TranslatableInvalidTimeLoginException.java
+│   │   │           │               │       ├── user
+│   │   │           │               │       │   ├── RestrictedUserContext.java
+│   │   │           │               │       │   └── RestrictedUser.java
+│   │   │           │               │       └── usergroup
+│   │   │           │               │           └── RestrictedUserGroup.java
+│   │   │           │               ├── calendar
+│   │   │           │               │   ├── DailyRestriction.java
+│   │   │           │               │   ├── RestrictionType.java
+│   │   │           │               │   └── TimeRestrictionParser.java
+│   │   │           │               └── host
+│   │   │           │                   └── HostRestrictionParser.java
+│   │   │           └── resources
+│   │   │               ├── config
+│   │   │               │   └── restrictConfig.js
+│   │   │               ├── controllers
+│   │   │               │   ├── hostRestrictionFieldController.js
+│   │   │               │   └── timeRestrictionFieldController.js
+│   │   │               ├── guac-manifest.json
+│   │   │               ├── license.txt
+│   │   │               ├── restrictModule.js
+│   │   │               ├── styles
+│   │   │               │   └── restrict.css
+│   │   │               ├── templates
+│   │   │               │   ├── hostRestrictionField.html
+│   │   │               │   └── timeRestrictionField.html
+│   │   │               ├── translations
+│   │   │               │   └── en.json
+│   │   │               └── types
+│   │   │                   ├── HostRestrictionEntry.js
+│   │   │                   └── TimeRestrictionEntry.js
+│   │   ├── guacamole-auth-sso
+│   │   │   ├── modules
+│   │   │   │   ├── guacamole-auth-sso-base
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── sso
+│   │   │   │   │           │                       ├── NonceService.java
+│   │   │   │   │           │                       ├── SSOAuthenticationEventListener.java
+│   │   │   │   │           │                       ├── SSOAuthenticationProvider.java
+│   │   │   │   │           │                       ├── SSOAuthenticationProviderService.java
+│   │   │   │   │           │                       ├── SSOResource.java
+│   │   │   │   │           │                       └── user
+│   │   │   │   │           │                           └── SSOAuthenticatedUser.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── html
+│   │   │   │   │               │   └── sso-providers.html
+│   │   │   │   │               ├── styles
+│   │   │   │   │               │   └── sso-providers.css
+│   │   │   │   │               └── translations
+│   │   │   │   │                   ├── ca.json
+│   │   │   │   │                   ├── de.json
+│   │   │   │   │                   ├── en.json
+│   │   │   │   │                   ├── fr.json
+│   │   │   │   │                   ├── it.json
+│   │   │   │   │                   ├── ja.json
+│   │   │   │   │                   ├── ko.json
+│   │   │   │   │                   ├── pl.json
+│   │   │   │   │                   ├── pt.json
+│   │   │   │   │                   ├── ru.json
+│   │   │   │   │                   └── zh.json
+│   │   │   │   ├── guacamole-auth-sso-cas
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       ├── main
+│   │   │   │   │       │   ├── java
+│   │   │   │   │       │   │   └── org
+│   │   │   │   │       │   │       └── apache
+│   │   │   │   │       │   │           └── guacamole
+│   │   │   │   │       │   │               └── auth
+│   │   │   │   │       │   │                   └── cas
+│   │   │   │   │       │   │                       ├── AuthenticationProviderService.java
+│   │   │   │   │       │   │                       ├── CASAuthenticationProvider.java
+│   │   │   │   │       │   │                       ├── CASAuthenticationProviderModule.java
+│   │   │   │   │       │   │                       ├── conf
+│   │   │   │   │       │   │                       │   ├── CASEnvironment.java
+│   │   │   │   │       │   │                       │   ├── CASGuacamoleProperties.java
+│   │   │   │   │       │   │                       │   ├── ConfigurationService.java
+│   │   │   │   │       │   │                       │   ├── LdapNameGuacamoleProperty.java
+│   │   │   │   │       │   │                       │   └── PrivateKeyGuacamoleProperty.java
+│   │   │   │   │       │   │                       ├── group
+│   │   │   │   │       │   │                       │   ├── GroupFormat.java
+│   │   │   │   │       │   │                       │   ├── GroupParser.java
+│   │   │   │   │       │   │                       │   ├── LDAPGroupParser.java
+│   │   │   │   │       │   │                       │   └── PlainGroupParser.java
+│   │   │   │   │       │   │                       └── ticket
+│   │   │   │   │       │   │                           └── TicketValidationService.java
+│   │   │   │   │       │   └── resources
+│   │   │   │   │       │       ├── guac-manifest.json
+│   │   │   │   │       │       ├── html
+│   │   │   │   │       │       │   └── sso-provider-cas.html
+│   │   │   │   │       │       └── license.txt
+│   │   │   │   │       └── test
+│   │   │   │   │           └── java
+│   │   │   │   │               └── org
+│   │   │   │   │                   └── apache
+│   │   │   │   │                       └── guacamole
+│   │   │   │   │                           └── auth
+│   │   │   │   │                               └── cas
+│   │   │   │   │                                   └── group
+│   │   │   │   │                                       └── LDAPGroupParserTest.java
+│   │   │   │   ├── guacamole-auth-sso-dist
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           └── assembly
+│   │   │   │   │               └── dist.xml
+│   │   │   │   ├── guacamole-auth-sso-openid
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── openid
+│   │   │   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │   │   │           │                       ├── conf
+│   │   │   │   │           │                       │   ├── ConfigurationService.java
+│   │   │   │   │           │                       │   └── OpenIDEnvironment.java
+│   │   │   │   │           │                       ├── OpenIDAuthenticationProvider.java
+│   │   │   │   │           │                       ├── OpenIDAuthenticationProviderModule.java
+│   │   │   │   │           │                       └── token
+│   │   │   │   │           │                           └── TokenValidationService.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── guac-manifest.json
+│   │   │   │   │               ├── html
+│   │   │   │   │               │   └── sso-provider-openid.html
+│   │   │   │   │               ├── license.txt
+│   │   │   │   │               └── transformToken.js
+│   │   │   │   ├── guacamole-auth-sso-saml
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           ├── java
+│   │   │   │   │           │   └── org
+│   │   │   │   │           │       └── apache
+│   │   │   │   │           │           └── guacamole
+│   │   │   │   │           │               └── auth
+│   │   │   │   │           │                   └── saml
+│   │   │   │   │           │                       ├── acs
+│   │   │   │   │           │                       │   ├── AssertedIdentity.java
+│   │   │   │   │           │                       │   ├── AssertionConsumerServiceResource.java
+│   │   │   │   │           │                       │   ├── SAMLAuthenticationSession.java
+│   │   │   │   │           │                       │   ├── SAMLAuthenticationSessionManager.java
+│   │   │   │   │           │                       │   └── SAMLService.java
+│   │   │   │   │           │                       ├── AuthenticationProviderService.java
+│   │   │   │   │           │                       ├── conf
+│   │   │   │   │           │                       │   ├── ConfigurationService.java
+│   │   │   │   │           │                       │   └── SAMLEnvironment.java
+│   │   │   │   │           │                       ├── SAMLAuthenticationEventListener.java
+│   │   │   │   │           │                       ├── SAMLAuthenticationProvider.java
+│   │   │   │   │           │                       ├── SAMLAuthenticationProviderModule.java
+│   │   │   │   │           │                       └── user
+│   │   │   │   │           │                           └── SAMLAuthenticatedUser.java
+│   │   │   │   │           └── resources
+│   │   │   │   │               ├── guac-manifest.json
+│   │   │   │   │               ├── html
+│   │   │   │   │               │   └── sso-provider-saml.html
+│   │   │   │   │               └── license.txt
+│   │   │   │   └── guacamole-auth-sso-ssl
+│   │   │   │       ├── pom.xml
+│   │   │   │       └── src
+│   │   │   │           └── main
+│   │   │   │               ├── java
+│   │   │   │               │   └── org
+│   │   │   │               │       └── apache
+│   │   │   │               │           └── guacamole
+│   │   │   │               │               └── auth
+│   │   │   │               │                   └── ssl
+│   │   │   │               │                       ├── AuthenticationProviderService.java
+│   │   │   │               │                       ├── conf
+│   │   │   │               │                       │   ├── ConfigurationService.java
+│   │   │   │               │                       │   ├── LdapNameGuacamoleProperty.java
+│   │   │   │               │                       │   ├── SSLEnvironment.java
+│   │   │   │               │                       │   └── WildcardURIGuacamoleProperty.java
+│   │   │   │               │                       ├── OpaqueAuthenticationResult.java
+│   │   │   │               │                       ├── SSLAuthenticationEventListener.java
+│   │   │   │               │                       ├── SSLAuthenticationProvider.java
+│   │   │   │               │                       ├── SSLAuthenticationProviderModule.java
+│   │   │   │               │                       ├── SSLAuthenticationSession.java
+│   │   │   │               │                       ├── SSLAuthenticationSessionManager.java
+│   │   │   │               │                       └── SSLClientAuthenticationResource.java
+│   │   │   │               └── resources
+│   │   │   │                   ├── directives
+│   │   │   │                   │   └── guacSslAuth.js
+│   │   │   │                   ├── guac-manifest.json
+│   │   │   │                   ├── html
+│   │   │   │                   │   └── sso-provider-ssl.html
+│   │   │   │                   ├── license.txt
+│   │   │   │                   ├── services
+│   │   │   │                   │   └── clientAuthService.js
+│   │   │   │                   └── sslModule.js
+│   │   │   └── pom.xml
+│   │   ├── guacamole-auth-totp
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       ├── licenses
+│   │   │       │   └── bundled
+│   │   │       │       ├── README
+│   │   │       │       └── totp-reference-impl-07
+│   │   │       │           ├── license.txt
+│   │   │       │           └── README
+│   │   │       ├── main
+│   │   │       │   ├── assembly
+│   │   │       │   │   └── dist.xml
+│   │   │       │   ├── java
+│   │   │       │   │   └── org
+│   │   │       │   │       └── apache
+│   │   │       │   │           └── guacamole
+│   │   │       │   │               ├── auth
+│   │   │       │   │               │   └── totp
+│   │   │       │   │               │       ├── conf
+│   │   │       │   │               │       │   └── ConfigurationService.java
+│   │   │       │   │               │       ├── form
+│   │   │       │   │               │       │   └── AuthenticationCodeField.java
+│   │   │       │   │               │       ├── TOTPAuthenticationProvider.java
+│   │   │       │   │               │       ├── TOTPAuthenticationProviderModule.java
+│   │   │       │   │               │       ├── user
+│   │   │       │   │               │       │   ├── CodeUsageTrackingService.java
+│   │   │       │   │               │       │   ├── TOTPUserContext.java
+│   │   │       │   │               │       │   ├── TOTPUser.java
+│   │   │       │   │               │       │   ├── UserTOTPKey.java
+│   │   │       │   │               │       │   └── UserVerificationService.java
+│   │   │       │   │               │       └── usergroup
+│   │   │       │   │               │           └── TOTPUserGroup.java
+│   │   │       │   │               └── totp
+│   │   │       │   │                   └── TOTPGenerator.java
+│   │   │       │   └── resources
+│   │   │       │       ├── config
+│   │   │       │       │   └── totpConfig.js
+│   │   │       │       ├── controllers
+│   │   │       │       │   └── authenticationCodeFieldController.js
+│   │   │       │       ├── guac-manifest.json
+│   │   │       │       ├── license.txt
+│   │   │       │       ├── styles
+│   │   │       │       │   └── totp.css
+│   │   │       │       ├── templates
+│   │   │       │       │   └── authenticationCodeField.html
+│   │   │       │       ├── totpModule.js
+│   │   │       │       └── translations
+│   │   │       │           ├── ca.json
+│   │   │       │           ├── de.json
+│   │   │       │           ├── en.json
+│   │   │       │           ├── fr.json
+│   │   │       │           ├── it.json
+│   │   │       │           ├── ja.json
+│   │   │       │           ├── ko.json
+│   │   │       │           ├── pl.json
+│   │   │       │           ├── pt.json
+│   │   │       │           ├── ru.json
+│   │   │       │           └── zh.json
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── org
+│   │   │                   └── apache
+│   │   │                       └── guacamole
+│   │   │                           └── totp
+│   │   │                               └── TOTPGeneratorTest.java
+│   │   ├── guacamole-display-statistics
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           └── resources
+│   │   │               ├── directives
+│   │   │               │   └── guacClientStatistics.js
+│   │   │               ├── guac-manifest.json
+│   │   │               ├── html
+│   │   │               │   └── add-statistics.html
+│   │   │               ├── license.txt
+│   │   │               ├── styles
+│   │   │               │   └── clientStatistics.css
+│   │   │               ├── templates
+│   │   │               │   └── guacClientStatistics.html
+│   │   │               └── translations
+│   │   │                   └── en.json
+│   │   ├── guacamole-history-recording-storage
+│   │   │   ├── pom.xml
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── assembly
+│   │   │           │   └── dist.xml
+│   │   │           ├── java
+│   │   │           │   └── org
+│   │   │           │       └── apache
+│   │   │           │           └── guacamole
+│   │   │           │               └── history
+│   │   │           │                   ├── connection
+│   │   │           │                   │   ├── HistoryConnection.java
+│   │   │           │                   │   ├── HistoryConnectionRecord.java
+│   │   │           │                   │   └── RecordedConnectionActivityRecordSet.java
+│   │   │           │                   ├── HistoryAuthenticationProvider.java
+│   │   │           │                   └── user
+│   │   │           │                       └── HistoryUserContext.java
+│   │   │           └── resources
+│   │   │               ├── guac-manifest.json
+│   │   │               └── translations
+│   │   │                   ├── en.json
+│   │   │                   ├── it.json
+│   │   │                   └── pl.json
+│   │   ├── guacamole-vault
+│   │   │   ├── modules
+│   │   │   │   ├── guacamole-vault-base
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       ├── main
+│   │   │   │   │       │   ├── java
+│   │   │   │   │       │   │   └── org
+│   │   │   │   │       │   │       └── apache
+│   │   │   │   │       │   │           └── guacamole
+│   │   │   │   │       │   │               └── vault
+│   │   │   │   │       │   │                   ├── conf
+│   │   │   │   │       │   │                   │   ├── VaultAttributeService.java
+│   │   │   │   │       │   │                   │   └── VaultConfigurationService.java
+│   │   │   │   │       │   │                   ├── secret
+│   │   │   │   │       │   │                   │   ├── CachedVaultSecretService.java
+│   │   │   │   │       │   │                   │   ├── VaultSecretService.java
+│   │   │   │   │       │   │                   │   └── WindowsUsername.java
+│   │   │   │   │       │   │                   ├── user
+│   │   │   │   │       │   │                   │   ├── VaultDirectoryService.java
+│   │   │   │   │       │   │                   │   ├── VaultUserContextFactory.java
+│   │   │   │   │       │   │                   │   └── VaultUserContext.java
+│   │   │   │   │       │   │                   ├── VaultAuthenticationProvider.java
+│   │   │   │   │       │   │                   └── VaultAuthenticationProviderModule.java
+│   │   │   │   │       │   └── resources
+│   │   │   │   │       │       └── translations
+│   │   │   │   │       │           └── en.json
+│   │   │   │   │       └── test
+│   │   │   │   │           └── java
+│   │   │   │   │               └── org
+│   │   │   │   │                   └── apache
+│   │   │   │   │                       └── guacamole
+│   │   │   │   │                           └── vault
+│   │   │   │   │                               └── secret
+│   │   │   │   │                                   └── WindowsUsernameTest.java
+│   │   │   │   ├── guacamole-vault-dist
+│   │   │   │   │   ├── pom.xml
+│   │   │   │   │   └── src
+│   │   │   │   │       └── main
+│   │   │   │   │           └── assembly
+│   │   │   │   │               └── dist.xml
+│   │   │   │   └── guacamole-vault-ksm
+│   │   │   │       ├── pom.xml
+│   │   │   │       └── src
+│   │   │   │           └── main
+│   │   │   │               ├── java
+│   │   │   │               │   └── org
+│   │   │   │               │       └── apache
+│   │   │   │               │           └── guacamole
+│   │   │   │               │               └── vault
+│   │   │   │               │                   └── ksm
+│   │   │   │               │                       ├── conf
+│   │   │   │               │                       │   ├── KsmAttributeService.java
+│   │   │   │               │                       │   ├── KsmConfig.java
+│   │   │   │               │                       │   └── KsmConfigurationService.java
+│   │   │   │               │                       ├── GuacamoleExceptionSupplier.java
+│   │   │   │               │                       ├── KsmAuthenticationProvider.java
+│   │   │   │               │                       ├── KsmAuthenticationProviderModule.java
+│   │   │   │               │                       ├── secret
+│   │   │   │               │                       │   ├── KsmClientFactory.java
+│   │   │   │               │                       │   ├── KsmClient.java
+│   │   │   │               │                       │   ├── KsmRecordService.java
+│   │   │   │               │                       │   ├── KsmSecretService.java
+│   │   │   │               │                       │   └── UserLogin.java
+│   │   │   │               │                       └── user
+│   │   │   │               │                           ├── KsmConnectionGroup.java
+│   │   │   │               │                           ├── KsmConnection.java
+│   │   │   │               │                           ├── KsmDirectory.java
+│   │   │   │               │                           ├── KsmDirectoryService.java
+│   │   │   │               │                           ├── KsmUserFactory.java
+│   │   │   │               │                           └── KsmUser.java
+│   │   │   │               └── resources
+│   │   │   │                   ├── guac-manifest.json
+│   │   │   │                   └── translations
+│   │   │   │                       └── en.json
+│   │   │   └── pom.xml
+│   │   └── pom.xml
+│   ├── guacamole
+│   │   ├── doc
+│   │   │   └── example
+│   │   │       └── user-mapping.xml
+│   │   ├── pom.xml
+│   │   ├── src
+│   │   │   ├── licenses
+│   │   │   │   └── bundled
+│   │   │   │       ├── angular-module-shim-0.0.4
+│   │   │   │       │   ├── LICENSE
+│   │   │   │       │   └── README
+│   │   │   │       ├── carlito
+│   │   │   │       │   ├── LICENSE
+│   │   │   │       │   └── README
+│   │   │   │       └── glyptodon-enterprise-player
+│   │   │   │           ├── LICENSE
+│   │   │   │           └── README
+│   │   │   └── main
+│   │   │       ├── frontend
+│   │   │       │   ├── package.json
+│   │   │       │   ├── package-lock.json
+│   │   │       │   ├── plugins
+│   │   │       │   │   └── dependency-list-plugin.js
+│   │   │       │   ├── src
+│   │   │       │   │   ├── angular-module-shim.js
+│   │   │       │   │   ├── app
+│   │   │       │   │   │   ├── auth
+│   │   │       │   │   │   │   ├── authModule.js
+│   │   │       │   │   │   │   ├── service
+│   │   │       │   │   │   │   │   └── authenticationService.js
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       └── AuthenticationResult.js
+│   │   │       │   │   │   ├── client
+│   │   │       │   │   │   │   ├── clientModule.js
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   └── clientController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacClient.js
+│   │   │       │   │   │   │   │   ├── guacClientNotification.js
+│   │   │       │   │   │   │   │   ├── guacClientPanel.js
+│   │   │       │   │   │   │   │   ├── guacClientUserCount.js
+│   │   │       │   │   │   │   │   ├── guacClientZoom.js
+│   │   │       │   │   │   │   │   ├── guacFileBrowser.js
+│   │   │       │   │   │   │   │   ├── guacFileTransfer.js
+│   │   │       │   │   │   │   │   ├── guacFileTransferManager.js
+│   │   │       │   │   │   │   │   ├── guacThumbnail.js
+│   │   │       │   │   │   │   │   ├── guacTiledClients.js
+│   │   │       │   │   │   │   │   ├── guacTiledThumbnails.js
+│   │   │       │   │   │   │   │   ├── guacViewport.js
+│   │   │       │   │   │   │   │   └── guacZoomCtrl.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── guacAudio.js
+│   │   │       │   │   │   │   │   ├── guacClientManager.js
+│   │   │       │   │   │   │   │   ├── guacFullscreen.js
+│   │   │       │   │   │   │   │   ├── guacImage.js
+│   │   │       │   │   │   │   │   ├── guacTranslate.js
+│   │   │       │   │   │   │   │   └── guacVideo.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── client.css
+│   │   │       │   │   │   │   │   ├── connection-select-menu.css
+│   │   │       │   │   │   │   │   ├── connection-warning.css
+│   │   │       │   │   │   │   │   ├── display.css
+│   │   │       │   │   │   │   │   ├── file-browser.css
+│   │   │       │   │   │   │   │   ├── filesystem-menu.css
+│   │   │       │   │   │   │   │   ├── file-transfer-dialog.css
+│   │   │       │   │   │   │   │   ├── guac-menu.css
+│   │   │       │   │   │   │   │   ├── keyboard.css
+│   │   │       │   │   │   │   │   ├── menu.css
+│   │   │       │   │   │   │   │   ├── notification.css
+│   │   │       │   │   │   │   │   ├── share-menu.css
+│   │   │       │   │   │   │   │   ├── thumbnail-display.css
+│   │   │       │   │   │   │   │   ├── tiled-client-grid.css
+│   │   │       │   │   │   │   │   ├── transfer.css
+│   │   │       │   │   │   │   │   ├── transfer-manager.css
+│   │   │       │   │   │   │   │   ├── viewport.css
+│   │   │       │   │   │   │   │   └── zoom.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── client.html
+│   │   │       │   │   │   │   │   ├── connectionGroup.html
+│   │   │       │   │   │   │   │   ├── connection.html
+│   │   │       │   │   │   │   │   ├── file.html
+│   │   │       │   │   │   │   │   ├── guacClient.html
+│   │   │       │   │   │   │   │   ├── guacClientNotification.html
+│   │   │       │   │   │   │   │   ├── guacClientPanel.html
+│   │   │       │   │   │   │   │   ├── guacClientUserCount.html
+│   │   │       │   │   │   │   │   ├── guacClientZoom.html
+│   │   │       │   │   │   │   │   ├── guacFileBrowser.html
+│   │   │       │   │   │   │   │   ├── guacFileTransfer.html
+│   │   │       │   │   │   │   │   ├── guacFileTransferManager.html
+│   │   │       │   │   │   │   │   ├── guacThumbnail.html
+│   │   │       │   │   │   │   │   ├── guacTiledClients.html
+│   │   │       │   │   │   │   │   ├── guacTiledThumbnails.html
+│   │   │       │   │   │   │   │   └── guacViewport.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ClientProperties.js
+│   │   │       │   │   │   │       ├── ManagedArgument.js
+│   │   │       │   │   │   │       ├── ManagedClientGroup.js
+│   │   │       │   │   │   │       ├── ManagedClient.js
+│   │   │       │   │   │   │       ├── ManagedClientState.js
+│   │   │       │   │   │   │       ├── ManagedClientThumbnail.js
+│   │   │       │   │   │   │       ├── ManagedDisplay.js
+│   │   │       │   │   │   │       ├── ManagedFilesystem.js
+│   │   │       │   │   │   │       ├── ManagedFileTransferState.js
+│   │   │       │   │   │   │       ├── ManagedFileUpload.js
+│   │   │       │   │   │   │       ├── ManagedShareLink.js
+│   │   │       │   │   │   │       └── TranslationResult.js
+│   │   │       │   │   │   ├── clipboard
+│   │   │       │   │   │   │   ├── clipboardModule.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   └── guacClipboard.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   └── clipboardService.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   └── clipboard.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   └── guacClipboard.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       └── ClipboardData.js
+│   │   │       │   │   │   ├── element
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacClick.js
+│   │   │       │   │   │   │   │   ├── guacDrop.js
+│   │   │       │   │   │   │   │   ├── guacFocus.js
+│   │   │       │   │   │   │   │   ├── guacMarker.js
+│   │   │       │   │   │   │   │   ├── guacResize.js
+│   │   │       │   │   │   │   │   ├── guacScroll.js
+│   │   │       │   │   │   │   │   └── guacUpload.js
+│   │   │       │   │   │   │   ├── elementModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   └── resize-sensor.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   └── blank.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── Marker.js
+│   │   │       │   │   │   │       └── ScrollState.js
+│   │   │       │   │   │   ├── form
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   ├── checkboxFieldController.js
+│   │   │       │   │   │   │   │   ├── dateFieldController.js
+│   │   │       │   │   │   │   │   ├── languageFieldController.js
+│   │   │       │   │   │   │   │   ├── numberFieldController.js
+│   │   │       │   │   │   │   │   ├── passwordFieldController.js
+│   │   │       │   │   │   │   │   ├── redirectFieldController.js
+│   │   │       │   │   │   │   │   ├── selectFieldController.js
+│   │   │       │   │   │   │   │   ├── terminalColorSchemeFieldController.js
+│   │   │       │   │   │   │   │   ├── textFieldController.js
+│   │   │       │   │   │   │   │   ├── timeFieldController.js
+│   │   │       │   │   │   │   │   └── timeZoneFieldController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── formField.js
+│   │   │       │   │   │   │   │   ├── form.js
+│   │   │       │   │   │   │   │   ├── guacInputColor.js
+│   │   │       │   │   │   │   │   ├── guacLenientDate.js
+│   │   │       │   │   │   │   │   └── guacLenientTime.js
+│   │   │       │   │   │   │   ├── formModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── colorPickerService.js
+│   │   │       │   │   │   │   │   └── formService.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── form.css
+│   │   │       │   │   │   │   │   ├── form-field.css
+│   │   │       │   │   │   │   │   ├── redirect-field.css
+│   │   │       │   │   │   │   │   └── terminal-color-scheme-field.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── checkboxField.html
+│   │   │       │   │   │   │   │   ├── dateField.html
+│   │   │       │   │   │   │   │   ├── emailField.html
+│   │   │       │   │   │   │   │   ├── formField.html
+│   │   │       │   │   │   │   │   ├── form.html
+│   │   │       │   │   │   │   │   ├── guacInputColor.html
+│   │   │       │   │   │   │   │   ├── languageField.html
+│   │   │       │   │   │   │   │   ├── numberField.html
+│   │   │       │   │   │   │   │   ├── passwordField.html
+│   │   │       │   │   │   │   │   ├── redirectField.html
+│   │   │       │   │   │   │   │   ├── selectField.html
+│   │   │       │   │   │   │   │   ├── terminalColorSchemeField.html
+│   │   │       │   │   │   │   │   ├── textAreaField.html
+│   │   │       │   │   │   │   │   ├── textField.html
+│   │   │       │   │   │   │   │   ├── timeField.html
+│   │   │       │   │   │   │   │   ├── timeZoneField.html
+│   │   │       │   │   │   │   │   └── usernameField.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ColorScheme.js
+│   │   │       │   │   │   │       └── FieldType.js
+│   │   │       │   │   │   ├── groupList
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacGroupListFilter.js
+│   │   │       │   │   │   │   │   └── guacGroupList.js
+│   │   │       │   │   │   │   ├── groupListModule.js
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── guacGroupListFilter.html
+│   │   │       │   │   │   │   │   └── guacGroupList.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       └── GroupListItem.js
+│   │   │       │   │   │   ├── history
+│   │   │       │   │   │   │   ├── historyModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   └── guacHistory.js
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       └── HistoryEntry.js
+│   │   │       │   │   │   ├── home
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   └── homeController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   └── guacRecentConnections.js
+│   │   │       │   │   │   │   ├── homeModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   └── home.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── connectionGroup.html
+│   │   │       │   │   │   │   │   ├── connection.html
+│   │   │       │   │   │   │   │   ├── guacRecentConnections.html
+│   │   │       │   │   │   │   │   └── home.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ActiveConnection.js
+│   │   │       │   │   │   │       └── RecentConnection.js
+│   │   │       │   │   │   ├── import
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   └── importConnectionsController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   └── connectionImportErrors.js
+│   │   │       │   │   │   │   ├── importModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── connectionCSVService.js
+│   │   │       │   │   │   │   │   └── connectionParseService.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── help.css
+│   │   │       │   │   │   │   │   └── import.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── connectionErrors.html
+│   │   │       │   │   │   │   │   ├── connectionImportFileHelp.html
+│   │   │       │   │   │   │   │   └── connectionImport.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ConnectionImportConfig.js
+│   │   │       │   │   │   │       ├── DisplayErrorList.js
+│   │   │       │   │   │   │       ├── ImportConnectionError.js
+│   │   │       │   │   │   │       ├── ImportConnection.js
+│   │   │       │   │   │   │       ├── ParseError.js
+│   │   │       │   │   │   │       └── ParseResult.js
+│   │   │       │   │   │   ├── index
+│   │   │       │   │   │   │   ├── config
+│   │   │       │   │   │   │   │   ├── httpDefaults.js
+│   │   │       │   │   │   │   │   ├── indexRouteConfig.js
+│   │   │       │   │   │   │   │   ├── indexTranslationConfig.js
+│   │   │       │   │   │   │   │   └── templateRequestDecorator.js
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   └── indexController.js
+│   │   │       │   │   │   │   ├── filters
+│   │   │       │   │   │   │   │   ├── arrayFilter.js
+│   │   │       │   │   │   │   │   ├── escapeFilter.js
+│   │   │       │   │   │   │   │   └── resolveFilter.js
+│   │   │       │   │   │   │   ├── indexModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   └── iconService.js
+│   │   │       │   │   │   │   └── styles
+│   │   │       │   │   │   │       ├── animation.css
+│   │   │       │   │   │   │       ├── automatic-login-rejected.css
+│   │   │       │   │   │   │       ├── buttons.css
+│   │   │       │   │   │   │       ├── cloak.css
+│   │   │       │   │   │   │       ├── fatal-page-error.css
+│   │   │       │   │   │   │       ├── font-carlito.css
+│   │   │       │   │   │   │       ├── headers.css
+│   │   │       │   │   │   │       ├── input.css
+│   │   │       │   │   │   │       ├── lists.css
+│   │   │       │   │   │   │       ├── loading.css
+│   │   │       │   │   │   │       ├── logged-out.css
+│   │   │       │   │   │   │       ├── other-connections.css
+│   │   │       │   │   │   │       ├── sorted-tables.css
+│   │   │       │   │   │   │       ├── status.css
+│   │   │       │   │   │   │       └── ui.css
+│   │   │       │   │   │   ├── list
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacFilter.js
+│   │   │       │   │   │   │   │   ├── guacPager.js
+│   │   │       │   │   │   │   │   ├── guacSortOrder.js
+│   │   │       │   │   │   │   │   └── guacUserItem.js
+│   │   │       │   │   │   │   ├── listModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── filter.css
+│   │   │       │   │   │   │   │   ├── pager.css
+│   │   │       │   │   │   │   │   └── user-item.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── guacFilter.html
+│   │   │       │   │   │   │   │   ├── guacPager.html
+│   │   │       │   │   │   │   │   └── guacUserItem.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── FilterPattern.js
+│   │   │       │   │   │   │       ├── FilterToken.js
+│   │   │       │   │   │   │       ├── IPv4Network.js
+│   │   │       │   │   │   │       ├── IPv6Network.js
+│   │   │       │   │   │   │       └── SortOrder.js
+│   │   │       │   │   │   ├── locale
+│   │   │       │   │   │   │   ├── localeModule.js
+│   │   │       │   │   │   │   └── services
+│   │   │       │   │   │   │       ├── translationLoader.js
+│   │   │       │   │   │   │       └── translationStringService.js
+│   │   │       │   │   │   ├── login
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   └── login.js
+│   │   │       │   │   │   │   ├── loginModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── animation.css
+│   │   │       │   │   │   │   │   ├── dialog.css
+│   │   │       │   │   │   │   │   ├── input.css
+│   │   │       │   │   │   │   │   └── login.css
+│   │   │       │   │   │   │   └── templates
+│   │   │       │   │   │   │       └── login.html
+│   │   │       │   │   │   ├── manage
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   ├── manageConnectionController.js
+│   │   │       │   │   │   │   │   ├── manageConnectionGroupController.js
+│   │   │       │   │   │   │   │   ├── manageSharingProfileController.js
+│   │   │       │   │   │   │   │   ├── manageUserController.js
+│   │   │       │   │   │   │   │   └── manageUserGroupController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── connectionPermissionEditor.js
+│   │   │       │   │   │   │   │   ├── dataSourceTabs.js
+│   │   │       │   │   │   │   │   ├── identifierSetEditor.js
+│   │   │       │   │   │   │   │   ├── locationChooser.js
+│   │   │       │   │   │   │   │   ├── managementButtons.js
+│   │   │       │   │   │   │   │   └── systemPermissionEditor.js
+│   │   │       │   │   │   │   ├── manageModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── attributes.css
+│   │   │       │   │   │   │   │   ├── connection-parameter.css
+│   │   │       │   │   │   │   │   ├── forms.css
+│   │   │       │   │   │   │   │   ├── locationChooser.css
+│   │   │       │   │   │   │   │   ├── manage-user.css
+│   │   │       │   │   │   │   │   ├── manage-user-group.css
+│   │   │       │   │   │   │   │   └── related-objects.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── connectionGroupPermission.html
+│   │   │       │   │   │   │   │   ├── connectionPermissionEditor.html
+│   │   │       │   │   │   │   │   ├── connectionPermission.html
+│   │   │       │   │   │   │   │   ├── dataSourceTabs.html
+│   │   │       │   │   │   │   │   ├── identifierSetEditor.html
+│   │   │       │   │   │   │   │   ├── locationChooserConnectionGroup.html
+│   │   │       │   │   │   │   │   ├── locationChooser.html
+│   │   │       │   │   │   │   │   ├── manageConnectionGroup.html
+│   │   │       │   │   │   │   │   ├── manageConnection.html
+│   │   │       │   │   │   │   │   ├── managementButtons.html
+│   │   │       │   │   │   │   │   ├── manageSharingProfile.html
+│   │   │       │   │   │   │   │   ├── manageUserGroup.html
+│   │   │       │   │   │   │   │   ├── manageUser.html
+│   │   │       │   │   │   │   │   ├── sharingProfilePermission.html
+│   │   │       │   │   │   │   │   └── systemPermissionEditor.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── HistoryEntryWrapper.js
+│   │   │       │   │   │   │       ├── ManageableUserGroup.js
+│   │   │       │   │   │   │       ├── ManageableUser.js
+│   │   │       │   │   │   │       └── ManagementPermissions.js
+│   │   │       │   │   │   ├── navigation
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacMenu.js
+│   │   │       │   │   │   │   │   ├── guacPageList.js
+│   │   │       │   │   │   │   │   ├── guacSectionTabs.js
+│   │   │       │   │   │   │   │   └── guacUserMenu.js
+│   │   │       │   │   │   │   ├── navigationModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   └── userPageService.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── menu.css
+│   │   │       │   │   │   │   │   ├── tabs.css
+│   │   │       │   │   │   │   │   └── user-menu.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── guacMenu.html
+│   │   │       │   │   │   │   │   ├── guacPageList.html
+│   │   │       │   │   │   │   │   ├── guacSectionTabs.html
+│   │   │       │   │   │   │   │   └── guacUserMenu.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ClientIdentifier.js
+│   │   │       │   │   │   │       ├── MenuAction.js
+│   │   │       │   │   │   │       └── PageDefinition.js
+│   │   │       │   │   │   ├── notification
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacModal.js
+│   │   │       │   │   │   │   │   └── guacNotification.js
+│   │   │       │   │   │   │   ├── notificationModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   └── guacNotification.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── modal.css
+│   │   │       │   │   │   │   │   └── notification.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── guacModal.html
+│   │   │       │   │   │   │   │   └── guacNotification.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── NotificationAction.js
+│   │   │       │   │   │   │       ├── NotificationCountdown.js
+│   │   │       │   │   │   │       ├── Notification.js
+│   │   │       │   │   │   │       └── NotificationProgress.js
+│   │   │       │   │   │   ├── osk
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   └── guacOsk.js
+│   │   │       │   │   │   │   ├── oskModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   └── osk.css
+│   │   │       │   │   │   │   └── templates
+│   │   │       │   │   │   │       └── guacOsk.html
+│   │   │       │   │   │   ├── player
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── playerDisplay.js
+│   │   │       │   │   │   │   │   ├── player.js
+│   │   │       │   │   │   │   │   ├── progressIndicator.js
+│   │   │       │   │   │   │   │   └── textView.js
+│   │   │       │   │   │   │   ├── playerModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── keyEventDisplayService.js
+│   │   │       │   │   │   │   │   ├── playerHeatmapService.js
+│   │   │       │   │   │   │   │   └── playerTimeService.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── player.css
+│   │   │       │   │   │   │   │   ├── playerDisplay.css
+│   │   │       │   │   │   │   │   ├── progressIndicator.css
+│   │   │       │   │   │   │   │   ├── seek.css
+│   │   │       │   │   │   │   │   └── textView.css
+│   │   │       │   │   │   │   └── templates
+│   │   │       │   │   │   │       ├── playerDisplay.html
+│   │   │       │   │   │   │       ├── player.html
+│   │   │       │   │   │   │       ├── progressIndicator.html
+│   │   │       │   │   │   │       └── textView.html
+│   │   │       │   │   │   ├── rest
+│   │   │       │   │   │   │   ├── restModule.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── activeConnectionService.js
+│   │   │       │   │   │   │   │   ├── cacheService.js
+│   │   │       │   │   │   │   │   ├── connectionGroupService.js
+│   │   │       │   │   │   │   │   ├── connectionService.js
+│   │   │       │   │   │   │   │   ├── dataSourceService.js
+│   │   │       │   │   │   │   │   ├── historyService.js
+│   │   │       │   │   │   │   │   ├── languageService.js
+│   │   │       │   │   │   │   │   ├── membershipService.js
+│   │   │       │   │   │   │   │   ├── patchService.js
+│   │   │       │   │   │   │   │   ├── permissionService.js
+│   │   │       │   │   │   │   │   ├── requestService.js
+│   │   │       │   │   │   │   │   ├── schemaService.js
+│   │   │       │   │   │   │   │   ├── sharingProfileService.js
+│   │   │       │   │   │   │   │   ├── tunnelService.js
+│   │   │       │   │   │   │   │   ├── userGroupService.js
+│   │   │       │   │   │   │   │   └── userService.js
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ActiveConnection.js
+│   │   │       │   │   │   │       ├── ActivityLog.js
+│   │   │       │   │   │   │       ├── ConnectionGroup.js
+│   │   │       │   │   │   │       ├── ConnectionHistoryEntry.js
+│   │   │       │   │   │   │       ├── Connection.js
+│   │   │       │   │   │   │       ├── DirectoryPatch.js
+│   │   │       │   │   │   │       ├── DirectoryPatchOutcome.js
+│   │   │       │   │   │   │       ├── DirectoryPatchResponse.js
+│   │   │       │   │   │   │       ├── Error.js
+│   │   │       │   │   │   │       ├── Field.js
+│   │   │       │   │   │   │       ├── Form.js
+│   │   │       │   │   │   │       ├── PermissionFlagSet.js
+│   │   │       │   │   │   │       ├── PermissionPatch.js
+│   │   │       │   │   │   │       ├── PermissionSet.js
+│   │   │       │   │   │   │       ├── Protocol.js
+│   │   │       │   │   │   │       ├── RelatedObjectPatch.js
+│   │   │       │   │   │   │       ├── SharingProfile.js
+│   │   │       │   │   │   │       ├── TranslatableMessage.js
+│   │   │       │   │   │   │       ├── UserCredentials.js
+│   │   │       │   │   │   │       ├── UserGroup.js
+│   │   │       │   │   │   │       ├── User.js
+│   │   │       │   │   │   │       └── UserPasswordUpdate.js
+│   │   │       │   │   │   ├── settings
+│   │   │       │   │   │   │   ├── controllers
+│   │   │       │   │   │   │   │   ├── connectionHistoryPlayerController.js
+│   │   │       │   │   │   │   │   └── settingsController.js
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacSettingsConnectionHistory.js
+│   │   │       │   │   │   │   │   ├── guacSettingsConnections.js
+│   │   │       │   │   │   │   │   ├── guacSettingsPreferences.js
+│   │   │       │   │   │   │   │   ├── guacSettingsSessions.js
+│   │   │       │   │   │   │   │   ├── guacSettingsUserGroups.js
+│   │   │       │   │   │   │   │   └── guacSettingsUsers.js
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── csvService.js
+│   │   │       │   │   │   │   │   └── preferenceService.js
+│   │   │       │   │   │   │   ├── settingsModule.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   ├── buttons.css
+│   │   │       │   │   │   │   │   ├── connection-list.css
+│   │   │       │   │   │   │   │   ├── history.css
+│   │   │       │   │   │   │   │   ├── history-player.css
+│   │   │       │   │   │   │   │   ├── input-method.css
+│   │   │       │   │   │   │   │   ├── mouse-mode.css
+│   │   │       │   │   │   │   │   ├── preferences.css
+│   │   │       │   │   │   │   │   ├── sessions.css
+│   │   │       │   │   │   │   │   ├── settings.css
+│   │   │       │   │   │   │   │   ├── user-group-list.css
+│   │   │       │   │   │   │   │   └── user-list.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── connectionGroup.html
+│   │   │       │   │   │   │   │   ├── connection.html
+│   │   │       │   │   │   │   │   ├── newConnectionGroup.html
+│   │   │       │   │   │   │   │   ├── newConnection.html
+│   │   │       │   │   │   │   │   ├── newSharingProfile.html
+│   │   │       │   │   │   │   │   ├── settingsConnectionHistory.html
+│   │   │       │   │   │   │   │   ├── settingsConnectionHistoryPlayer.html
+│   │   │       │   │   │   │   │   ├── settingsConnections.html
+│   │   │       │   │   │   │   │   ├── settings.html
+│   │   │       │   │   │   │   │   ├── settingsPreferences.html
+│   │   │       │   │   │   │   │   ├── settingsSessions.html
+│   │   │       │   │   │   │   │   ├── settingsUserGroups.html
+│   │   │       │   │   │   │   │   ├── settingsUsers.html
+│   │   │       │   │   │   │   │   └── sharingProfile.html
+│   │   │       │   │   │   │   └── types
+│   │   │       │   │   │   │       ├── ActiveConnectionWrapper.js
+│   │   │       │   │   │   │       └── ConnectionHistoryEntryWrapper.js
+│   │   │       │   │   │   ├── storage
+│   │   │       │   │   │   │   ├── services
+│   │   │       │   │   │   │   │   ├── localStorageService.js
+│   │   │       │   │   │   │   │   └── sessionStorageFactory.js
+│   │   │       │   │   │   │   └── storageModule.js
+│   │   │       │   │   │   ├── textInput
+│   │   │       │   │   │   │   ├── directives
+│   │   │       │   │   │   │   │   ├── guacKey.js
+│   │   │       │   │   │   │   │   └── guacTextInput.js
+│   │   │       │   │   │   │   ├── styles
+│   │   │       │   │   │   │   │   └── textInput.css
+│   │   │       │   │   │   │   ├── templates
+│   │   │       │   │   │   │   │   ├── guacKey.html
+│   │   │       │   │   │   │   │   └── guacTextInput.html
+│   │   │       │   │   │   │   └── textInputModule.js
+│   │   │       │   │   │   └── touch
+│   │   │       │   │   │       ├── directives
+│   │   │       │   │   │       │   ├── guacTouchDrag.js
+│   │   │       │   │   │       │   └── guacTouchPinch.js
+│   │   │       │   │   │       └── touchModule.js
+│   │   │       │   │   ├── fonts
+│   │   │       │   │   │   └── carlito
+│   │   │       │   │   │       ├── Carlito-Bold.woff
+│   │   │       │   │   │       ├── Carlito-Italic.woff
+│   │   │       │   │   │       ├── Carlito-Regular.woff
+│   │   │       │   │   │       └── LICENSE
+│   │   │       │   │   ├── images
+│   │   │       │   │   │   ├── action-icons
+│   │   │       │   │   │   │   ├── guac-back.svg
+│   │   │       │   │   │   │   ├── guac-config-dark.svg
+│   │   │       │   │   │   │   ├── guac-config.svg
+│   │   │       │   │   │   │   ├── guac-file-import.svg
+│   │   │       │   │   │   │   ├── guac-first-page.svg
+│   │   │       │   │   │   │   ├── guac-group-add.svg
+│   │   │       │   │   │   │   ├── guac-hide-pass.svg
+│   │   │       │   │   │   │   ├── guac-home-dark.svg
+│   │   │       │   │   │   │   ├── guac-home.svg
+│   │   │       │   │   │   │   ├── guac-key.svg
+│   │   │       │   │   │   │   ├── guac-last-page.svg
+│   │   │       │   │   │   │   ├── guac-logout-dark.svg
+│   │   │       │   │   │   │   ├── guac-logout.svg
+│   │   │       │   │   │   │   ├── guac-monitor-add.svg
+│   │   │       │   │   │   │   ├── guac-next-page.svg
+│   │   │       │   │   │   │   ├── guac-pause.svg
+│   │   │       │   │   │   │   ├── guac-play-link.svg
+│   │   │       │   │   │   │   ├── guac-play.svg
+│   │   │       │   │   │   │   ├── guac-prev-page.svg
+│   │   │       │   │   │   │   ├── guac-show-pass.svg
+│   │   │       │   │   │   │   ├── guac-user-add.svg
+│   │   │       │   │   │   │   └── guac-user-group-add.svg
+│   │   │       │   │   │   ├── arrows
+│   │   │       │   │   │   │   ├── down.svg
+│   │   │       │   │   │   │   ├── left.svg
+│   │   │       │   │   │   │   ├── right.svg
+│   │   │       │   │   │   │   └── up.svg
+│   │   │       │   │   │   ├── checker.svg
+│   │   │       │   │   │   ├── checkmark.svg
+│   │   │       │   │   │   ├── circle-arrows.svg
+│   │   │       │   │   │   ├── cog.svg
+│   │   │       │   │   │   ├── drive.svg
+│   │   │       │   │   │   ├── file.svg
+│   │   │       │   │   │   ├── folder-closed.svg
+│   │   │       │   │   │   ├── folder-open.svg
+│   │   │       │   │   │   ├── folder-up.svg
+│   │   │       │   │   │   ├── fullscreen.svg
+│   │   │       │   │   │   ├── group-icons
+│   │   │       │   │   │   │   ├── guac-closed.svg
+│   │   │       │   │   │   │   └── guac-open.svg
+│   │   │       │   │   │   ├── guac-tricolor.svg
+│   │   │       │   │   │   ├── lock.svg
+│   │   │       │   │   │   ├── logo-144.png
+│   │   │       │   │   │   ├── logo-64.png
+│   │   │       │   │   │   ├── magnifier.svg
+│   │   │       │   │   │   ├── mouse
+│   │   │       │   │   │   │   ├── blank.cur
+│   │   │       │   │   │   │   ├── blank.gif
+│   │   │       │   │   │   │   └── dot.gif
+│   │   │       │   │   │   ├── plus.svg
+│   │   │       │   │   │   ├── progress.svg
+│   │   │       │   │   │   ├── protocol-icons
+│   │   │       │   │   │   │   ├── guac-monitor.svg
+│   │   │       │   │   │   │   ├── guac-plug.svg
+│   │   │       │   │   │   │   └── guac-text.svg
+│   │   │       │   │   │   ├── question.svg
+│   │   │       │   │   │   ├── settings
+│   │   │       │   │   │   │   ├── tablet-keys.svg
+│   │   │       │   │   │   │   ├── touchpad.svg
+│   │   │       │   │   │   │   ├── touchscreen.svg
+│   │   │       │   │   │   │   ├── zoom-in.svg
+│   │   │       │   │   │   │   └── zoom-out.svg
+│   │   │       │   │   │   ├── share.svg
+│   │   │       │   │   │   ├── share-white.svg
+│   │   │       │   │   │   ├── user-icons
+│   │   │       │   │   │   │   ├── guac-user-group.svg
+│   │   │       │   │   │   │   ├── guac-user.svg
+│   │   │       │   │   │   │   └── guac-user-white.svg
+│   │   │       │   │   │   ├── warning.svg
+│   │   │       │   │   │   ├── warning-white.svg
+│   │   │       │   │   │   ├── x-black.svg
+│   │   │       │   │   │   ├── x-red.svg
+│   │   │       │   │   │   └── x.svg
+│   │   │       │   │   ├── index.html
+│   │   │       │   │   ├── layouts
+│   │   │       │   │   │   ├── de-de-qwertz.json
+│   │   │       │   │   │   ├── en-us-qwerty.json
+│   │   │       │   │   │   ├── es-es-qwerty.json
+│   │   │       │   │   │   ├── fr-fr-azerty.json
+│   │   │       │   │   │   ├── it-it-qwerty.json
+│   │   │       │   │   │   ├── nl-nl-qwerty.json
+│   │   │       │   │   │   └── ru-ru-qwerty.json
+│   │   │       │   │   ├── relocateParameters.js
+│   │   │       │   │   ├── translations
+│   │   │       │   │   │   ├── ca.json
+│   │   │       │   │   │   ├── cs.json
+│   │   │       │   │   │   ├── de.json
+│   │   │       │   │   │   ├── en.json
+│   │   │       │   │   │   ├── es.json
+│   │   │       │   │   │   ├── fr.json
+│   │   │       │   │   │   ├── it.json
+│   │   │       │   │   │   ├── ja.json
+│   │   │       │   │   │   ├── ko.json
+│   │   │       │   │   │   ├── nl.json
+│   │   │       │   │   │   ├── no.json
+│   │   │       │   │   │   ├── pl.json
+│   │   │       │   │   │   ├── pt.json
+│   │   │       │   │   │   ├── ru.json
+│   │   │       │   │   │   └── zh.json
+│   │   │       │   │   └── verifyCachedVersion.js
+│   │   │       │   └── webpack.config.js
+│   │   │       ├── java
+│   │   │       │   └── org
+│   │   │       │       └── apache
+│   │   │       │           └── guacamole
+│   │   │       │               ├── auth
+│   │   │       │               │   └── file
+│   │   │       │               │       ├── Authorization.java
+│   │   │       │               │       ├── AuthorizeTagHandler.java
+│   │   │       │               │       ├── ConnectionTagHandler.java
+│   │   │       │               │       ├── FileAuthenticationProvider.java
+│   │   │       │               │       ├── package-info.java
+│   │   │       │               │       ├── ParamTagHandler.java
+│   │   │       │               │       ├── ProtocolTagHandler.java
+│   │   │       │               │       ├── UserMapping.java
+│   │   │       │               │       └── UserMappingTagHandler.java
+│   │   │       │               ├── CacheRevalidationFilter.java
+│   │   │       │               ├── EnvironmentModule.java
+│   │   │       │               ├── event
+│   │   │       │               │   ├── AffectedObject.java
+│   │   │       │               │   ├── EventLoggingListener.java
+│   │   │       │               │   ├── Failure.java
+│   │   │       │               │   ├── LoggableDetail.java
+│   │   │       │               │   ├── RemoteAddress.java
+│   │   │       │               │   └── RequestingUser.java
+│   │   │       │               ├── extension
+│   │   │       │               │   ├── AuthenticationProviderFacade.java
+│   │   │       │               │   ├── DirectoryClassLoader.java
+│   │   │       │               │   ├── ExtensionClassLoader.java
+│   │   │       │               │   ├── Extension.java
+│   │   │       │               │   ├── ExtensionManifest.java
+│   │   │       │               │   ├── ExtensionModule.java
+│   │   │       │               │   ├── ExtensionOrderProperty.java
+│   │   │       │               │   ├── LanguageResourceService.java
+│   │   │       │               │   ├── ListenerFactory.java
+│   │   │       │               │   ├── package-info.java
+│   │   │       │               │   ├── PatchResourceService.java
+│   │   │       │               │   └── ProviderFactory.java
+│   │   │       │               ├── GuacamoleApplication.java
+│   │   │       │               ├── GuacamoleServletContextListener.java
+│   │   │       │               ├── GuacamoleSession.java
+│   │   │       │               ├── log
+│   │   │       │               │   ├── LogLevel.java
+│   │   │       │               │   └── LogModule.java
+│   │   │       │               ├── net
+│   │   │       │               │   └── auth
+│   │   │       │               │       └── Connectable.java
+│   │   │       │               ├── package-info.java
+│   │   │       │               ├── properties
+│   │   │       │               │   ├── package-info.java
+│   │   │       │               │   └── StringSetProperty.java
+│   │   │       │               ├── resource
+│   │   │       │               │   ├── AbstractResource.java
+│   │   │       │               │   ├── ByteArrayResource.java
+│   │   │       │               │   ├── ClassPathResource.java
+│   │   │       │               │   ├── package-info.java
+│   │   │       │               │   ├── Resource.java
+│   │   │       │               │   ├── ResourceServlet.java
+│   │   │       │               │   ├── SequenceResource.java
+│   │   │       │               │   └── WebApplicationResource.java
+│   │   │       │               ├── rest
+│   │   │       │               │   ├── activeconnection
+│   │   │       │               │   │   ├── ActiveConnectionDirectoryResource.java
+│   │   │       │               │   │   ├── ActiveConnectionModule.java
+│   │   │       │               │   │   ├── ActiveConnectionObjectTranslator.java
+│   │   │       │               │   │   ├── ActiveConnectionResource.java
+│   │   │       │               │   │   ├── APIActiveConnection.java
+│   │   │       │               │   │   ├── APIUserCredentials.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── APIError.java
+│   │   │       │               │   ├── APIException.java
+│   │   │       │               │   ├── APIRequest.java
+│   │   │       │               │   ├── auth
+│   │   │       │               │   │   ├── APIAuthenticationResponse.java
+│   │   │       │               │   │   ├── APIAuthenticationResult.java
+│   │   │       │               │   │   ├── AuthenticationService.java
+│   │   │       │               │   │   ├── AuthTokenGenerator.java
+│   │   │       │               │   │   ├── DecoratedUserContext.java
+│   │   │       │               │   │   ├── DecorationService.java
+│   │   │       │               │   │   ├── GuacamoleAuthenticationProcessException.java
+│   │   │       │               │   │   ├── HashTokenSessionMap.java
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── SecureRandomAuthTokenGenerator.java
+│   │   │       │               │   │   ├── TokenRESTService.java
+│   │   │       │               │   │   └── TokenSessionMap.java
+│   │   │       │               │   ├── connection
+│   │   │       │               │   │   ├── APIConnection.java
+│   │   │       │               │   │   ├── APIConnectionWrapper.java
+│   │   │       │               │   │   ├── ConnectionDirectoryResource.java
+│   │   │       │               │   │   ├── ConnectionModule.java
+│   │   │       │               │   │   ├── ConnectionObjectTranslator.java
+│   │   │       │               │   │   ├── ConnectionResource.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── connectiongroup
+│   │   │       │               │   │   ├── APIConnectionGroup.java
+│   │   │       │               │   │   ├── APIConnectionGroupWrapper.java
+│   │   │       │               │   │   ├── ConnectionGroupDirectoryResource.java
+│   │   │       │               │   │   ├── ConnectionGroupModule.java
+│   │   │       │               │   │   ├── ConnectionGroupObjectTranslator.java
+│   │   │       │               │   │   ├── ConnectionGroupResource.java
+│   │   │       │               │   │   ├── ConnectionGroupTree.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── directory
+│   │   │       │               │   │   ├── DirectoryObjectResourceFactory.java
+│   │   │       │               │   │   ├── DirectoryObjectResource.java
+│   │   │       │               │   │   ├── DirectoryObjectTranslator.java
+│   │   │       │               │   │   ├── DirectoryResourceFactory.java
+│   │   │       │               │   │   ├── DirectoryResource.java
+│   │   │       │               │   │   ├── DirectoryView.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── event
+│   │   │       │               │   │   └── ListenerService.java
+│   │   │       │               │   ├── extension
+│   │   │       │               │   │   ├── ExtensionRESTService.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── history
+│   │   │       │               │   │   ├── ActivityLogResource.java
+│   │   │       │               │   │   ├── ActivityRecordResource.java
+│   │   │       │               │   │   ├── ActivityRecordSetResource.java
+│   │   │       │               │   │   ├── APIActivityLog.java
+│   │   │       │               │   │   ├── APIActivityRecord.java
+│   │   │       │               │   │   ├── APIConnectionRecord.java
+│   │   │       │               │   │   ├── APISortPredicate.java
+│   │   │       │               │   │   ├── ConnectionHistoryResource.java
+│   │   │       │               │   │   ├── HistoryResource.java
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   └── UserHistoryResource.java
+│   │   │       │               │   ├── identifier
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── RelatedObjectSetPatch.java
+│   │   │       │               │   │   └── RelatedObjectSetResource.java
+│   │   │       │               │   ├── jsonpatch
+│   │   │       │               │   │   ├── APIPatchError.java
+│   │   │       │               │   │   ├── APIPatchFailureException.java
+│   │   │       │               │   │   ├── APIPatch.java
+│   │   │       │               │   │   ├── APIPatchOutcome.java
+│   │   │       │               │   │   ├── APIPatchResponse.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── language
+│   │   │       │               │   │   ├── LanguageRESTService.java
+│   │   │       │               │   │   └── package-info.java
+│   │   │       │               │   ├── LimitedRequestInputStream.java
+│   │   │       │               │   ├── package-info.java
+│   │   │       │               │   ├── patch
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   └── PatchRESTService.java
+│   │   │       │               │   ├── permission
+│   │   │       │               │   │   ├── APIPermissionSet.java
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── PermissionSetPatch.java
+│   │   │       │               │   │   └── PermissionSetResource.java
+│   │   │       │               │   ├── RequestSizeFilter.java
+│   │   │       │               │   ├── RESTExceptionMapper.java
+│   │   │       │               │   ├── RESTServiceModule.java
+│   │   │       │               │   ├── schema
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   └── SchemaResource.java
+│   │   │       │               │   ├── session
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── SessionResourceFactory.java
+│   │   │       │               │   │   ├── SessionResource.java
+│   │   │       │               │   │   ├── SessionRESTService.java
+│   │   │       │               │   │   ├── UserContextResourceFactory.java
+│   │   │       │               │   │   └── UserContextResource.java
+│   │   │       │               │   ├── sharingprofile
+│   │   │       │               │   │   ├── APISharingProfile.java
+│   │   │       │               │   │   ├── APISharingProfileWrapper.java
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── SharingProfileDirectoryResource.java
+│   │   │       │               │   │   ├── SharingProfileModule.java
+│   │   │       │               │   │   ├── SharingProfileObjectTranslator.java
+│   │   │       │               │   │   └── SharingProfileResource.java
+│   │   │       │               │   ├── TokenParam.java
+│   │   │       │               │   ├── TokenParamProvider.java
+│   │   │       │               │   ├── tunnel
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── StreamResource.java
+│   │   │       │               │   │   ├── TunnelCollectionResourceFactory.java
+│   │   │       │               │   │   ├── TunnelCollectionResource.java
+│   │   │       │               │   │   ├── TunnelResourceFactory.java
+│   │   │       │               │   │   └── TunnelResource.java
+│   │   │       │               │   ├── user
+│   │   │       │               │   │   ├── APIUser.java
+│   │   │       │               │   │   ├── APIUserPasswordUpdate.java
+│   │   │       │               │   │   ├── APIUserWrapper.java
+│   │   │       │               │   │   ├── package-info.java
+│   │   │       │               │   │   ├── UserDirectoryResource.java
+│   │   │       │               │   │   ├── UserModule.java
+│   │   │       │               │   │   ├── UserObjectTranslator.java
+│   │   │       │               │   │   └── UserResource.java
+│   │   │       │               │   └── usergroup
+│   │   │       │               │       ├── APIUserGroup.java
+│   │   │       │               │       ├── APIUserGroupWrapper.java
+│   │   │       │               │       ├── package-info.java
+│   │   │       │               │       ├── UserGroupDirectoryResource.java
+│   │   │       │               │       ├── UserGroupModule.java
+│   │   │       │               │       ├── UserGroupObjectTranslator.java
+│   │   │       │               │       └── UserGroupResource.java
+│   │   │       │               ├── SystemEnvironmentGuacamoleProperties.java
+│   │   │       │               ├── SystemFileEnvironmentGuacamoleProperties.java
+│   │   │       │               └── tunnel
+│   │   │       │                   ├── GuacamoleStreamException.java
+│   │   │       │                   ├── http
+│   │   │       │                   │   ├── HTTPTunnelRequest.java
+│   │   │       │                   │   ├── package-info.java
+│   │   │       │                   │   └── RestrictedGuacamoleHTTPTunnelServlet.java
+│   │   │       │                   ├── InputStreamInterceptingFilter.java
+│   │   │       │                   ├── InterceptedStream.java
+│   │   │       │                   ├── InterceptedStreamMap.java
+│   │   │       │                   ├── OutputStreamInterceptingFilter.java
+│   │   │       │                   ├── package-info.java
+│   │   │       │                   ├── StandardTokenMap.java
+│   │   │       │                   ├── StreamInterceptingFilter.java
+│   │   │       │                   ├── StreamInterceptingTunnel.java
+│   │   │       │                   ├── TunnelLoader.java
+│   │   │       │                   ├── TunnelModule.java
+│   │   │       │                   ├── TunnelRequest.java
+│   │   │       │                   ├── TunnelRequestService.java
+│   │   │       │                   ├── TunnelRequestType.java
+│   │   │       │                   ├── UserTunnel.java
+│   │   │       │                   └── websocket
+│   │   │       │                       ├── jetty8
+│   │   │       │                       │   ├── GuacamoleWebSocketTunnelServlet.java
+│   │   │       │                       │   ├── package-info.java
+│   │   │       │                       │   ├── RestrictedGuacamoleWebSocketTunnelServlet.java
+│   │   │       │                       │   └── WebSocketTunnelModule.java
+│   │   │       │                       ├── jetty9
+│   │   │       │                       │   ├── GuacamoleWebSocketTunnelListener.java
+│   │   │       │                       │   ├── package-info.java
+│   │   │       │                       │   ├── RestrictedGuacamoleWebSocketCreator.java
+│   │   │       │                       │   ├── RestrictedGuacamoleWebSocketTunnelListener.java
+│   │   │       │                       │   ├── RestrictedGuacamoleWebSocketTunnelServlet.java
+│   │   │       │                       │   ├── WebSocketTunnelModule.java
+│   │   │       │                       │   └── WebSocketTunnelRequest.java
+│   │   │       │                       ├── package-info.java
+│   │   │       │                       ├── RestrictedGuacamoleWebSocketTunnelEndpoint.java
+│   │   │       │                       ├── tomcat
+│   │   │       │                       │   ├── GuacamoleWebSocketTunnelServlet.java
+│   │   │       │                       │   ├── package-info.java
+│   │   │       │                       │   ├── RestrictedGuacamoleWebSocketTunnelServlet.java
+│   │   │       │                       │   └── WebSocketTunnelModule.java
+│   │   │       │                       ├── WebSocketTunnelModule.java
+│   │   │       │                       └── WebSocketTunnelRequest.java
+│   │   │       └── webapp
+│   │   │           └── WEB-INF
+│   │   │               └── web.xml
+│   │   └── util
+│   │       ├── check-translation.py
+│   │       └── run-npm.sh
+│   ├── guacamole-common
+│   │   ├── pom.xml
+│   │   └── src
+│   │       ├── main
+│   │       │   └── java
+│   │       │       └── org
+│   │       │           └── apache
+│   │       │               └── guacamole
+│   │       │                   ├── GuacamoleClientBadTypeException.java
+│   │       │                   ├── GuacamoleClientException.java
+│   │       │                   ├── GuacamoleClientOverrunException.java
+│   │       │                   ├── GuacamoleClientTimeoutException.java
+│   │       │                   ├── GuacamoleClientTooManyException.java
+│   │       │                   ├── GuacamoleConnectionClosedException.java
+│   │       │                   ├── GuacamoleException.java
+│   │       │                   ├── GuacamoleResourceClosedException.java
+│   │       │                   ├── GuacamoleResourceConflictException.java
+│   │       │                   ├── GuacamoleResourceNotFoundException.java
+│   │       │                   ├── GuacamoleSecurityException.java
+│   │       │                   ├── GuacamoleServerBusyException.java
+│   │       │                   ├── GuacamoleServerException.java
+│   │       │                   ├── GuacamoleSessionClosedException.java
+│   │       │                   ├── GuacamoleSessionConflictException.java
+│   │       │                   ├── GuacamoleSessionTimeoutException.java
+│   │       │                   ├── GuacamoleUnauthorizedException.java
+│   │       │                   ├── GuacamoleUnsupportedException.java
+│   │       │                   ├── GuacamoleUpstreamException.java
+│   │       │                   ├── GuacamoleUpstreamNotFoundException.java
+│   │       │                   ├── GuacamoleUpstreamTimeoutException.java
+│   │       │                   ├── GuacamoleUpstreamUnavailableException.java
+│   │       │                   ├── io
+│   │       │                   │   ├── GuacamoleReader.java
+│   │       │                   │   ├── GuacamoleWriter.java
+│   │       │                   │   ├── package-info.java
+│   │       │                   │   ├── ReaderGuacamoleReader.java
+│   │       │                   │   └── WriterGuacamoleWriter.java
+│   │       │                   ├── net
+│   │       │                   │   ├── AbstractGuacamoleTunnel.java
+│   │       │                   │   ├── DelegatingGuacamoleSocket.java
+│   │       │                   │   ├── DelegatingGuacamoleTunnel.java
+│   │       │                   │   ├── GuacamoleSocket.java
+│   │       │                   │   ├── GuacamoleTunnel.java
+│   │       │                   │   ├── InetGuacamoleSocket.java
+│   │       │                   │   ├── package-info.java
+│   │       │                   │   ├── SimpleGuacamoleTunnel.java
+│   │       │                   │   └── SSLGuacamoleSocket.java
+│   │       │                   ├── package-info.java
+│   │       │                   ├── protocol
+│   │       │                   │   ├── ConfiguredGuacamoleSocket.java
+│   │       │                   │   ├── FailoverGuacamoleSocket.java
+│   │       │                   │   ├── FilteredGuacamoleReader.java
+│   │       │                   │   ├── FilteredGuacamoleSocket.java
+│   │       │                   │   ├── FilteredGuacamoleWriter.java
+│   │       │                   │   ├── GuacamoleClientInformation.java
+│   │       │                   │   ├── GuacamoleConfiguration.java
+│   │       │                   │   ├── GuacamoleFilter.java
+│   │       │                   │   ├── GuacamoleInstruction.java
+│   │       │                   │   ├── GuacamoleParser.java
+│   │       │                   │   ├── GuacamoleProtocolCapability.java
+│   │       │                   │   ├── GuacamoleProtocolVersion.java
+│   │       │                   │   ├── GuacamoleStatus.java
+│   │       │                   │   └── package-info.java
+│   │       │                   ├── servlet
+│   │       │                   │   ├── GuacamoleHTTPTunnel.java
+│   │       │                   │   ├── GuacamoleHTTPTunnelMap.java
+│   │       │                   │   ├── GuacamoleHTTPTunnelServlet.java
+│   │       │                   │   └── package-info.java
+│   │       │                   └── websocket
+│   │       │                       └── GuacamoleWebSocketTunnelEndpoint.java
+│   │       └── test
+│   │           └── java
+│   │               └── org
+│   │                   └── apache
+│   │                       └── guacamole
+│   │                           ├── io
+│   │                           │   └── ReaderGuacamoleReaderTest.java
+│   │                           └── protocol
+│   │                               ├── FilteredGuacamoleReaderTest.java
+│   │                               ├── FilteredGuacamoleWriterTest.java
+│   │                               ├── GuacamoleInstructionTest.java
+│   │                               ├── GuacamoleParserTest.java
+│   │                               ├── GuacamoleProtocolVersionTest.java
+│   │                               └── GuacamoleStatusTest.java
+│   ├── guacamole-common-js
+│   │   ├── jsdoc-conf.json
+│   │   ├── karma-ci.conf.js
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── pom.xml
+│   │   ├── src
+│   │   │   ├── main
+│   │   │   │   └── webapp
+│   │   │   │       ├── common
+│   │   │   │       │   └── license.js
+│   │   │   │       └── modules
+│   │   │   │           ├── ArrayBufferReader.js
+│   │   │   │           ├── ArrayBufferWriter.js
+│   │   │   │           ├── AudioContextFactory.js
+│   │   │   │           ├── AudioPlayer.js
+│   │   │   │           ├── AudioRecorder.js
+│   │   │   │           ├── BlobReader.js
+│   │   │   │           ├── BlobWriter.js
+│   │   │   │           ├── Client.js
+│   │   │   │           ├── DataURIReader.js
+│   │   │   │           ├── Display.js
+│   │   │   │           ├── Event.js
+│   │   │   │           ├── InputSink.js
+│   │   │   │           ├── InputStream.js
+│   │   │   │           ├── IntegerPool.js
+│   │   │   │           ├── JSONReader.js
+│   │   │   │           ├── Keyboard.js
+│   │   │   │           ├── KeyEventInterpreter.js
+│   │   │   │           ├── Layer.js
+│   │   │   │           ├── Mouse.js
+│   │   │   │           ├── Namespace.js
+│   │   │   │           ├── Object.js
+│   │   │   │           ├── OnScreenKeyboard.js
+│   │   │   │           ├── OutputStream.js
+│   │   │   │           ├── Parser.js
+│   │   │   │           ├── Position.js
+│   │   │   │           ├── RawAudioFormat.js
+│   │   │   │           ├── SessionRecording.js
+│   │   │   │           ├── Status.js
+│   │   │   │           ├── StringReader.js
+│   │   │   │           ├── StringWriter.js
+│   │   │   │           ├── Touch.js
+│   │   │   │           ├── Tunnel.js
+│   │   │   │           ├── UTF8Parser.js
+│   │   │   │           ├── Version.js
+│   │   │   │           └── VideoPlayer.js
+│   │   │   └── test
+│   │   │       └── javascript
+│   │   │           ├── EventSpec.js
+│   │   │           ├── ParserSpec.js
+│   │   │           └── SessionRecordingSpec.js
+│   │   └── static.xml
+│   ├── guacamole-docker
+│   │   ├── bin
+│   │   │   ├── build-guacamole.sh
+│   │   │   ├── entrypoint.sh
+│   │   │   └── initdb.sh
+│   │   ├── build.d
+│   │   │   ├── 000-build-and-install-guacamole.sh
+│   │   │   ├── 010-map-guacamole-extensions.sh
+│   │   │   ├── 020-download-drivers.sh
+│   │   │   └── 999-verify-sanity.sh
+│   │   ├── entrypoint.d
+│   │   │   ├── 000-migrate-docker-links.sh
+│   │   │   ├── 010-migrate-legacy-variables.sh
+│   │   │   ├── 100-generate-guacamole-home.sh
+│   │   │   ├── 500-generate-tomcat-catalina-base.sh
+│   │   │   ├── 700-configure-features.sh
+│   │   │   └── 999-start-tomcat.sh
+│   │   ├── environment
+│   │   │   └── REMOTE_IP_VALVE_
+│   │   │       └── configure.sh
+│   │   ├── mozilla-firefox.pref
+│   │   └── README.md
+│   ├── guacamole-ext
+│   │   ├── pom.xml
+│   │   └── src
+│   │       ├── main
+│   │       │   ├── java
+│   │       │   │   └── org
+│   │       │   │       └── apache
+│   │       │   │           └── guacamole
+│   │       │   │               ├── environment
+│   │       │   │               │   ├── DefaultEnvironment.java
+│   │       │   │               │   ├── DelegatingEnvironment.java
+│   │       │   │               │   ├── Environment.java
+│   │       │   │               │   └── LocalEnvironment.java
+│   │       │   │               ├── form
+│   │       │   │               │   ├── BooleanField.java
+│   │       │   │               │   ├── DateField.java
+│   │       │   │               │   ├── EmailField.java
+│   │       │   │               │   ├── EnumField.java
+│   │       │   │               │   ├── Field.java
+│   │       │   │               │   ├── FieldOption.java
+│   │       │   │               │   ├── Form.java
+│   │       │   │               │   ├── LanguageField.java
+│   │       │   │               │   ├── MultilineField.java
+│   │       │   │               │   ├── NumericField.java
+│   │       │   │               │   ├── package-info.java
+│   │       │   │               │   ├── PasswordField.java
+│   │       │   │               │   ├── RedirectField.java
+│   │       │   │               │   ├── TerminalColorSchemeField.java
+│   │       │   │               │   ├── TextField.java
+│   │       │   │               │   ├── TimeField.java
+│   │       │   │               │   ├── TimeZoneField.java
+│   │       │   │               │   └── UsernameField.java
+│   │       │   │               ├── language
+│   │       │   │               │   ├── TranslatableGuacamoleClientBadTypeException.java
+│   │       │   │               │   ├── TranslatableGuacamoleClientException.java
+│   │       │   │               │   ├── TranslatableGuacamoleClientOverrunException.java
+│   │       │   │               │   ├── TranslatableGuacamoleClientTimeoutException.java
+│   │       │   │               │   ├── TranslatableGuacamoleClientTooManyException.java
+│   │       │   │               │   ├── TranslatableGuacamoleConnectionClosedException.java
+│   │       │   │               │   ├── TranslatableGuacamoleCredentialsException.java
+│   │       │   │               │   ├── TranslatableGuacamoleInsufficientCredentialsException.java
+│   │       │   │               │   ├── TranslatableGuacamoleInvalidCredentialsException.java
+│   │       │   │               │   ├── TranslatableGuacamoleResourceClosedException.java
+│   │       │   │               │   ├── TranslatableGuacamoleResourceConflictException.java
+│   │       │   │               │   ├── TranslatableGuacamoleResourceNotFoundException.java
+│   │       │   │               │   ├── TranslatableGuacamoleSecurityException.java
+│   │       │   │               │   ├── TranslatableGuacamoleServerBusyException.java
+│   │       │   │               │   ├── TranslatableGuacamoleServerException.java
+│   │       │   │               │   ├── TranslatableGuacamoleSessionClosedException.java
+│   │       │   │               │   ├── TranslatableGuacamoleSessionConflictException.java
+│   │       │   │               │   ├── TranslatableGuacamoleSessionTimeoutException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUnauthorizedException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUnsupportedException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUpstreamException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUpstreamNotFoundException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUpstreamTimeoutException.java
+│   │       │   │               │   ├── TranslatableGuacamoleUpstreamUnavailableException.java
+│   │       │   │               │   ├── Translatable.java
+│   │       │   │               │   └── TranslatableMessage.java
+│   │       │   │               ├── net
+│   │       │   │               │   ├── auth
+│   │       │   │               │   │   ├── AbstractActiveConnection.java
+│   │       │   │               │   │   ├── AbstractActivityLog.java
+│   │       │   │               │   │   ├── AbstractAuthenticatedUser.java
+│   │       │   │               │   │   ├── AbstractAuthenticationProvider.java
+│   │       │   │               │   │   ├── AbstractConnectionGroup.java
+│   │       │   │               │   │   ├── AbstractConnection.java
+│   │       │   │               │   │   ├── AbstractIdentifiable.java
+│   │       │   │               │   │   ├── AbstractSharingProfile.java
+│   │       │   │               │   │   ├── AbstractUserContext.java
+│   │       │   │               │   │   ├── AbstractUserGroup.java
+│   │       │   │               │   │   ├── AbstractUser.java
+│   │       │   │               │   │   ├── ActiveConnection.java
+│   │       │   │               │   │   ├── ActivityLog.java
+│   │       │   │               │   │   ├── ActivityRecord.java
+│   │       │   │               │   │   ├── ActivityRecordSet.java
+│   │       │   │               │   │   ├── AtomicDirectoryOperation.java
+│   │       │   │               │   │   ├── Attributes.java
+│   │       │   │               │   │   ├── AuthenticatedUser.java
+│   │       │   │               │   │   ├── AuthenticationProvider.java
+│   │       │   │               │   │   ├── AuthenticationSession.java
+│   │       │   │               │   │   ├── AuthenticationSessionManager.java
+│   │       │   │               │   │   ├── Connectable.java
+│   │       │   │               │   │   ├── ConnectionGroup.java
+│   │       │   │               │   │   ├── Connection.java
+│   │       │   │               │   │   ├── ConnectionRecord.java
+│   │       │   │               │   │   ├── ConnectionRecordSet.java
+│   │       │   │               │   │   ├── credentials
+│   │       │   │               │   │   │   ├── CredentialsInfo.java
+│   │       │   │               │   │   │   ├── GuacamoleCredentialsException.java
+│   │       │   │               │   │   │   ├── GuacamoleInsufficientCredentialsException.java
+│   │       │   │               │   │   │   ├── GuacamoleInvalidCredentialsException.java
+│   │       │   │               │   │   │   └── UserCredentials.java
+│   │       │   │               │   │   ├── Credentials.java
+│   │       │   │               │   │   ├── DecoratingActivityRecordSet.java
+│   │       │   │               │   │   ├── DecoratingDirectory.java
+│   │       │   │               │   │   ├── DelegatingActivityRecord.java
+│   │       │   │               │   │   ├── DelegatingActivityRecordSet.java
+│   │       │   │               │   │   ├── DelegatingConnectionGroup.java
+│   │       │   │               │   │   ├── DelegatingConnection.java
+│   │       │   │               │   │   ├── DelegatingConnectionRecord.java
+│   │       │   │               │   │   ├── DelegatingDirectory.java
+│   │       │   │               │   │   ├── DelegatingSharingProfile.java
+│   │       │   │               │   │   ├── DelegatingUserContext.java
+│   │       │   │               │   │   ├── DelegatingUserGroup.java
+│   │       │   │               │   │   ├── DelegatingUser.java
+│   │       │   │               │   │   ├── Directory.java
+│   │       │   │               │   │   ├── Disableable.java
+│   │       │   │               │   │   ├── FileActivityLog.java
+│   │       │   │               │   │   ├── GuacamoleProxyConfiguration.java
+│   │       │   │               │   │   ├── Identifiable.java
+│   │       │   │               │   │   ├── IdentifierGenerator.java
+│   │       │   │               │   │   ├── Nameable.java
+│   │       │   │               │   │   ├── package-info.java
+│   │       │   │               │   │   ├── permission
+│   │       │   │               │   │   │   ├── ObjectPermission.java
+│   │       │   │               │   │   │   ├── ObjectPermissionSet.java
+│   │       │   │               │   │   │   ├── package-info.java
+│   │       │   │               │   │   │   ├── Permission.java
+│   │       │   │               │   │   │   ├── PermissionSet.java
+│   │       │   │               │   │   │   ├── SystemPermission.java
+│   │       │   │               │   │   │   └── SystemPermissionSet.java
+│   │       │   │               │   │   ├── Permissions.java
+│   │       │   │               │   │   ├── ReadableAttributes.java
+│   │       │   │               │   │   ├── RelatedObjectSet.java
+│   │       │   │               │   │   ├── Shareable.java
+│   │       │   │               │   │   ├── SharingProfile.java
+│   │       │   │               │   │   ├── simple
+│   │       │   │               │   │   │   ├── package-info.java
+│   │       │   │               │   │   │   ├── SimpleActivityRecordSet.java
+│   │       │   │               │   │   │   ├── SimpleAuthenticationProvider.java
+│   │       │   │               │   │   │   ├── SimpleConnectionDirectory.java
+│   │       │   │               │   │   │   ├── SimpleConnectionGroupDirectory.java
+│   │       │   │               │   │   │   ├── SimpleConnectionGroup.java
+│   │       │   │               │   │   │   ├── SimpleConnection.java
+│   │       │   │               │   │   │   ├── SimpleConnectionRecordSet.java
+│   │       │   │               │   │   │   ├── SimpleDirectory.java
+│   │       │   │               │   │   │   ├── SimpleObjectPermissionSet.java
+│   │       │   │               │   │   │   ├── SimpleRelatedObjectSet.java
+│   │       │   │               │   │   │   ├── SimpleSystemPermissionSet.java
+│   │       │   │               │   │   │   ├── SimpleUserContext.java
+│   │       │   │               │   │   │   ├── SimpleUserDirectory.java
+│   │       │   │               │   │   │   ├── SimpleUserGroup.java
+│   │       │   │               │   │   │   └── SimpleUser.java
+│   │       │   │               │   │   ├── TokenInjectingConnectionGroup.java
+│   │       │   │               │   │   ├── TokenInjectingConnection.java
+│   │       │   │               │   │   ├── TokenInjectingUserContext.java
+│   │       │   │               │   │   ├── UserContext.java
+│   │       │   │               │   │   ├── UserGroup.java
+│   │       │   │               │   │   └── User.java
+│   │       │   │               │   ├── event
+│   │       │   │               │   │   ├── ApplicationShutdownEvent.java
+│   │       │   │               │   │   ├── ApplicationStartedEvent.java
+│   │       │   │               │   │   ├── AuthenticationFailureEvent.java
+│   │       │   │               │   │   ├── AuthenticationProviderEvent.java
+│   │       │   │               │   │   ├── AuthenticationRequestReceivedEvent.java
+│   │       │   │               │   │   ├── AuthenticationSuccessEvent.java
+│   │       │   │               │   │   ├── CredentialEvent.java
+│   │       │   │               │   │   ├── DirectoryEvent.java
+│   │       │   │               │   │   ├── DirectoryFailureEvent.java
+│   │       │   │               │   │   ├── DirectorySuccessEvent.java
+│   │       │   │               │   │   ├── FailureEvent.java
+│   │       │   │               │   │   ├── IdentifiableObjectEvent.java
+│   │       │   │               │   │   ├── listener
+│   │       │   │               │   │   │   ├── AuthenticationFailureListener.java
+│   │       │   │               │   │   │   ├── AuthenticationSuccessListener.java
+│   │       │   │               │   │   │   ├── Listener.java
+│   │       │   │               │   │   │   ├── package-info.java
+│   │       │   │               │   │   │   ├── TunnelCloseListener.java
+│   │       │   │               │   │   │   └── TunnelConnectListener.java
+│   │       │   │               │   │   ├── package-info.java
+│   │       │   │               │   │   ├── TunnelCloseEvent.java
+│   │       │   │               │   │   ├── TunnelConnectEvent.java
+│   │       │   │               │   │   ├── TunnelEvent.java
+│   │       │   │               │   │   ├── UserEvent.java
+│   │       │   │               │   │   └── UserSessionInvalidatedEvent.java
+│   │       │   │               │   └── RequestDetails.java
+│   │       │   │               ├── properties
+│   │       │   │               │   ├── BooleanGuacamoleProperty.java
+│   │       │   │               │   ├── ByteArrayProperty.java
+│   │       │   │               │   ├── CaseSensitivity.java
+│   │       │   │               │   ├── EnumGuacamoleProperty.java
+│   │       │   │               │   ├── FileGuacamoleProperties.java
+│   │       │   │               │   ├── FileGuacamoleProperty.java
+│   │       │   │               │   ├── GuacamoleProperties.java
+│   │       │   │               │   ├── GuacamoleProperty.java
+│   │       │   │               │   ├── IntegerGuacamoleProperty.java
+│   │       │   │               │   ├── IPAddressListProperty.java
+│   │       │   │               │   ├── LongGuacamoleProperty.java
+│   │       │   │               │   ├── package-info.java
+│   │       │   │               │   ├── PropertiesGuacamoleProperties.java
+│   │       │   │               │   ├── StringGuacamoleProperty.java
+│   │       │   │               │   ├── StringListProperty.java
+│   │       │   │               │   ├── TimeZoneGuacamoleProperty.java
+│   │       │   │               │   └── URIGuacamoleProperty.java
+│   │       │   │               ├── protocols
+│   │       │   │               │   └── ProtocolInfo.java
+│   │       │   │               ├── token
+│   │       │   │               │   ├── GuacamoleTokenUndefinedException.java
+│   │       │   │               │   ├── StandardTokens.java
+│   │       │   │               │   ├── TokenFilter.java
+│   │       │   │               │   └── TokenName.java
+│   │       │   │               └── xml
+│   │       │   │                   ├── DocumentHandler.java
+│   │       │   │                   ├── package-info.java
+│   │       │   │                   └── TagHandler.java
+│   │       │   └── resources
+│   │       │       └── org
+│   │       │           └── apache
+│   │       │               └── guacamole
+│   │       │                   └── protocols
+│   │       │                       ├── kubernetes.json
+│   │       │                       ├── rdp.json
+│   │       │                       ├── ssh.json
+│   │       │                       ├── telnet.json
+│   │       │                       └── vnc.json
+│   │       └── test
+│   │           └── java
+│   │               └── org
+│   │                   └── apache
+│   │                       └── guacamole
+│   │                           ├── net
+│   │                           │   └── auth
+│   │                           │       └── DirectoryTest.java
+│   │                           ├── properties
+│   │                           │   ├── EnumGuacamolePropertyTest.java
+│   │                           │   └── TimeZoneGuacamolePropertyTest.java
+│   │                           └── token
+│   │                               ├── TokenFilterTest.java
+│   │                               └── TokenNameTest.java
+│   ├── LICENSE
+│   ├── NOTICE
+│   ├── openjdk
+│   │   └── 21.0.11.10
+│   │       ├── OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz
+│   │       ├── OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz.sha256.txt
+│   │       ├── OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz
+│   │       └── OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz.sha256.txt
+│   ├── pom.xml
+│   ├── README
+│   ├── src
+│   │   └── main
+│   │       └── assembly
+│   │           └── dist.xml
+│   └── tomcat
+│       └── 9.0.118
+│           ├── tomcat-9.0.118.tar.gz
+│           ├── tomcat-9.0.118.tar.gz.asc
+│           └── tomcat-9.0.118.tar.gz.sha256
+├── VERSION
+└── versions.env
+
+841 directories, 2124 files
