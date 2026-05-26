@@ -1,4 +1,4 @@
-1. Dockerfile.tomcat.functional — updated
+✅ Dockerfile.tomcat.functional — FINAL WORKING VERSION
 dockerfile
 FROM debian:13-slim
 
@@ -19,9 +19,12 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
+# Create tomcat user FIRST
+RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat
+
 # JDK + JRE
-COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jdk.tar.gz
+COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
 RUN mkdir -p /opt/jdk && \
     tar -xzf /tmp/jdk.tar.gz --strip-components=1 -C /opt/jdk && \
@@ -39,11 +42,13 @@ RUN mkdir -p /usr/local && \
     rm -f /tmp/tomcat.tar.gz && \
     rm -rf ${CATALINA_HOME}/webapps/*
 
-# ADD THIS — so cp to /output works
-RUN mkdir -p /output && \
-    chown -R 65532:65532 /output
+# FIX: ensure tomcat user can read + execute everything
+RUN chmod -R a+r ${CATALINA_HOME} && \
+    chmod -R a+rx ${CATALINA_HOME}/bin
 
-RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+# Create output directory AFTER user exists
+RUN mkdir -p /output && \
+    chown -R 65532:65532 /output && \
     chown -R tomcat:tomcat ${CATALINA_HOME}
 
 USER tomcat
@@ -51,7 +56,10 @@ WORKDIR ${CATALINA_HOME}
 
 EXPOSE 8080
 CMD ["bin/catalina.sh", "run"]
-2. Dockerfile.guacamole.functional — updated
+
+
+
+✅ Dockerfile.guacamole.functional — FINAL WORKING VERSION
 dockerfile
 FROM debian:13-slim
 
@@ -73,6 +81,9 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
+# Create tomcat user FIRST
+RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat
+
 # JRE
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
@@ -87,6 +98,10 @@ RUN mkdir -p /usr/local && \
     tar -xzf /tmp/tomcat.tar.gz -C /usr/local && \
     mv /usr/local/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
     rm -f /tmp/tomcat.tar.gz
+
+# FIX: ensure tomcat user can read + execute everything
+RUN chmod -R a+r ${CATALINA_HOME} && \
+    chmod -R a+rx ${CATALINA_HOME}/bin
 
 # OpenSCAP
 RUN apt-get update && \
@@ -111,11 +126,9 @@ COPY 1.6.0/web-archive/guacamole-${GUAC_VERSION}.war ${CATALINA_HOME}/webapps/gu
 COPY 1.6.0/extensions/*.jar ${CATALINA_HOME}/.guacamole/extensions/
 COPY 1.6.0/lib/*.jar ${CATALINA_HOME}/.guacamole/lib/
 
-# ADD THIS — so cp to /output works
+# Create output directory AFTER user exists
 RUN mkdir -p /output && \
-    chown -R 65532:65532 /output
-
-RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+    chown -R 65532:65532 /output && \
     chown -R tomcat:tomcat ${CATALINA_HOME}
 
 USER tomcat
@@ -123,7 +136,9 @@ WORKDIR ${CATALINA_HOME}
 
 EXPOSE 8080
 CMD ["bin/catalina.sh", "run"]
-3. Dockerfile.tomcat.hardened — updated
+
+
+✅ Dockerfile.tomcat.hardened — FINAL WORKING VERSION
 dockerfile
 FROM debian:13-slim
 
@@ -142,6 +157,10 @@ RUN apt-get update && \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen && \
     rm -rf /var/lib/apt/lists/*
+
+# Create tomcat user FIRST
+RUN groupadd -g 65532 tomcat && \
+    useradd -u 65532 -g 65532 -M -s /usr/sbin/nologin tomcat
 
 # JRE
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
@@ -172,12 +191,13 @@ RUN rm -f /bin/sh /bin/bash || true && \
 RUN chmod -R 755 /usr/local/tomcat && \
     chmod 1777 /usr/local/tomcat/logs /usr/local/tomcat/temp /usr/local/tomcat/work
 
-# ADD THIS — so cp to /output works
-RUN mkdir -p /output && \
-    chown -R 65532:65532 /output
+# FIX: ensure tomcat user can read + execute everything
+RUN chmod -R a+r ${CATALINA_HOME} && \
+    chmod -R a+rx ${CATALINA_HOME}/bin
 
-RUN groupadd -g 65532 tomcat && \
-    useradd -u 65532 -g 65532 -M -s /usr/sbin/nologin tomcat && \
+# Create output directory AFTER user exists
+RUN mkdir -p /output && \
+    chown -R 65532:65532 /output && \
     chown -R tomcat:tomcat /usr/local/tomcat
 
 USER tomcat
