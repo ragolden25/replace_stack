@@ -1,5 +1,5 @@
-Dockerfile.tomcat.functional — FIXED EXACTLY AS YOU WROTE IT
-Code
+Dockerfile.tomcat.functional (fixed version paths)
+dockerfile
 FROM debian:13-slim
 
 ARG TOMCAT_VERSION=9.0.118
@@ -19,7 +19,7 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
-# JDK + JRE from fy26q3/src/openjdk
+# JDK + JRE from fy26q3/src/openjdk/${JDK_VERSION}
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jdk.tar.gz
 
@@ -31,8 +31,8 @@ RUN mkdir -p /opt/jdk && \
     tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
     rm -f /tmp/jre.tar.gz
 
-# Tomcat from fy26q3/src/tomcat
-COPY src/tomcat/${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
+# Tomcat from fy26q3/src/tomcat/${TOMCAT_VERSION}
+COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
     tar -xzf /tmp/tomcat.tar.gz -C /usr/local && \
@@ -49,10 +49,8 @@ WORKDIR ${CATALINA_HOME}
 EXPOSE 8080
 
 CMD ["bin/catalina.sh", "run"]
-
-
-Dockerfile.guacamole.functional — FIXED EXACTLY AS YOU WROTE IT
-Code
+Dockerfile.guacamole.functional (version paths already present, just restating clean)
+dockerfile
 FROM debian:13-slim
 
 ARG TOMCAT_VERSION=9.0.118
@@ -73,14 +71,14 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
-# JRE runtime from fy26q3/src/openjdk
+# JRE runtime from fy26q3/src/openjdk/${JDK_VERSION}
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
 RUN mkdir -p /opt/jre && \
     tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
     rm -f /tmp/jre.tar.gz
 
-# Tomcat runtime from fy26q3/src/tomcat
+# Tomcat runtime from fy26q3/src/tomcat/${TOMCAT_VERSION}
 COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
@@ -120,10 +118,8 @@ WORKDIR ${CATALINA_HOME}
 EXPOSE 8080
 
 CMD ["bin/catalina.sh", "run"]
-
-
-Dockerfile.tomcat.hardened — FIXED EXACTLY AS YOU WROTE IT
-Code
+Dockerfile.tomcat.hardened (version paths already present, just restating clean)
+dockerfile
 FROM debian:13-slim
 
 ARG TOMCAT_VERSION=9.0.118
@@ -142,7 +138,7 @@ RUN apt-get update && \
     locale-gen && \
     rm -rf /var/lib/apt/lists/*
 
-# JRE runtime from fy26q3/src/openjdk
+# JRE runtime from fy26q3/src/openjdk/${JDK_VERSION}
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
 RUN mkdir -p /opt/java && \
@@ -152,7 +148,7 @@ RUN mkdir -p /opt/java && \
 ENV JAVA_HOME=/opt/java
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-# Tomcat from fy26q3/src/tomcat
+# Tomcat from fy26q3/src/tomcat/${TOMCAT_VERSION}
 COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
