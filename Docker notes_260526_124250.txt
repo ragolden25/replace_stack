@@ -1,162 +1,193 @@
-You’re right—this is exactly the kind of change that future‑proofs things. Here are all three Dockerfiles rewritten with:
-• No wildcard mv guesses
-• --strip-components=1 for JDK/JRE
-• Paths aligned to your consolidated fy26q3 layout
-
-───
-
-Dockerfile.tomcat.functional
-`Dockerfile
+Dockerfile.tomcat.functional — FIXED EXACTLY AS YOU WROTE IT
+Code
 FROM debian:13-slim
+
 ARG TOMCAT_VERSION=9.0.118
 ARG JDK_VERSION=21.0.11.10
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/jdk
-ENV PATH="{PATH}"
+ENV PATH="${PATH}"
 ENV CATALINA_HOME=/usr/local/tomcat
-RUN apt-get update && 
- apt-get install -y --no-install-recommends 
- ca-certificates 
- curl 
- tar 
- fontconfig 
- procps && 
- rm -rf /var/lib/apt/lists/*
-JDK + JRE from fy26q3/src/openjdk//
-COPY src/openjdk/{JDKVERSION}/OpenJDK21U-jrex64linuxhotspot21.0.1110.tar.gz /tmp/jre.tar.gz
-Extract JDK and JRE in a deterministic way
-RUN mkdir -p /opt/jdk && 
- tar -xzf /tmp/jdk.tar.gz --strip-components=1 -C /opt/jdk && 
- rm -f /tmp/jdk.tar.gz && 
- mkdir -p /opt/jre && 
- tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && 
- rm -f /tmp/jre.tar.gz
-Tomcat from fy26q3/src/tomcat//
-COPY src/tomcat/{TOMCATVERSION}.tar.gz /tmp/tomcat.tar.gz
-RUN mkdir -p /usr/local && 
- tar -xzf /tmp/tomcat.tar.gz -C /usr/local && 
- mv /usr/local/apache-tomcat-{CATALINAHOME} && 
- rm -f /tmp/tomcat.tar.gz && 
- rm -rf $`{CATALINA_HOME}/webapps/*
-RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \ chown -R tomcat:tomcat ${CATALINA_HOME}
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        tar \
+        fontconfig \
+        procps && \
+    rm -rf /var/lib/apt/lists/*
+
+# JDK + JRE from fy26q3/src/openjdk
+COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
+COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jdk.tar.gz
+
+# Extract JDK and JRE in a deterministic way
+RUN mkdir -p /opt/jdk && \
+    tar -xzf /tmp/jdk.tar.gz --strip-components=1 -C /opt/jdk && \
+    rm -f /tmp/jdk.tar.gz && \
+    mkdir -p /opt/jre && \
+    tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
+    rm -f /tmp/jre.tar.gz
+
+# Tomcat from fy26q3/src/tomcat
+COPY src/tomcat/${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
+
+RUN mkdir -p /usr/local && \
+    tar -xzf /tmp/tomcat.tar.gz -C /usr/local && \
+    mv /usr/local/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
+    rm -f /tmp/tomcat.tar.gz && \
+    rm -rf ${CATALINA_HOME}/webapps/*
+
+RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+    chown -R tomcat:tomcat ${CATALINA_HOME}
+
 USER tomcat
-WORKDIR `${CATALINA_HOME}
+WORKDIR ${CATALINA_HOME}
+
 EXPOSE 8080
+
 CMD ["bin/catalina.sh", "run"]
-`
 
-───
 
-Dockerfile.guacamole.functional
-`Dockerfile
+Dockerfile.guacamole.functional — FIXED EXACTLY AS YOU WROTE IT
+Code
 FROM debian:13-slim
+
 ARG TOMCAT_VERSION=9.0.118
 ARG JDK_VERSION=21.0.11.10
 ARG GUAC_VERSION=1.6.0
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/jre
-ENV PATH="{PATH}"
+ENV PATH="${PATH}"
 ENV CATALINA_HOME=/usr/local/tomcat
-RUN apt-get update && 
- apt-get install -y --no-install-recommends 
- ca-certificates 
- curl 
- tar 
- fontconfig 
- procps && 
- rm -rf /var/lib/apt/lists/*
-JRE runtime from fy26q3/src/openjdk//
-COPY src/openjdk/$`{JDKVERSION}/OpenJDK21U-jrex64linuxhotspot21.0.1110.tar.gz /tmp/jre.tar.gz
-RUN mkdir -p /opt/jre && 
- tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && 
- rm -f /tmp/jre.tar.gz
-Tomcat runtime from fy26q3/src/tomcat//
-COPY src/tomcat/${TOMCATVERSION}/tomcat-${TOMCATVERSION}.tar.gz /tmp/tomcat.tar.gz
-RUN mkdir -p /usr/local && 
- tar -xzf /tmp/tomcat.tar.gz -C /usr/local && 
- mv /usr/local/apache-tomcat-${TOMCATVERSION} ${CATALINAHOME} && 
- rm -f /tmp/tomcat.tar.gz
-OpenSCAP + OVAL (functional only), SCAP now inside fy26q3/scap
-RUN apt-get update && 
- apt-get install -y --no-install-recommends 
- openscap-scanner 
- openscap-utils 
- bzip2 && 
- rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        tar \
+        fontconfig \
+        procps && \
+    rm -rf /var/lib/apt/lists/*
+
+# JRE runtime from fy26q3/src/openjdk
+COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
+
+RUN mkdir -p /opt/jre && \
+    tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
+    rm -f /tmp/jre.tar.gz
+
+# Tomcat runtime from fy26q3/src/tomcat
+COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
+
+RUN mkdir -p /usr/local && \
+    tar -xzf /tmp/tomcat.tar.gz -C /usr/local && \
+    mv /usr/local/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
+    rm -f /tmp/tomcat.tar.gz
+
+# OpenSCAP + OVAL (functional only)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        openscap-scanner \
+        openscap-utils \
+        bzip2 && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN mkdir -p /opt/scap
 COPY scap/oval-trixie.xml /opt/scap/oval-trixie.xml
-RUN oscap oval eval 
- --report /opt/scap/oval-trixie-report.html 
- /opt/scap/oval-trixie.xml || true
-Guacamole artifacts from fy26q3/1.6.0
-RUN mkdir -p ${CATALINA_HOME}/.guacamole/extensions \ ${CATALINA_HOME}/.guacamole/lib
-COPY 1.6.0/web-archive/guacamole-${GUACVERSION}.war ${CATALINAHOME}/webapps/guacamole.war
-COPY 1.6.0/extensions/*.jar ${CATALINA_HOME}/.guacamole/extensions/ COPY 1.6.0/lib/*.jar ${CATALINA_HOME}/.guacamole/lib/
-RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \ chown -R tomcat:tomcat ${CATALINA_HOME}
+
+RUN oscap oval eval \
+    --report /opt/scap/oval-trixie-report.html \
+    /opt/scap/oval-trixie.xml || true
+
+# Guacamole artifacts from fy26q3/1.6.0
+RUN mkdir -p ${CATALINA_HOME}/.guacamole/extensions \
+             ${CATALINA_HOME}/.guacamole/lib
+
+COPY 1.6.0/web-archive/guacamole-${GUAC_VERSION}.war ${CATALINA_HOME}/webapps/guacamole.war
+COPY 1.6.0/extensions/*.jar ${CATALINA_HOME}/.guacamole/extensions/
+COPY 1.6.0/lib/*.jar ${CATALINA_HOME}/.guacamole/lib/
+
+RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+    chown -R tomcat:tomcat ${CATALINA_HOME}
+
 USER tomcat
-WORKDIR `${CATALINA_HOME}
+WORKDIR ${CATALINA_HOME}
+
 EXPOSE 8080
+
 CMD ["bin/catalina.sh", "run"]
-`
 
-───
 
-Dockerfile.tomcat.hardened
-`Dockerfile
+Dockerfile.tomcat.hardened — FIXED EXACTLY AS YOU WROTE IT
+Code
 FROM debian:13-slim
+
 ARG TOMCAT_VERSION=9.0.118
 ARG JDK_VERSION=21.0.11.10
+
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && 
- apt-get install -y --no-install-recommends 
- libapr1t64 
- libssl3t64 
- ca-certificates 
- locales 
- tar && 
- echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && 
- locale-gen && 
- rm -rf /var/lib/apt/lists/*
-JRE runtime from fy26q3/src/openjdk//
-COPY src/openjdk/$`{JDKVERSION}/OpenJDK21U-jrex64linuxhotspot21.0.1110.tar.gz /tmp/jre.tar.gz
-RUN mkdir -p /opt/java && 
- tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/java && 
- rm -f /tmp/jre.tar.gz
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libapr1t64 \
+        libssl3t64 \
+        ca-certificates \
+        locales \
+        tar && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen && \
+    rm -rf /var/lib/apt/lists/*
+
+# JRE runtime from fy26q3/src/openjdk
+COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
+
+RUN mkdir -p /opt/java && \
+    tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/java && \
+    rm -f /tmp/jre.tar.gz
+
 ENV JAVA_HOME=/opt/java
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
-Tomcat from fy26q3/src/tomcat//
-COPY src/tomcat/${TOMCATVERSION}/tomcat-${TOMCATVERSION}.tar.gz /tmp/tomcat.tar.gz
-RUN mkdir -p /usr/local && 
- tar -xzf /tmp/tomcat.tar.gz -C /usr/local && 
- mv /usr/local/apache-tomcat-`${TOMCAT_VERSION} /usr/local/tomcat && 
- rm -f /tmp/tomcat.tar.gz && 
- rm -rf /usr/local/tomcat/webapps/*
+
+# Tomcat from fy26q3/src/tomcat
+COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
+
+RUN mkdir -p /usr/local && \
+    tar -xzf /tmp/tomcat.tar.gz -C /usr/local && \
+    mv /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && \
+    rm -f /tmp/tomcat.tar.gz && \
+    rm -rf /usr/local/tomcat/webapps/*
+
 ENV CATALINA_HOME=/usr/local/tomcat
-Strip shells / package managers
-RUN rm -f /bin/sh /bin/bash || true && 
- rm -f /usr/bin/apt* /usr/bin/dpkg || true && 
- rm -rf /usr/share/man/ /usr/share/doc/ /usr/share/info/*
-RUN chmod -R 755 /usr/local/tomcat && 
- chmod 1777 /usr/local/tomcat/logs /usr/local/tomcat/temp /usr/local/tomcat/work
-RUN groupadd -g 65532 tomcat && 
- useradd -u 65532 -g 65532 -M -s /usr/sbin/nologin tomcat && 
- chown -R tomcat:tomcat /usr/local/tomcat
+
+# Strip shells / package managers
+RUN rm -f /bin/sh /bin/bash || true && \
+    rm -f /usr/bin/apt* /usr/bin/dpkg || true && \
+    rm -rf /usr/share/man/ /usr/share/doc/ /usr/share/info/*
+
+RUN chmod -R 755 /usr/local/tomcat && \
+    chmod 1777 /usr/local/tomcat/logs /usr/local/tomcat/temp /usr/local/tomcat/work
+
+RUN groupadd -g 65532 tomcat && \
+    useradd -u 65532 -g 65532 -M -s /usr/sbin/nologin tomcat && \
+    chown -R tomcat:tomcat /usr/local/tomcat
+
 USER tomcat
+
 ENV LANG=en_US.UTF-8
-ENV LCALL=enUS.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
 EXPOSE 8080
-CMD ["java", 
- "-Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties", 
- "-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager", 
- "-Djava.security.egd=file:/dev/urandom", 
- "-classpath", "/usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar", 
- "-Dcatalina.base=/usr/local/tomcat", 
- "-Dcatalina.home=/usr/local/tomcat", 
- "-Djava.io.tmpdir=/usr/local/tomcat/temp", 
+
+CMD ["java", \
+ "-Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties", \
+ "-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager", \
+ "-Djava.security.egd=file:/dev/urandom", \
+ "-classpath", "/usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar", \
+ "-Dcatalina.base=/usr/local/tomcat", \
+ "-Dcatalina.home=/usr/local/tomcat", \
+ "-Djava.io.tmpdir=/usr/local/tomcat/temp", \
  "org.apache.catalina.startup.Bootstrap", "start"]
-`
-
-───
-
-If you paste these in and rerun the three build scripts, the next errors—if any—should be about genuinely missing artifacts, not path or extraction nonsense.
-If you hit another failure, drop the exact error and we’ll kill that one too.
