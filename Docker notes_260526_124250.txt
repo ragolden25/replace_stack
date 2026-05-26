@@ -1,4 +1,4 @@
-Dockerfile.tomcat.functional (fixed version paths)
+1. Dockerfile.tomcat.functional — updated
 dockerfile
 FROM debian:13-slim
 
@@ -19,11 +19,10 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
-# JDK + JRE from fy26q3/src/openjdk/${JDK_VERSION}
+# JDK + JRE
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jdk.tar.gz
 
-# Extract JDK and JRE in a deterministic way
 RUN mkdir -p /opt/jdk && \
     tar -xzf /tmp/jdk.tar.gz --strip-components=1 -C /opt/jdk && \
     rm -f /tmp/jdk.tar.gz && \
@@ -31,7 +30,7 @@ RUN mkdir -p /opt/jdk && \
     tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
     rm -f /tmp/jre.tar.gz
 
-# Tomcat from fy26q3/src/tomcat/${TOMCAT_VERSION}
+# Tomcat
 COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
@@ -40,16 +39,19 @@ RUN mkdir -p /usr/local && \
     rm -f /tmp/tomcat.tar.gz && \
     rm -rf ${CATALINA_HOME}/webapps/*
 
-RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+# ADD THIS — so cp to /output works
+RUN mkdir -p /output && \
+    chown -R 65532:65532 /output
+
+RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
     chown -R tomcat:tomcat ${CATALINA_HOME}
 
 USER tomcat
 WORKDIR ${CATALINA_HOME}
 
 EXPOSE 8080
-
 CMD ["bin/catalina.sh", "run"]
-Dockerfile.guacamole.functional (version paths already present, just restating clean)
+2. Dockerfile.guacamole.functional — updated
 dockerfile
 FROM debian:13-slim
 
@@ -71,14 +73,14 @@ RUN apt-get update && \
         procps && \
     rm -rf /var/lib/apt/lists/*
 
-# JRE runtime from fy26q3/src/openjdk/${JDK_VERSION}
+# JRE
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
 RUN mkdir -p /opt/jre && \
     tar -xzf /tmp/jre.tar.gz --strip-components=1 -C /opt/jre && \
     rm -f /tmp/jre.tar.gz
 
-# Tomcat runtime from fy26q3/src/tomcat/${TOMCAT_VERSION}
+# Tomcat
 COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
@@ -86,7 +88,7 @@ RUN mkdir -p /usr/local && \
     mv /usr/local/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
     rm -f /tmp/tomcat.tar.gz
 
-# OpenSCAP + OVAL (functional only)
+# OpenSCAP
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         openscap-scanner \
@@ -101,7 +103,7 @@ RUN oscap oval eval \
     --report /opt/scap/oval-trixie-report.html \
     /opt/scap/oval-trixie.xml || true
 
-# Guacamole artifacts from fy26q3/1.6.0
+# Guacamole
 RUN mkdir -p ${CATALINA_HOME}/.guacamole/extensions \
              ${CATALINA_HOME}/.guacamole/lib
 
@@ -109,16 +111,19 @@ COPY 1.6.0/web-archive/guacamole-${GUAC_VERSION}.war ${CATALINA_HOME}/webapps/gu
 COPY 1.6.0/extensions/*.jar ${CATALINA_HOME}/.guacamole/extensions/
 COPY 1.6.0/lib/*.jar ${CATALINA_HOME}/.guacamole/lib/
 
-RUN useradd -r -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
+# ADD THIS — so cp to /output works
+RUN mkdir -p /output && \
+    chown -R 65532:65532 /output
+
+RUN useradd -r -u 65532 -d ${CATALINA_HOME} -s /sbin/nologin tomcat && \
     chown -R tomcat:tomcat ${CATALINA_HOME}
 
 USER tomcat
 WORKDIR ${CATALINA_HOME}
 
 EXPOSE 8080
-
 CMD ["bin/catalina.sh", "run"]
-Dockerfile.tomcat.hardened (version paths already present, just restating clean)
+3. Dockerfile.tomcat.hardened — updated
 dockerfile
 FROM debian:13-slim
 
@@ -138,7 +143,7 @@ RUN apt-get update && \
     locale-gen && \
     rm -rf /var/lib/apt/lists/*
 
-# JRE runtime from fy26q3/src/openjdk/${JDK_VERSION}
+# JRE
 COPY src/openjdk/${JDK_VERSION}/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz /tmp/jre.tar.gz
 
 RUN mkdir -p /opt/java && \
@@ -148,7 +153,7 @@ RUN mkdir -p /opt/java && \
 ENV JAVA_HOME=/opt/java
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-# Tomcat from fy26q3/src/tomcat/${TOMCAT_VERSION}
+# Tomcat
 COPY src/tomcat/${TOMCAT_VERSION}/tomcat-${TOMCAT_VERSION}.tar.gz /tmp/tomcat.tar.gz
 
 RUN mkdir -p /usr/local && \
@@ -159,13 +164,17 @@ RUN mkdir -p /usr/local && \
 
 ENV CATALINA_HOME=/usr/local/tomcat
 
-# Strip shells / package managers
+# Harden
 RUN rm -f /bin/sh /bin/bash || true && \
     rm -f /usr/bin/apt* /usr/bin/dpkg || true && \
     rm -rf /usr/share/man/ /usr/share/doc/ /usr/share/info/*
 
 RUN chmod -R 755 /usr/local/tomcat && \
     chmod 1777 /usr/local/tomcat/logs /usr/local/tomcat/temp /usr/local/tomcat/work
+
+# ADD THIS — so cp to /output works
+RUN mkdir -p /output && \
+    chown -R 65532:65532 /output
 
 RUN groupadd -g 65532 tomcat && \
     useradd -u 65532 -g 65532 -M -s /usr/sbin/nologin tomcat && \
