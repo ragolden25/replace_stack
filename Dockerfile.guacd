@@ -1,53 +1,85 @@
-Dockerfile.guacd
-# ------------------------------------------------------------
-# Builder Stage — build guacd from source
-# ------------------------------------------------------------
-FROM debian:12 AS builder
+# ============================
+#   Stage 1 — Build guacd
+# ============================
+FROM debian:13 AS builder
 
-RUN set -e && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-      build-essential \
-      libcairo2-dev \
-      libjpeg62-turbo-dev \
-      libpng-dev \
-      pkg-config \
-      libtool-bin \
-      libossp-uuid-dev \
-      libavcodec-dev \
-      libavformat-dev \
-      libavutil-dev \
-      libswscale-dev \
-      libpango1.0-dev \
-      libssh2-1-dev \
-      libtelnet-dev \
-      libvncserver-dev \
-      libpulse-dev \
-      libssl-dev \
-      libwebp-dev \
-      libwebsockets-dev && \
-    rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /build
-COPY src/ /build/
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    pkg-config \
+    autoconf \
+    automake \
+    libtool \
+    libpng-dev \
+    zlib1g-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreerdp-dev \
+    libssh2-1-dev \
+    libtelnet-dev \
+    libvncserver-dev \
+    libpulse-dev \
+    libvorbis-dev \
+    libwebsockets-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libswscale-dev \
+    libswresample-dev \
+    libpango1.0-dev \
+    libcairo2-dev \
+    wget \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN ./configure --prefix=/usr && make && make install
+# Download Guacamole Server 1.6.0
+WORKDIR /tmp
+RUN wget https://apache.org/dyn/closer.lua/guacamole/1.6.0/source/guacamole-server-1.6.0.tar.gz \
+    -O guacamole-server-1.6.0.tar.gz && \
+    tar -xzf guacamole-server-1.6.0.tar.gz
 
+WORKDIR /tmp/guacamole-server-1.6.0
 
-# ------------------------------------------------------------
-# Runtime Stage — hardened Debian 13 FIPS base
-# ------------------------------------------------------------
-FROM dhi.io/debian-base:trixie
+# Configure, build, install
+RUN ./configure --with-init-dir=/etc/init.d && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig
 
-# Copy guacd binary
-COPY --from=builder /usr/sbin/guacd /usr/sbin/guacd
+# ============================
+#   Stage 2 — Runtime image
+# ============================
+FROM debian:13
 
-# Copy required shared libraries
-COPY --from=builder /usr/lib /usr/lib
-COPY --from=builder /usr/local/lib /usr/local/lib
-COPY --from=builder /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Drop privileges
-USER 1000:1000
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpng16-16 \
+    zlib1g \
+    libjpeg62-turbo \
+    libwebp7 \
+    libfreerdp2-2 \
+    libssh2-1 \
+    libtelnet2 \
+    libvncserver1 \
+    libpulse0 \
+    libvorbis0a \
+    libwebsockets19 \
+    libavcodec60 \
+    libavformat60 \
+    libavutil58 \
+    libswscale7 \
+    libswresample5 \
+    libpango-1.0-0 \
+    libcairo2 \
+    && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/usr/sbin/guacd"]
+# Copy guacd from builder
+COPY --from=builder /usr/local/ /usr/local/
+
+EXPOSE 4822
+
+CMD ["guacd", "-f"]
