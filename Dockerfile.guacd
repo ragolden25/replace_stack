@@ -1,11 +1,59 @@
-# =========================
-# Stage 1: Builder (Debian 13)
-# =========================
-FROM debian:13-slim AS builder
+###############################################
+# Stage 1: Build FreeRDP (Debian 13)
+###############################################
+FROM debian:13-slim AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Build dependencies only (dev packages, toolchain, no ABI pinning)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    cmake \
+    ninja-build \
+    pkg-config \
+    libssl-dev \
+    libxkbcommon-dev \
+    libwayland-dev \
+    libpulse-dev \
+    libasound2-dev \
+    libjpeg-dev \
+    libpng-dev \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp/freerdp
+
+# Pull latest stable FreeRDP (you can pin a tag if needed)
+RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
+    mkdir build && cd build && \
+    cmake -G Ninja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DWITH_SERVER=OFF \
+      -DWITH_CLIENT=OFF \
+      -DWITH_X11=OFF \
+      -DWITH_WAYLAND=OFF \
+      -DWITH_GSTREAMER=OFF \
+      -DWITH_CUPS=OFF \
+      -DWITH_SMARTCARD=OFF \
+      -DWITH_PULSE=ON \
+      -DWITH_ALSA=ON \
+      -DWITH_OPENSSL=ON \
+      -DWITH_CHANNELS=ON \
+      -DWITH_CODEC=ON \
+      .. && \
+    ninja && \
+    ninja install
+
+
+###############################################
+# Stage 2: Build guacd (Debian 13)
+###############################################
+FROM debian:13-slim AS guacd-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     pkg-config \
@@ -16,7 +64,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     libjpeg-dev \
     libwebp-dev \
-    libfreerdp-dev \
     libssh2-1-dev \
     libtelnet-dev \
     libvncserver-dev \
@@ -30,58 +77,56 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libswresample-dev \
     libpango1.0-dev \
     libcairo2-dev \
-    wget \
     ca-certificates \
     file \
  && rm -rf /var/lib/apt/lists/*
 
+# Bring in FreeRDP from previous stage
+COPY --from=freerdp-builder /usr/local/ /usr/local/
+
 WORKDIR /tmp/guacd
 
-# Use the staged guacamole-server source tarball from your build dir
 COPY guacamole-server-1.6.0.tar.gz ./
-
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1
 
-# Autotools + build + staged install into /buildroot
 RUN autoreconf -fi && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && \
     make DESTDIR=/buildroot install
 
 
-# =========================
-# Stage 2: Runtime (Debian 13)
-# =========================
+###############################################
+# Stage 3: Runtime (Debian 13)
+###############################################
 FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-# Runtime deps – use dev packages so Debian pulls the right ABI libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpng-dev \
-    zlib1g-dev \
-    libjpeg-dev \
-    libwebp-dev \
-    libfreerdp-dev \
-    libssh2-1-dev \
-    libtelnet-dev \
-    libvncserver-dev \
-    libpulse-dev \
-    libvorbis-dev \
-    libwebsockets-dev \
-    libavcodec-dev \
-    libavformat-dev \
-    libavutil-dev \
-    libswscale-dev \
-    libswresample-dev \
-    libpango1.0-dev \
-    libcairo2-dev \
+    libpng16-16 \
+    zlib1g \
+    libjpeg62-turbo \
+    libwebp7 \
+    libssh2-1 \
+    libtelnet2 \
+    libvncserver1 \
+    libpulse0 \
+    libvorbis0a \
+    libwebsockets20 \
+    libavcodec61 \
+    libavformat61 \
+    libavutil59 \
+    libswscale8 \
+    libswresample5 \
+    libpango-1.0-0 \
+    libcairo2 \
  && rm -rf /var/lib/apt/lists/*
 
-# Bring in the built guacd tree from the builder
-COPY --from=builder /buildroot/ /
+# Bring in FreeRDP and guacd
+COPY --from=freerdp-builder /usr/local/ /usr/local/
+COPY --from=guacd-builder /buildroot/ /
 
-# Create guacd user and runtime dirs
 RUN useradd -r -s /usr/sbin/nologin guacd && \
     mkdir -p /etc/guacamole /var/log/guacd && \
     chown -R guacd:guacd /etc/guacamole /var/log/guacd
@@ -92,5 +137,4 @@ EXPOSE 4822
 
 ENV GUACD_LOG_LEVEL=info
 
-# guacd is installed under /usr/local/sbin or /usr/local/bin by default
 CMD ["guacd", "-f", "-L", "info"]
