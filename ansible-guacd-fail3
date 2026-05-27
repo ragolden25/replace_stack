@@ -1,0 +1,153 @@
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Build guacd image] *******
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/build_guacd.yml:2
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: ansible
+<192.168.110.175> EXEC /bin/sh -c 'echo ~ansible && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/ansible/.ansible/tmp `"&& mkdir "` echo /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547 `" && echo ansible-tmp-1779909219.2400098-48920-64269768497547="` echo /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /home/ansible/.ansible/tmp/ansible-local-48044h48y8xcl/tmp4hi_8wa5 TO /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547/ /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /home/ansible/.ansible/tmp/ansible-tmp-1779909219.2400098-48920-64269768497547/ > /dev/null 2>&1 && sleep 0'
+fatal: [localhost]: FAILED! => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/build/guacd/scripts/build_guacd.sh",
+        "1.6.0",
+        "fy26q3"
+    ],
+    "delta": "0:00:11.520930",
+    "end": "2026-05-27 15:13:51.000182",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/build/guacd/scripts/build_guacd.sh 1.6.0 fy26q3",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": "/opt/ansible/files/build/guacd",
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "non-zero return code",
+    "rc": 1,
+    "start": "2026-05-27 15:13:39.479252",
+    "stderr": "#0 building with \"default\" instance using docker driver\n\n#1 [internal] load build definition from Dockerfile.guacd\n#1 transferring dockerfile: 3.44kB done\n#1 DONE 0.0s\n\n#2 [internal] load metadata for docker.io/library/debian:13-slim\n#2 DONE 0.1s\n\n#3 [internal] load .dockerignore\n#3 transferring context: 2B done\n#3 DONE 0.0s\n\n#4 [guacd-builder 1/7] FROM docker.io/library/debian:13-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8\n#4 CACHED\n\n#5 [internal] load build context\n#5 transferring context: 1.25MB 0.1s done\n#5 DONE 0.1s\n\n#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*\n#6 5.597 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]\n#6 5.678 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]\n#6 5.692 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]\n#6 5.742 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]\n#6 6.614 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]\n#6 6.616 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]\n#6 ...\n\n#7 [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\n#7 5.566 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]\n#7 5.633 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]\n#7 5.652 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]\n#7 5.710 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]\n#7 6.261 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]\n#7 6.263 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]\n#7 7.883 Fetched 10.1 MB in 7s (1362 kB/s)\n#7 7.883 Reading package lists...\n#7 ...\n\n#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*\n#6 8.280 Fetched 10.1 MB in 8s (1300 kB/s)\n#6 8.280 Reading package lists...\n#6 9.826 Reading package lists...\n#6 ...\n\n#8 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     libssl-dev     libxkbcommon-dev     libwayland-dev     libpulse-dev     libasound2-dev     libjpeg-dev     libpng-dev     ca-certificates  && rm -rf /var/lib/apt/lists/*\n#8 5.571 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]\n#8 5.658 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]\n#8 5.662 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]\n#8 5.729 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]\n#8 6.649 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]\n#8 6.652 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]\n#8 8.677 Fetched 10.1 MB in 8s (1232 kB/s)\n#8 8.677 Reading package lists...\n#8 ...\n\n#7 [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\n#7 7.883 Reading package lists...\n#7 9.141 Reading package lists...\n#7 10.56 Building dependency tree...\n#7 10.78 Reading state information...\n#7 10.81 E: Unable to locate package libwebsockets20\n#7 ERROR: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100\n\n#8 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     libssl-dev     libxkbcommon-dev     libwayland-dev     libpulse-dev     libasound2-dev     libjpeg-dev     libpng-dev     ca-certificates  && rm -rf /var/lib/apt/lists/*\n#8 10.15 Reading package lists...\n#8 CANCELED\n\n#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*\n#6 9.826 Reading package lists...\n#6 CANCELED\n------\n > [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*:\n\n\n10.81 E: Unable to locate package libwebsockets20\n------\nDockerfile.guacd:106\n--------------------\n 105 |     \n 106 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \\\n 107 | >>>     libpng16-16 \\\n 108 | >>>     zlib1g \\\n 109 | >>>     libjpeg62-turbo \\\n 110 | >>>     libwebp7 \\\n 111 | >>>     libssh2-1 \\\n 112 | >>>     libtelnet2 \\\n 113 | >>>     libvncserver1 \\\n 114 | >>>     libpulse0 \\\n 115 | >>>     libvorbis0a \\\n 116 | >>>     libwebsockets20 \\\n 117 | >>>     libavcodec61 \\\n 118 | >>>     libavformat61 \\\n 119 | >>>     libavutil59 \\\n 120 | >>>     libswscale8 \\\n 121 | >>>     libswresample5 \\\n 122 | >>>     libpango-1.0-0 \\\n 123 | >>>     libcairo2 \\\n 124 | >>>  && rm -rf /var/lib/apt/lists/*\n 125 |     \n--------------------\nERROR: failed to build: failed to solve: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100",
+    "stderr_lines": [
+        "#0 building with \"default\" instance using docker driver",
+        "",
+        "#1 [internal] load build definition from Dockerfile.guacd",
+        "#1 transferring dockerfile: 3.44kB done",
+        "#1 DONE 0.0s",
+        "",
+        "#2 [internal] load metadata for docker.io/library/debian:13-slim",
+        "#2 DONE 0.1s",
+        "",
+        "#3 [internal] load .dockerignore",
+        "#3 transferring context: 2B done",
+        "#3 DONE 0.0s",
+        "",
+        "#4 [guacd-builder 1/7] FROM docker.io/library/debian:13-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8",
+        "#4 CACHED",
+        "",
+        "#5 [internal] load build context",
+        "#5 transferring context: 1.25MB 0.1s done",
+        "#5 DONE 0.1s",
+        "",
+        "#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*",
+        "#6 5.597 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]",
+        "#6 5.678 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]",
+        "#6 5.692 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]",
+        "#6 5.742 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]",
+        "#6 6.614 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]",
+        "#6 6.616 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]",
+        "#6 ...",
+        "",
+        "#7 [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*",
+        "#7 5.566 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]",
+        "#7 5.633 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]",
+        "#7 5.652 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]",
+        "#7 5.710 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]",
+        "#7 6.261 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]",
+        "#7 6.263 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]",
+        "#7 7.883 Fetched 10.1 MB in 7s (1362 kB/s)",
+        "#7 7.883 Reading package lists...",
+        "#7 ...",
+        "",
+        "#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*",
+        "#6 8.280 Fetched 10.1 MB in 8s (1300 kB/s)",
+        "#6 8.280 Reading package lists...",
+        "#6 9.826 Reading package lists...",
+        "#6 ...",
+        "",
+        "#8 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     libssl-dev     libxkbcommon-dev     libwayland-dev     libpulse-dev     libasound2-dev     libjpeg-dev     libpng-dev     ca-certificates  && rm -rf /var/lib/apt/lists/*",
+        "#8 5.571 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]",
+        "#8 5.658 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]",
+        "#8 5.662 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]",
+        "#8 5.729 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]",
+        "#8 6.649 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]",
+        "#8 6.652 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [176 kB]",
+        "#8 8.677 Fetched 10.1 MB in 8s (1232 kB/s)",
+        "#8 8.677 Reading package lists...",
+        "#8 ...",
+        "",
+        "#7 [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*",
+        "#7 7.883 Reading package lists...",
+        "#7 9.141 Reading package lists...",
+        "#7 10.56 Building dependency tree...",
+        "#7 10.78 Reading state information...",
+        "#7 10.81 E: Unable to locate package libwebsockets20",
+        "#7 ERROR: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100",
+        "",
+        "#8 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     libssl-dev     libxkbcommon-dev     libwayland-dev     libpulse-dev     libasound2-dev     libjpeg-dev     libpng-dev     ca-certificates  && rm -rf /var/lib/apt/lists/*",
+        "#8 10.15 Reading package lists...",
+        "#8 CANCELED",
+        "",
+        "#6 [guacd-builder 2/7] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     pkg-config     autoconf     automake     libtool     libpng-dev     zlib1g-dev     libjpeg-dev     libwebp-dev     libssh2-1-dev     libtelnet-dev     libvncserver-dev     libpulse-dev     libvorbis-dev     libwebsockets-dev     libavcodec-dev     libavformat-dev     libavutil-dev     libswscale-dev     libswresample-dev     libpango1.0-dev     libcairo2-dev     ca-certificates     file  && rm -rf /var/lib/apt/lists/*",
+        "#6 9.826 Reading package lists...",
+        "#6 CANCELED",
+        "------",
+        " > [stage-2 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*:",
+        "",
+        "",
+        "10.81 E: Unable to locate package libwebsockets20",
+        "------",
+        "Dockerfile.guacd:106",
+        "--------------------",
+        " 105 |     ",
+        " 106 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \\",
+        " 107 | >>>     libpng16-16 \\",
+        " 108 | >>>     zlib1g \\",
+        " 109 | >>>     libjpeg62-turbo \\",
+        " 110 | >>>     libwebp7 \\",
+        " 111 | >>>     libssh2-1 \\",
+        " 112 | >>>     libtelnet2 \\",
+        " 113 | >>>     libvncserver1 \\",
+        " 114 | >>>     libpulse0 \\",
+        " 115 | >>>     libvorbis0a \\",
+        " 116 | >>>     libwebsockets20 \\",
+        " 117 | >>>     libavcodec61 \\",
+        " 118 | >>>     libavformat61 \\",
+        " 119 | >>>     libavutil59 \\",
+        " 120 | >>>     libswscale8 \\",
+        " 121 | >>>     libswresample5 \\",
+        " 122 | >>>     libpango-1.0-0 \\",
+        " 123 | >>>     libcairo2 \\",
+        " 124 | >>>  && rm -rf /var/lib/apt/lists/*",
+        " 125 |     ",
+        "--------------------",
+        "ERROR: failed to build: failed to solve: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     libpng16-16     zlib1g     libjpeg62-turbo     libwebp7     libssh2-1     libtelnet2     libvncserver1     libpulse0     libvorbis0a     libwebsockets20     libavcodec61     libavformat61     libavutil59     libswscale8     libswresample5     libpango-1.0-0     libcairo2  && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100"
+    ],
+    "stdout": "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3...",
+    "stdout_lines": [
+        "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3..."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=44   changed=18   unreachable=0    failed=1    skipped=3    rescued=0    ignored=0
+
+=== Build finished at 2026-05-27-15:13:51 ===
+=== Total time: 1 minutes 11 seconds ===
