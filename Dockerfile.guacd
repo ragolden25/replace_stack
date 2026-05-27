@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-# You can pin a tag instead of master if you want reproducibility
 RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     mkdir build && cd build && \
     cmake -G Ninja \
@@ -81,7 +80,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     file \
  && rm -rf /var/lib/apt/lists/*
 
-# Bring in FreeRDP from previous stage
 COPY --from=freerdp-builder /usr/local/ /usr/local/
 
 WORKDIR /tmp/guacd
@@ -96,14 +94,14 @@ RUN autoreconf -fi && \
 
 
 ###############################################
-# Stage 3: Runtime (Debian 13, smart resolver)
+# Stage 3: Runtime (Debian 13, Smart Resolver + Forced Mappings)
 ###############################################
 FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-# Generic “base names” for the libs guacd needs
+# Generic base names for resolver
 ENV WANT_PACKAGES="\
     libpng \
     zlib1g \
@@ -112,7 +110,6 @@ ENV WANT_PACKAGES="\
     libssh2 \
     libtelnet \
     libvncserver \
-    libpulse \
     libvorbis \
     libwebsockets \
     libavcodec \
@@ -120,17 +117,21 @@ ENV WANT_PACKAGES="\
     libavutil \
     libswscale \
     libswresample \
-    pango \
-    cairo \
 "
 
-# Install apt-file and resolve actual Debian 13 package names
+# Forced mappings for ambiguous libraries
+ENV FORCED_PACKAGES="\
+    libpulse-dev \
+    libpango1.0-dev \
+    libcairo2-dev \
+"
+
 RUN apt-get update && apt-get install -y --no-install-recommends apt-file && apt-file update && \
     echo '=== Resolving Debian 13 runtime packages ===' && \
     RESOLVED="" && \
     for base in $WANT_PACKAGES; do \
         echo -n "Resolving $base ... "; \
-        pkg=$(apt-cache search "^${base}.*-dev$" | head -n1 | awk '{print $1}'); \
+        pkg=$(apt-cache search "^${base}.*-dev$" | grep -E "dev|t64|amd64" | head -n1 | awk '{print $1}'); \
         if [ -z "$pkg" ]; then \
             pkg=$(apt-cache search "^${base}" | head -n1 | awk '{print $1}'); \
         fi; \
@@ -141,14 +142,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-file && apt
         echo "$pkg"; \
         RESOLVED="$RESOLVED $pkg"; \
     done && \
-    echo "Resolved packages:$RESOLVED" > /resolved-packages.txt
+    echo "Resolved packages:$RESOLVED $FORCED_PACKAGES" > /resolved-packages.txt
 
-# Install the resolved runtime/dev packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends $(awk '{for (i=3;i<=NF;i++) printf "%s ", $i}' /resolved-packages.txt) && \
     rm -rf /var/lib/apt/lists/*
 
-# Bring in FreeRDP and guacd
 COPY --from=freerdp-builder /usr/local/ /usr/local/
 COPY --from=guacd-builder /buildroot/ /
 
