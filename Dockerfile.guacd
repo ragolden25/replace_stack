@@ -1,5 +1,5 @@
 ###############################################
-# Stage 1: Build FreeRDP (Debian 13)
+# Stage 1: Build FreeRDP (Debian 13, NO AUDIO)
 ###############################################
 FROM debian:13-slim AS freerdp-builder
 
@@ -14,8 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libxkbcommon-dev \
     libwayland-dev \
-    libpulse-dev \
-    libasound2-dev \
     libjpeg-dev \
     libpng-dev \
     ca-certificates \
@@ -35,18 +33,18 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
       -DWITH_GSTREAMER=OFF \
       -DWITH_CUPS=OFF \
       -DWITH_SMARTCARD=OFF \
-      -DWITH_PULSE=ON \
-      -DWITH_ALSA=ON \
-      -DWITH_OPENSSL=ON \
+      -DWITH_PULSE=OFF \
+      -DWITH_ALSA=OFF \
+      -DWITH_CODEC=OFF \
       -DWITH_CHANNELS=ON \
-      -DWITH_CODEC=ON \
+      -DWITH_OPENSSL=ON \
       .. && \
     ninja && \
     ninja install
 
 
 ###############################################
-# Stage 2: Build guacd (Debian 13)
+# Stage 2: Build guacd (Debian 13, NO AUDIO)
 ###############################################
 FROM debian:13-slim AS guacd-builder
 
@@ -66,14 +64,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssh2-1-dev \
     libtelnet-dev \
     libvncserver-dev \
-    libpulse-dev \
-    libvorbis-dev \
     libwebsockets-dev \
-    libavcodec-dev \
-    libavformat-dev \
-    libavutil-dev \
-    libswscale-dev \
-    libswresample-dev \
     libpango1.0-dev \
     libcairo2-dev \
     ca-certificates \
@@ -94,14 +85,14 @@ RUN autoreconf -fi && \
 
 
 ###############################################
-# Stage 3: Runtime (Debian 13, Smart Resolver + Forced Mappings)
+# Stage 3: Runtime (Debian 13, Smart Resolver, NO AUDIO)
 ###############################################
 FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-# Generic base names for resolver
+# Base names for resolver (NO AUDIO)
 ENV WANT_PACKAGES="\
     libpng \
     zlib1g \
@@ -110,24 +101,17 @@ ENV WANT_PACKAGES="\
     libssh2 \
     libtelnet \
     libvncserver \
-    libvorbis \
     libwebsockets \
-    libavcodec \
-    libavformat \
-    libavutil \
-    libswscale \
-    libswresample \
 "
 
-# Forced mappings for ambiguous libraries
+# Forced mappings for ambiguous libs
 ENV FORCED_PACKAGES="\
-    libpulse-dev \
     libpango1.0-dev \
     libcairo2-dev \
 "
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-file && apt-file update && \
-    echo '=== Resolving Debian 13 runtime packages ===' && \
+    echo '=== Resolving Debian 13 runtime packages (NO AUDIO) ===' && \
     RESOLVED="" && \
     for base in $WANT_PACKAGES; do \
         echo -n "Resolving $base ... "; \
