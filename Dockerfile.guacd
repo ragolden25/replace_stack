@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/guacd
 
-# Use the staged guacamole-server source tarball
+# Use the staged guacamole-server source tarball from your build dir
 COPY guacamole-server-1.6.0.tar.gz ./
 
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1
@@ -50,14 +50,13 @@ RUN autoreconf -fi && \
 
 
 # =========================
-# Stage 2: Hardened Runtime
+# Stage 2: Runtime (Debian 13)
 # =========================
-# This image must be pre-loaded from debian13_fips.tar.gz as debian13_fips:latest
-FROM debian13_fips:latest
+FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Runtime dependencies – use dev packages so Debian resolves correct ABI libs
+# Runtime deps – use dev packages so Debian pulls the right ABI libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     zlib1g-dev \
