@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-# Pull latest stable FreeRDP (you can pin a tag if needed)
+# You can pin a tag instead of master if you want reproducibility
 RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     mkdir build && cd build && \
     cmake -G Ninja \
@@ -96,32 +96,57 @@ RUN autoreconf -fi && \
 
 
 ###############################################
-# Stage 3: Runtime (Debian 13)
+# Stage 3: Runtime (Debian 13, smart resolver)
 ###############################################
 FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpng16-16 \
+# Generic “base names” for the libs guacd needs
+ENV WANT_PACKAGES="\
+    libpng \
     zlib1g \
-    libjpeg62-turbo \
-    libwebp7 \
-    libssh2-1 \
-    libtelnet2 \
-    libvncserver1 \
-    libpulse0 \
-    libvorbis0a \
-    libwebsockets20 \
-    libavcodec61 \
-    libavformat61 \
-    libavutil59 \
-    libswscale8 \
-    libswresample5 \
-    libpango-1.0-0 \
-    libcairo2 \
- && rm -rf /var/lib/apt/lists/*
+    libjpeg \
+    libwebp \
+    libssh2 \
+    libtelnet \
+    libvncserver \
+    libpulse \
+    libvorbis \
+    libwebsockets \
+    libavcodec \
+    libavformat \
+    libavutil \
+    libswscale \
+    libswresample \
+    pango \
+    cairo \
+"
+
+# Install apt-file and resolve actual Debian 13 package names
+RUN apt-get update && apt-get install -y --no-install-recommends apt-file && apt-file update && \
+    echo '=== Resolving Debian 13 runtime packages ===' && \
+    RESOLVED="" && \
+    for base in $WANT_PACKAGES; do \
+        echo -n "Resolving $base ... "; \
+        pkg=$(apt-cache search "^${base}.*-dev$" | head -n1 | awk '{print $1}'); \
+        if [ -z "$pkg" ]; then \
+            pkg=$(apt-cache search "^${base}" | head -n1 | awk '{print $1}'); \
+        fi; \
+        if [ -z "$pkg" ]; then \
+            echo "NOT FOUND"; \
+            exit 1; \
+        fi; \
+        echo "$pkg"; \
+        RESOLVED="$RESOLVED $pkg"; \
+    done && \
+    echo "Resolved packages:$RESOLVED" > /resolved-packages.txt
+
+# Install the resolved runtime/dev packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends $(awk '{for (i=3;i<=NF;i++) printf "%s ", $i}' /resolved-packages.txt) && \
+    rm -rf /var/lib/apt/lists/*
 
 # Bring in FreeRDP and guacd
 COPY --from=freerdp-builder /usr/local/ /usr/local/
