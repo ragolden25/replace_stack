@@ -1,11 +1,11 @@
-# ============================
-#   Stage 1 — Build guacd
-# ============================
-FROM debian:13 AS builder
+# =========================
+# Stage 1: Builder (Debian 13)
+# =========================
+FROM debian:13-slim AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install build dependencies
+# Build dependencies only (dev packages, toolchain, no ABI pinning)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     pkg-config \
@@ -33,64 +33,65 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     ca-certificates \
     file \
-    && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /tmp
+WORKDIR /tmp/guacd
 
-# Download correct Guacamole source tarball
-RUN wget https://downloads.apache.org/guacamole/1.6.0/source/guacamole-server-1.6.0.tar.gz \
-    -O guacamole-server-1.6.0.tar.gz && \
-    tar -xzf guacamole-server-1.6.0.tar.gz
+# Use the staged guacamole-server source tarball
+COPY guacamole-server-1.6.0.tar.gz ./
 
-WORKDIR /tmp/guacamole-server-1.6.0
+RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1
 
-# ============================
-#   Add diagnostic script
-# ============================
-COPY guac-build-diagnostics.sh /tmp/guac-build-diagnostics.sh
-RUN chmod +x /tmp/guac-build-diagnostics.sh
+# Autotools + build + staged install into /buildroot
+RUN autoreconf -fi && \
+    ./configure --prefix=/usr/local && \
+    make -j"$(nproc)" && \
+    make DESTDIR=/buildroot install
 
-# Run diagnostics BEFORE configure
-RUN /tmp/guac-build-diagnostics.sh
 
-# ============================
-#   Build guacd
-# ============================
-RUN ./configure --with-init-dir=/etc/init.d && \
-    make -j$(nproc) && \
-    make install && \
-    ldconfig
-
-# ============================
-#   Stage 2 — Runtime image
-# ============================
-FROM debian:13
+# =========================
+# Stage 2: Hardened Runtime
+# =========================
+# This image must be pre-loaded from debian13_fips.tar.gz as debian13_fips:latest
+FROM debian13_fips:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Runtime dependencies – use dev packages so Debian resolves correct ABI libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpng16-16 \
-    zlib1g \
-    libjpeg62-turbo \
-    libwebp7 \
-    libfreerdp2-2 \
-    libssh2-1 \
-    libtelnet2 \
-    libvncserver1 \
-    libpulse0 \
-    libvorbis0a \
-    libwebsockets19 \
-    libavcodec60 \
-    libavformat60 \
-    libavutil58 \
-    libswscale7 \
-    libswresample5 \
-    libpango-1.0-0 \
-    libcairo2 \
-    && rm -rf /var/lib/apt/lists/*
+    libpng-dev \
+    zlib1g-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreerdp-dev \
+    libssh2-1-dev \
+    libtelnet-dev \
+    libvncserver-dev \
+    libpulse-dev \
+    libvorbis-dev \
+    libwebsockets-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libswscale-dev \
+    libswresample-dev \
+    libpango1.0-dev \
+    libcairo2-dev \
+ && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /usr/local/ /usr/local/
+# Bring in the built guacd tree from the builder
+COPY --from=builder /buildroot/ /
+
+# Create guacd user and runtime dirs
+RUN useradd -r -s /usr/sbin/nologin guacd && \
+    mkdir -p /etc/guacamole /var/log/guacd && \
+    chown -R guacd:guacd /etc/guacamole /var/log/guacd
+
+USER guacd
 
 EXPOSE 4822
 
-CMD ["guacd", "-f"]
+ENV GUACD_LOG_LEVEL=info
+
+# guacd is installed under /usr/local/sbin or /usr/local/bin by default
+CMD ["guacd", "-f", "-L", "info"]
