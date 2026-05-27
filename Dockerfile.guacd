@@ -1,0 +1,52 @@
+Dockerfile.guacd
+# ------------------------------------------------------------
+# Builder Stage — build guacd from source
+# ------------------------------------------------------------
+FROM debian:12 AS builder
+
+RUN apt-get update && \
+    apt-get install -y \
+      build-essential \
+      libcairo2-dev \
+      libjpeg62-turbo-dev \
+      libpng-dev \
+      pkg-config \
+      libtool-bin \
+      libossp-uuid-dev \
+      libavcodec-dev \
+      libavformat-dev \
+      libavutil-dev \
+      libswscale-dev \
+      libpango1.0-dev \
+      libssh2-1-dev \
+      libtelnet-dev \
+      libvncserver-dev \
+      libpulse-dev \
+      libssl-dev \
+      libwebp-dev \
+      libwebsockets-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+COPY src/ /build/
+
+RUN ./configure --prefix=/usr && make && make install
+
+
+# ------------------------------------------------------------
+# Runtime Stage — hardened Debian 13 FIPS base
+# ------------------------------------------------------------
+FROM dhi.io/debian-base:trixie
+
+# Copy guacd binary
+COPY --from=builder /usr/sbin/guacd /usr/sbin/guacd
+
+# Copy required shared libraries
+COPY --from=builder /usr/lib /usr/lib
+COPY --from=builder /usr/local/lib /usr/local/lib
+COPY --from=builder /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
+
+# Drop privileges
+USER 1000:1000
+
+ENTRYPOINT ["/usr/sbin/guacd"]
