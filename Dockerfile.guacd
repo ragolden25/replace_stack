@@ -1,6 +1,3 @@
-###############################################
-# Stage 1: Build FreeRDP (Debian 13)
-###############################################
 FROM debian:13-slim AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,9 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ninja-build \
     pkg-config \
     ca-certificates \
-    # crypto / TLS
+    # crypto
     libssl-dev \
-    # graphics / input
+    # graphics/input (harmless even if disabled)
     libxkbcommon-dev \
     libwayland-dev \
     libjpeg-dev \
@@ -36,11 +33,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     liburiparser-dev \
     # systemd
     libsystemd-dev \
-    # ICU (headers + libs)
+    # ICU (Debian 13 = ICU 76)
     libicu-dev \
-    # FUSE3 (required by FreeRDP 3.x)
+    # USB + FUSE (required for urbdrc)
+    libusb-1.0-0-dev \
     libfuse3-dev \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
 
@@ -61,71 +59,15 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
       -DWITH_CODEC=OFF \
       -DWITH_CHANNELS=ON \
       -DWITH_OPENSSL=ON \
+      -DWITH_VAAPI_H264_ENCODING=OFF \
       .. && \
-    ninja && \
-    ninja install
+    ninja && ninja install
 
+# -------------------------
+# Runtime stage
+# -------------------------
 
-###############################################
-# Stage 2: Build guacd (Debian 13)
-###############################################
-FROM debian:13-slim AS guacd-builder
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    autoconf \
-    automake \
-    libtool \
-    pkg-config \
-    ca-certificates \
-    libssl-dev \
-    libxkbcommon-dev \
-    libwayland-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libavcodec-dev \
-    libavutil-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libkrb5-dev \
-    krb5-multidev \
-    libjson-c-dev \
-    libjansson-dev \
-    libcjson-dev \
-    liburiparser-dev \
-    libsystemd-dev \
-    libicu-dev \
-    libfuse3-dev \
- && rm -rf /var/lib/apt/lists/*
-
-COPY --from=freerdp-builder /usr/local /usr/local
-
-WORKDIR /tmp/guacd
-
-ARG GUAC_VERSION=1.6.0
-
-RUN curl -fsSL "https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole-server-${GUAC_VERSION}.tar.gz" \
-    -o guac.tar.gz && \
-    tar xzf guac.tar.gz --strip-components=1 && \
-    autoreconf -fi && \
-    ./configure \
-      --prefix=/usr/local \
-      --with-freerdp=/usr/local \
-      --disable-guacenc \
-      --disable-guaclog \
-    && make -j"$(nproc)" && \
-    make install && \
-    ldconfig
-
-
-###############################################
-# Stage 3: Runtime (Debian 13)
-###############################################
-FROM debian:13-slim
-
-ENV DEBIAN_FRONTEND=noninteractive
+FROM debian:13-slim AS stage-2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -142,12 +84,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcjson1 \
     liburiparser1 \
     libsystemd0 \
- && rm -rf /var/lib/apt/lists/*
+    libicu76 \
+    libusb-1.0-0 \
+    libfuse3-3 \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY --from=guacd-builder /usr/local /usr/local
+COPY --from=freerdp-builder /usr/local /usr/local
 
-EXPOSE 4822
-
-ENTRYPOINT ["/usr/local/sbin/guacd"]
-CMD ["-f"]
-
+CMD ["/usr/local/sbin/guacd"]
