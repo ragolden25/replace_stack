@@ -1,0 +1,78 @@
+---
+# save_images.yml
+
+# =====================================================================
+# 1.0 Read versions (local)
+# =====================================================================
+
+- name: 1.1 Read guacd version
+  slurp:
+    src: "{{ guacd_build }}/{{ quarter }}/VERSION"
+  register: guacd_version_raw
+
+- name: 1.2 Read guacamole version
+  slurp:
+    src: "{{ guacamole_build }}/{{ quarter }}/VERSION"
+  register: guacamole_version_raw
+
+- set_fact:
+    guacd_version: "{{ guacd_version_raw.content | b64decode | trim }}"
+    guacamole_version: "{{ guacamole_version_raw.content | b64decode | trim }}"
+
+# =====================================================================
+# 2.0 Save Docker images to tar.gz (local)
+# =====================================================================
+
+- name: 2.1 Save guacd image
+  command:
+    cmd: >
+      docker save ccop/guacd:{{ guacd_version }}
+      -o guacd-{{ guacd_version }}.tar.gz
+    chdir: "{{ guacd_build }}/{{ quarter }}"
+
+- name: 2.2 Save guacamole image
+  command:
+    cmd: >
+      docker save ccop/guacamole:{{ guacamole_version }}
+      -o guacamole-{{ guacamole_version }}.tar.gz
+    chdir: "{{ guacamole_build }}/{{ quarter }}"
+
+# =====================================================================
+# 3.0 Move artifacts into avocado tree (local copy)
+# =====================================================================
+
+- name: 3.1 Ensure quarterly artifact directory exists
+  file:
+    path: "{{ guac_files }}/{{ quarter }}/images"
+    state: directory
+
+- name: 3.2 Copy guacd artifact into avocado images
+  copy:
+    src: "{{ guacd_build }}/{{ quarter }}/guacd-{{ guacd_version }}.tar.gz"
+    dest: "{{ guac_files }}/{{ quarter }}/images/guacd-{{ guacd_version }}.tar.gz"
+    remote_src: yes
+
+- name: 3.3 Copy guacamole artifact into avocado images
+  copy:
+    src: "{{ guacamole_build }}/{{ quarter }}/guacamole-{{ guacamole_version }}.tar.gz"
+    dest: "{{ guac_files }}/{{ quarter }}/images/guacamole-{{ guacamole_version }}.tar.gz"
+    remote_src: yes
+
+# =====================================================================
+# 4.0 Save nginx and postgres (already local)
+# =====================================================================
+
+- name: 4.1 Save nginx image
+  command:
+    cmd: "/opt/ansible/files/avocado/scripts/save_nginx_image.sh {{ nginx_version }} {{ quarter }}"
+
+- name: 4.2 Save postgres image
+  command:
+    cmd: "/opt/ansible/files/avocado/scripts/save_postgres_image.sh {{ postgres_version }} {{ quarter }}"
+
+# =====================================================================
+# 5.0 Cleanup on ansible
+# =====================================================================
+
+- name: 5.1 Prune unused Docker data on ansible
+  command: docker system prune -f
