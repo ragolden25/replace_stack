@@ -1,0 +1,126 @@
+TASK [/opt/ansible/nucleus/roles/build_guac_release : Build guacd image] *******
+task path: /opt/ansible/nucleus/roles/build_guac_release/tasks/build_guacd.yml:2
+<192.168.110.175> ESTABLISH LOCAL CONNECTION FOR USER: ansible
+<192.168.110.175> EXEC /bin/sh -c 'echo ~ansible && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/ansible/.ansible/tmp `"&& mkdir "` echo /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822 `" && echo ansible-tmp-1779976703.0737922-125727-151138196063822="` echo /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<192.168.110.175> PUT /home/ansible/.ansible/tmp/ansible-local-124869oc7dx75e/tmpy8xeo_ih TO /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822/AnsiballZ_command.py
+<192.168.110.175> EXEC /bin/sh -c 'chmod u+x /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822/ /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c '/usr/bin/python3 /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822/AnsiballZ_command.py && sleep 0'
+<192.168.110.175> EXEC /bin/sh -c 'rm -f -r /home/ansible/.ansible/tmp/ansible-tmp-1779976703.0737922-125727-151138196063822/ > /dev/null 2>&1 && sleep 0'
+fatal: [localhost]: FAILED! => {
+    "changed": true,
+    "cmd": [
+        "/opt/ansible/files/build/guacd/scripts/build_guacd.sh",
+        "1.6.0",
+        "fy26q3"
+    ],
+    "delta": "0:00:10.052706",
+    "end": "2026-05-28 09:58:33.359193",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/opt/ansible/files/build/guacd/scripts/build_guacd.sh 1.6.0 fy26q3",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": "/opt/ansible/files/build/guacd",
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true
+        }
+    },
+    "msg": "non-zero return code",
+    "rc": 1,
+    "start": "2026-05-28 09:58:23.306487",
+    "stderr": "#0 building with \"default\" instance using docker driver\n\n#1 [internal] load build definition from Dockerfile.guacd\n#1 transferring dockerfile: 2.20kB done\n#1 DONE 0.0s\n\n#2 [internal] load metadata for docker.io/library/debian:13-slim\n#2 DONE 0.1s\n\n#3 [internal] load .dockerignore\n#3 transferring context: 2B done\n#3 DONE 0.0s\n\n#4 [freerdp-builder 1/4] FROM docker.io/library/debian:13-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8\n#4 CACHED\n\n#5 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev     libusb-1.0-0-dev     libfuse3-dev     && rm -rf /var/lib/apt/lists/*\n#5 5.410 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]\n#5 5.482 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]\n#5 5.495 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]\n#5 5.551 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]\n#5 6.305 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]\n#5 6.307 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [178 kB]\n#5 7.552 Fetched 10.1 MB in 7s (1398 kB/s)\n#5 7.552 Reading package lists...\n#5 8.513 Reading package lists...\n#5 ...\n\n#6 [stage-2 2/3] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*\n#6 5.384 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]\n#6 5.453 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]\n#6 5.474 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]\n#6 5.518 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]\n#6 5.923 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]\n#6 5.926 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [178 kB]\n#6 7.127 Fetched 10.1 MB in 7s (1478 kB/s)\n#6 7.127 Reading package lists...\n#6 8.097 Reading package lists...\n#6 9.113 Building dependency tree...\n#6 9.318 Reading state information...\n#6 9.345 E: Unable to locate package libfuse3-3\n#6 ERROR: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100\n\n#5 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev     libusb-1.0-0-dev     libfuse3-dev     && rm -rf /var/lib/apt/lists/*\n#5 8.513 Reading package lists...\n#5 CANCELED\n------\n > [stage-2 2/3] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*:\n\n9.345 E: Unable to locate package libfuse3-3\n------\nDockerfile.guacd:72\n--------------------\n  71 |     \n  72 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \\\n  73 | >>>     ca-certificates \\\n  74 | >>>     libssl3 \\\n  75 | >>>     libjpeg62-turbo \\\n  76 | >>>     libpng16-16 \\\n  77 | >>>     libavcodec61 \\\n  78 | >>>     libavutil59 \\\n  79 | >>>     libavformat61 \\\n  80 | >>>     libswscale8 \\\n  81 | >>>     libkrb5-3 \\\n  82 | >>>     libjson-c5 \\\n  83 | >>>     libjansson4 \\\n  84 | >>>     libcjson1 \\\n  85 | >>>     liburiparser1 \\\n  86 | >>>     libsystemd0 \\\n  87 | >>>     libicu76 \\\n  88 | >>>     libusb-1.0-0 \\\n  89 | >>>     libfuse3-3 \\\n  90 | >>>     && rm -rf /var/lib/apt/lists/*\n  91 |     \n--------------------\nERROR: failed to build: failed to solve: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100",
+    "stderr_lines": [
+        "#0 building with \"default\" instance using docker driver",
+        "",
+        "#1 [internal] load build definition from Dockerfile.guacd",
+        "#1 transferring dockerfile: 2.20kB done",
+        "#1 DONE 0.0s",
+        "",
+        "#2 [internal] load metadata for docker.io/library/debian:13-slim",
+        "#2 DONE 0.1s",
+        "",
+        "#3 [internal] load .dockerignore",
+        "#3 transferring context: 2B done",
+        "#3 DONE 0.0s",
+        "",
+        "#4 [freerdp-builder 1/4] FROM docker.io/library/debian:13-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8",
+        "#4 CACHED",
+        "",
+        "#5 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev     libusb-1.0-0-dev     libfuse3-dev     && rm -rf /var/lib/apt/lists/*",
+        "#5 5.410 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]",
+        "#5 5.482 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]",
+        "#5 5.495 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]",
+        "#5 5.551 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]",
+        "#5 6.305 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]",
+        "#5 6.307 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [178 kB]",
+        "#5 7.552 Fetched 10.1 MB in 7s (1398 kB/s)",
+        "#5 7.552 Reading package lists...",
+        "#5 8.513 Reading package lists...",
+        "#5 ...",
+        "",
+        "#6 [stage-2 2/3] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*",
+        "#6 5.384 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]",
+        "#6 5.453 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]",
+        "#6 5.474 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]",
+        "#6 5.518 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9671 kB]",
+        "#6 5.923 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]",
+        "#6 5.926 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [178 kB]",
+        "#6 7.127 Fetched 10.1 MB in 7s (1478 kB/s)",
+        "#6 7.127 Reading package lists...",
+        "#6 8.097 Reading package lists...",
+        "#6 9.113 Building dependency tree...",
+        "#6 9.318 Reading state information...",
+        "#6 9.345 E: Unable to locate package libfuse3-3",
+        "#6 ERROR: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100",
+        "",
+        "#5 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev     libusb-1.0-0-dev     libfuse3-dev     && rm -rf /var/lib/apt/lists/*",
+        "#5 8.513 Reading package lists...",
+        "#5 CANCELED",
+        "------",
+        " > [stage-2 2/3] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*:",
+        "",
+        "9.345 E: Unable to locate package libfuse3-3",
+        "------",
+        "Dockerfile.guacd:72",
+        "--------------------",
+        "  71 |     ",
+        "  72 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \\",
+        "  73 | >>>     ca-certificates \\",
+        "  74 | >>>     libssl3 \\",
+        "  75 | >>>     libjpeg62-turbo \\",
+        "  76 | >>>     libpng16-16 \\",
+        "  77 | >>>     libavcodec61 \\",
+        "  78 | >>>     libavutil59 \\",
+        "  79 | >>>     libavformat61 \\",
+        "  80 | >>>     libswscale8 \\",
+        "  81 | >>>     libkrb5-3 \\",
+        "  82 | >>>     libjson-c5 \\",
+        "  83 | >>>     libjansson4 \\",
+        "  84 | >>>     libcjson1 \\",
+        "  85 | >>>     liburiparser1 \\",
+        "  86 | >>>     libsystemd0 \\",
+        "  87 | >>>     libicu76 \\",
+        "  88 | >>>     libusb-1.0-0 \\",
+        "  89 | >>>     libfuse3-3 \\",
+        "  90 | >>>     && rm -rf /var/lib/apt/lists/*",
+        "  91 |     ",
+        "--------------------",
+        "ERROR: failed to build: failed to solve: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu76     libusb-1.0-0     libfuse3-3     && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100"
+    ],
+    "stdout": "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3...",
+    "stdout_lines": [
+        "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3..."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=44   changed=18   unreachable=0    failed=1    skipped=3    rescued=0    ignored=0
+
+=== Build finished at 2026-05-28-09:58:33 ===
+=== Total time: 1 minutes 8 seconds ===
