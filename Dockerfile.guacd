@@ -1,37 +1,50 @@
-###############################################
-# Stage 1: Build FreeRDP (Debian 13, NO AUDIO)
-###############################################
-FROM debian:13-slim AS freerdp-builder
+# =========================
+# Stage 1: FreeRDP builder
+# =========================
+FROM debian:13 AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    # toolchain
     build-essential \
     git \
     cmake \
     ninja-build \
     pkg-config \
+    ca-certificates \
+    # crypto / TLS
     libssl-dev \
+    # graphics / input (even if X11/Wayland disabled, headers are harmless)
     libxkbcommon-dev \
     libwayland-dev \
     libjpeg-dev \
     libpng-dev \
-    ca-certificates \
-    # FreeRDP 3.x requires FFmpeg headers even with codecs disabled
+    # FFmpeg (AVUTIL/AVCODEC used by FreeRDP)
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
-    # FreeRDP 3.x WinPR/SSPI requires Kerberos ALWAYS
+    # Kerberos (MIT flavour + headers + pkg-config)
     libkrb5-dev \
-    # JSON detection is optional, but avoids warnings
+    krb5-multidev \
+    # Heimdal pkg-config target (heimdal-krb5.pc)
+    heimdal-dev \
+    # JSON backends
     libjson-c-dev \
-    # URI parser is optional but avoids warnings
+    libjansson-dev \
+    libcjson-dev \
+    # URI parser
     liburiparser-dev \
+    # systemd (libsystemd detection)
+    libsystemd-dev \
+    # ICU (ICU_INCLUDE_DIR / ICU_LIBRARY / i18n, uc, io, data)
+    libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
 
+# Build FreeRDP with your options
 RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     mkdir build && cd build && \
     cmake -G Ninja \
@@ -53,107 +66,88 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     ninja && \
     ninja install
 
-
-###############################################
-# Stage 2: Build guacd (Debian 13, NO AUDIO)
-###############################################
-FROM debian:13-slim AS guacd-builder
+# =========================
+# Stage 2: guacd builder
+# =========================
+FROM debian:13 AS guacd-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    pkg-config \
     autoconf \
     automake \
     libtool \
-    libpng-dev \
-    zlib1g-dev \
-    libjpeg-dev \
-    libwebp-dev \
-    libssh2-1-dev \
-    libtelnet-dev \
-    libvncserver-dev \
-    libwebsockets-dev \
-    libpango1.0-dev \
-    libcairo2-dev \
+    pkg-config \
     ca-certificates \
-    file \
+    # runtime libs for guacd + FreeRDP
+    libssl-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libkrb5-dev \
+    krb5-multidev \
+    heimdal-dev \
+    libjson-c-dev \
+    libjansson-dev \
+    libcjson-dev \
+    liburiparser-dev \
+    libsystemd-dev \
+    libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=freerdp-builder /usr/local/ /usr/local/
+# Copy FreeRDP from builder
+COPY --from=freerdp-builder /usr/local /usr/local
+
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib/x86_64-linux-gnu/pkgconfig:${PKG_CONFIG_PATH}
 
 WORKDIR /tmp/guacd
 
-COPY guacamole-server-1.6.0.tar.gz ./
-RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1
-
-RUN autoreconf -fi && \
-    ./configure --prefix=/usr/local && \
+# Adjust version/URL as needed
+ARG GUACD_VERSION=1.6.0
+RUN git clone --depth 1 --branch ${GUACD_VERSION} https://github.com/apache/guacamole-server.git . && \
+    autoreconf -fi && \
+    ./configure \
+      --prefix=/usr \
+      --with-freerdp=/usr/local \
+      --disable-guacenc \
+      --disable-guaclog && \
     make -j"$(nproc)" && \
-    make DESTDIR=/buildroot install
+    make install
 
-
-###############################################
-# Stage 3: Runtime (Debian 13, Smart Resolver, NO AUDIO)
-###############################################
+# =========================
+# Stage 3: runtime image
+# =========================
 FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-# Base names for resolver (NO AUDIO)
-ENV WANT_PACKAGES="\
-    libpng \
-    zlib1g \
-    libjpeg \
-    libwebp \
-    libssh2 \
-    libtelnet \
-    libvncserver \
-    libwebsockets \
-"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    # runtime libs for FreeRDP + guacd
+    libssl3 \
+    libjpeg62-turbo \
+    libpng16-16 \
+    libavcodec61 \
+    libavutil59 \
+    libavformat61 \
+    libswscale8 \
+    libkrb5-3 \
+    libjson-c5 \
+    libjansson4 \
+    libcjson1 \
+    liburiparser1 \
+    libsystemd0 \
+    libicu74 \
+ && rm -rf /var/lib/apt/lists/*
 
-# Forced mappings for ambiguous libs
-ENV FORCED_PACKAGES="\
-    libpango1.0-dev \
-    libcairo2-dev \
-"
+# Copy installed FreeRDP + guacd
+COPY --from=guacd-builder /usr/local /usr/local
+COPY --from=guacd-builder /usr /usr
 
-RUN apt-get update && apt-get install -y --no-install-recommends apt-file && apt-file update && \
-    echo '=== Resolving Debian 13 runtime packages (NO AUDIO) ===' && \
-    RESOLVED="" && \
-    for base in $WANT_PACKAGES; do \
-        echo -n "Resolving $base ... "; \
-        pkg=$(apt-cache search "^${base}.*-dev$" | grep -E "dev|t64|amd64" | head -n1 | awk '{print $1}'); \
-        if [ -z "$pkg" ]; then \
-            pkg=$(apt-cache search "^${base}" | head -n1 | awk '{print $1}'); \
-        fi; \
-        if [ -z "$pkg" ]; then \
-            echo "NOT FOUND"; \
-            exit 1; \
-        fi; \
-        echo "$pkg"; \
-        RESOLVED="$RESOLVED $pkg"; \
-    done && \
-    echo "Resolved packages:$RESOLVED $FORCED_PACKAGES" > /resolved-packages.txt
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends $(awk '{for (i=3;i<=NF;i++) printf "%s ", $i}' /resolved-packages.txt) && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY --from=freerdp-builder /usr/local/ /usr/local/
-COPY --from=guacd-builder /buildroot/ /
-
-RUN useradd -r -s /usr/sbin/nologin guacd && \
-    mkdir -p /etc/guacamole /var/log/guacd && \
-    chown -R guacd:guacd /etc/guacamole /var/log/guacd
-
-USER guacd
-
+# guacd defaults
 EXPOSE 4822
-
-ENV GUACD_LOG_LEVEL=info
-
-CMD ["guacd", "-f", "-L", "info"]
+ENTRYPOINT ["/usr/sbin/guacd", "-f"]
