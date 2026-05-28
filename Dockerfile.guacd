@@ -17,11 +17,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     libpng-dev \
     ca-certificates \
-    # Required ONLY because FreeRDP 3.x probes FFmpeg even when codecs are OFF
+    # FreeRDP 3.x requires FFmpeg headers even with codecs disabled
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
+    # FreeRDP 3.x WinPR/SSPI requires Kerberos ALWAYS
+    libkrb5-dev \
+    # JSON detection is optional, but avoids warnings
+    libjson-c-dev \
+    # URI parser is optional but avoids warnings
+    liburiparser-dev \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
