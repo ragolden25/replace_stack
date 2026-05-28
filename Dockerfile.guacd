@@ -1,9 +1,9 @@
-# =========================
-# Stage 1: FreeRDP builder
-# =========================
-FROM debian:13 AS freerdp-builder
+# Multi-stage build for guacd 1.6.0 on Debian 13 (trixie)
 
-ENV DEBIAN_FRONTEND=noninteractive
+########################
+# Stage 1: FreeRDP build
+########################
+FROM debian:13-slim AS freerdp-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # toolchain
@@ -15,12 +15,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     # crypto / TLS
     libssl-dev \
-    # graphics / input (even if X11/Wayland disabled, headers are harmless)
+    # graphics / input (headers only)
     libxkbcommon-dev \
     libwayland-dev \
     libjpeg-dev \
     libpng-dev \
-    # FFmpeg (AVUTIL/AVCODEC used by FreeRDP)
+    # FFmpeg (matches log: libavcodec61/libavutil59/libavformat61/libswscale8)
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
@@ -28,8 +28,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Kerberos (MIT flavour + headers + pkg-config)
     libkrb5-dev \
     krb5-multidev \
-    # Heimdal pkg-config target (heimdal-krb5.pc)
-    heimdal-dev \
     # JSON backends
     libjson-c-dev \
     libjansson-dev \
@@ -44,7 +42,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-# Build FreeRDP with your options
 RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     mkdir build && cd build && \
     cmake -G Ninja \
@@ -66,68 +63,70 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     ninja && \
     ninja install
 
-# =========================
-# Stage 2: guacd builder
-# =========================
-FROM debian:13 AS guacd-builder
-
-ENV DEBIAN_FRONTEND=noninteractive
+########################
+# Stage 2: guacd build
+########################
+FROM debian:13-slim AS guacd-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    # toolchain
     build-essential \
     autoconf \
     automake \
     libtool \
     pkg-config \
     ca-certificates \
-    # runtime libs for guacd + FreeRDP
+    # crypto / TLS
     libssl-dev \
+    # graphics / input
+    libxkbcommon-dev \
+    libwayland-dev \
     libjpeg-dev \
     libpng-dev \
+    # FFmpeg
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
+    # Kerberos (MIT only; no heimdal-dev to avoid conflict)
     libkrb5-dev \
     krb5-multidev \
-    heimdal-dev \
+    # JSON backends
     libjson-c-dev \
     libjansson-dev \
     libcjson-dev \
+    # URI parser
     liburiparser-dev \
+    # systemd
     libsystemd-dev \
+    # ICU
     libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy FreeRDP from builder
+# Bring in FreeRDP from the first stage
 COPY --from=freerdp-builder /usr/local /usr/local
 
-ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib/x86_64-linux-gnu/pkgconfig:${PKG_CONFIG_PATH}
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 
-WORKDIR /tmp/guacd
+ARG GUAC_VERSION=1.6.0
+WORKDIR /tmp/guacamole-server
 
-# Adjust version/URL as needed
-ARG GUACD_VERSION=1.6.0
-RUN git clone --depth 1 --branch ${GUACD_VERSION} https://github.com/apache/guacamole-server.git . && \
-    autoreconf -fi && \
+RUN curl -fsSL "https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole-server-${GUAC_VERSION}.tar.gz" \
+    -o guacamole-server.tar.gz && \
+    tar xzf guacamole-server.tar.gz --strip-components=1 && \
     ./configure \
       --prefix=/usr \
       --with-freerdp=/usr/local \
-      --disable-guacenc \
-      --disable-guaclog && \
-    make -j"$(nproc)" && \
-    make install
+      --with-init-dir=/etc/init.d \
+    && make -j"$(nproc)" && make install && ldconfig
 
-# =========================
+########################
 # Stage 3: runtime image
-# =========================
+########################
 FROM debian:13-slim
-
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    # runtime libs for FreeRDP + guacd
     libssl3 \
     libjpeg62-turbo \
     libpng16-16 \
@@ -144,10 +143,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu74 \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy installed FreeRDP + guacd
-COPY --from=guacd-builder /usr/local /usr/local
+# Copy installed FreeRDP + guacd from builder
 COPY --from=guacd-builder /usr /usr
 
-# guacd defaults
+# guacd binary is typically in /usr/sbin
 EXPOSE 4822
+
 ENTRYPOINT ["/usr/sbin/guacd", "-f"]
