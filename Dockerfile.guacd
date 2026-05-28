@@ -17,6 +17,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     libpng-dev \
     ca-certificates \
+    # Required ONLY because FreeRDP 3.x probes FFmpeg even when codecs are OFF
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
