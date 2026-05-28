@@ -1,0 +1,50 @@
+   "#6 [freerdp-builder 2/4] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     git     cmake     ninja-build     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev  && rm -rf /var/lib/apt/lists/*",
+        "#6 10.12 Reading package lists...",
+        "#6 11.51 Building dependency tree...",
+        "#6 11.80 Reading state information...",
+        "#6 CANCELED",
+        "",
+        "#5 [guacd-builder 2/5] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     autoconf     automake     libtool     pkg-config     ca-certificates     libssl-dev     libxkbcommon-dev     libwayland-dev     libjpeg-dev     libpng-dev     libavcodec-dev     libavutil-dev     libavformat-dev     libswscale-dev     libkrb5-dev     krb5-multidev     libjson-c-dev     libjansson-dev     libcjson-dev     liburiparser-dev     libsystemd-dev     libicu-dev  && rm -rf /var/lib/apt/lists/*",
+        "#5 CANCELED",
+        "------",
+        " > [stage-2 2/3] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu72  && rm -rf /var/lib/apt/lists/*:",
+        "10.04 Reading package lists...",
+        "11.48 Building dependency tree...",
+        "11.86 Reading state information...",
+        "11.90 E: Unable to locate package libicu72",
+        "------",
+        "Dockerfile.guacd:135",
+        "--------------------",
+        " 134 |     ",
+        " 135 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \\",
+        " 136 | >>>     ca-certificates \\",
+        " 137 | >>>     libssl3 \\",
+        " 138 | >>>     libjpeg62-turbo \\",
+        " 139 | >>>     libpng16-16 \\",
+        " 140 | >>>     libavcodec61 \\",
+        " 141 | >>>     libavutil59 \\",
+        " 142 | >>>     libavformat61 \\",
+        " 143 | >>>     libswscale8 \\",
+        " 144 | >>>     libkrb5-3 \\",
+        " 145 | >>>     libjson-c5 \\",
+        " 146 | >>>     libjansson4 \\",
+        " 147 | >>>     libcjson1 \\",
+        " 148 | >>>     liburiparser1 \\",
+        " 149 | >>>     libsystemd0 \\",
+        " 150 | >>>     libicu72 \\",
+        " 151 | >>>  && rm -rf /var/lib/apt/lists/*",
+        " 152 |     ",
+        "--------------------",
+        "ERROR: failed to build: failed to solve: process \"/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     ca-certificates     libssl3     libjpeg62-turbo     libpng16-16     libavcodec61     libavutil59     libavformat61     libswscale8     libkrb5-3     libjson-c5     libjansson4     libcjson1     liburiparser1     libsystemd0     libicu72  && rm -rf /var/lib/apt/lists/*\" did not complete successfully: exit code: 100"
+    ],
+    "stdout": "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3...",
+    "stdout_lines": [
+        "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3..."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=44   changed=18   unreachable=0    failed=1    skipped=3    rescued=0    ignored=0
+
+=== Build finished at 2026-05-28-09:01:58 ===
+=== Total time: 1 minutes 13 seconds ===
