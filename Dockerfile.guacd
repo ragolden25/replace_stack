@@ -1,9 +1,9 @@
-# Multi-stage build for guacd 1.6.0 on Debian 13 (trixie)
-
-########################
-# Stage 1: FreeRDP build
-########################
+###############################################
+# Stage 1: Build FreeRDP (Debian 13, NO AUDIO)
+###############################################
 FROM debian:13-slim AS freerdp-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # toolchain
@@ -15,17 +15,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     # crypto / TLS
     libssl-dev \
-    # graphics / input (headers only)
+    # graphics / input
     libxkbcommon-dev \
     libwayland-dev \
     libjpeg-dev \
     libpng-dev \
-    # FFmpeg (matches log: libavcodec61/libavutil59/libavformat61/libswscale8)
+    # FFmpeg (FreeRDP requires these even with codecs OFF)
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
-    # Kerberos (MIT flavour + headers + pkg-config)
+    # Kerberos (MIT only — Heimdal conflicts)
     libkrb5-dev \
     krb5-multidev \
     # JSON backends
@@ -34,9 +34,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcjson-dev \
     # URI parser
     liburiparser-dev \
-    # systemd (libsystemd detection)
+    # systemd
     libsystemd-dev \
-    # ICU (ICU_INCLUDE_DIR / ICU_LIBRARY / i18n, uc, io, data)
+    # ICU (FreeRDP WinPR CRT requires this)
     libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
@@ -63,13 +63,15 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     ninja && \
     ninja install
 
-########################
-# Stage 2: guacd build
-########################
+
+###############################################
+# Stage 2: Build guacd (Debian 13)
+###############################################
 FROM debian:13-slim AS guacd-builder
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # toolchain
     build-essential \
     autoconf \
     automake \
@@ -88,10 +90,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
-    # Kerberos (MIT only; no heimdal-dev to avoid conflict)
+    # Kerberos (MIT only)
     libkrb5-dev \
     krb5-multidev \
-    # JSON backends
+    # JSON
     libjson-c-dev \
     libjansson-dev \
     libcjson-dev \
@@ -103,27 +105,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Bring in FreeRDP from the first stage
 COPY --from=freerdp-builder /usr/local /usr/local
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 
+WORKDIR /tmp/guacd
+
 ARG GUAC_VERSION=1.6.0
-WORKDIR /tmp/guacamole-server
 
 RUN curl -fsSL "https://downloads.apache.org/guacamole/${GUAC_VERSION}/source/guacamole-server-${GUAC_VERSION}.tar.gz" \
-    -o guacamole-server.tar.gz && \
-    tar xzf guacamole-server.tar.gz --strip-components=1 && \
+    -o guac.tar.gz && \
+    tar xzf guac.tar.gz --strip-components=1 && \
+    autoreconf -fi && \
     ./configure \
       --prefix=/usr \
       --with-freerdp=/usr/local \
-      --with-init-dir=/etc/init.d \
+      --disable-guacenc \
+      --disable-guaclog \
     && make -j"$(nproc)" && make install && ldconfig
 
-########################
-# Stage 3: runtime image
-########################
+
+###############################################
+# Stage 3: Runtime (Debian 13)
+###############################################
 FROM debian:13-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -140,13 +147,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcjson1 \
     liburiparser1 \
     libsystemd0 \
-    libicu74 \
+    libicu72 \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy installed FreeRDP + guacd from builder
 COPY --from=guacd-builder /usr /usr
 
-# guacd binary is typically in /usr/sbin
 EXPOSE 4822
 
 ENTRYPOINT ["/usr/sbin/guacd", "-f"]
