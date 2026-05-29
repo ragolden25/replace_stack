@@ -1,0 +1,418 @@
+main.yml
+---
+# tasks file for configure_guacamole
+
+# ───────────────────────────────────────────────
+# FULL DOCKER CLEANUP (containers, images, volumes, networks)
+# ───────────────────────────────────────────────
+
+- name: Stop all containers
+  ansible.builtin.shell: |
+    docker ps -aq | xargs -r docker stop
+  when: dev_clean
+  args:
+    executable: /bin/bash
+
+- name: Remove all containers
+  ansible.builtin.shell: |
+    docker ps -aq | xargs -r docker rm -f
+  when: dev_clean
+  args:
+    executable: /bin/bash
+
+- name: Remove all Docker images
+  ansible.builtin.shell: |
+    docker images -q | xargs -r docker rmi -f
+  when: dev_clean
+  args:
+    executable: /bin/bash
+
+- name: Remove all Docker volumes
+  ansible.builtin.shell: |
+    docker volume ls -q | xargs -r docker volume rm
+  when: dev_clean
+  args:
+    executable: /bin/bash
+
+- name: Remove all Docker networks (except default ones)
+  ansible.builtin.shell: |
+    for net in $(docker network ls --format '{{'{{'}}.Name{{'}}'}}'); do
+      case "$net" in
+        bridge|host|none) ;;   # skip defaults
+        *) docker network rm "$net" || true ;;
+      esac
+    done
+  when: dev_clean
+  args:
+    executable: /bin/bash
+
+- name: Remove /var/lib/containers directory
+  ansible.builtin.file:
+    path: /var/lib/containers
+    state: absent
+  when: dev_clean
+
+# ───────────────────────────────────────────────
+# Directory Setup
+# ───────────────────────────────────────────────
+
+- name: Ensure compose directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/compose
+    state: directory
+    mode: '0755'
+
+- name: Ensure Guacamole config directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/guacamole
+    state: directory
+    owner: 1001
+    group: 1001
+    mode: '0755'
+
+- name: Ensure images directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/images
+    state: directory
+    mode: '0755'
+
+- name: Ensure nginx conf.d directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/nginx/conf.d
+    state: directory
+    mode: '0755'
+
+- name: Ensure nginx certs directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/nginx/certs
+    state: directory
+    mode: '0755'
+
+- name: Ensure DB dump directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/guacdb
+    state: directory
+    mode: '0755'
+
+
+# GUACDB COPY
+- name: copy guac_export_ptek.sql
+  ansible.builtin.copy:
+    src: /opt/ansible/files/avocado/{{ quarter }}/guacdb/guac_export_ptek.sql
+    dest: /var/lib/containers/guacdb/guac_import.sql
+    mode: '0644'
+
+# ───────────────────────────────────────────────
+# Compose Setup
+# ───────────────────────────────────────────────
+
+- name: Copy docker-compose.yml
+  ansible.builtin.copy:
+    src: "/opt/ansible/files/avocado/{{ quarter }}/docker-compose.yml"
+    dest: /var/lib/containers/compose/docker-compose.yml
+    mode: '0644'
+
+- name: Create run.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/run.sh
+    content: |
+      #!/bin/bash
+      docker compose -f /var/lib/containers/compose/docker-compose.yml up -d
+    mode: '0700'
+
+- name: Create stop.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/stop.sh
+    content: |
+      #!/bin/bash
+      docker compose -f /var/lib/containers/compose/docker-compose.yml down
+    mode: '0700'
+
+# ───────────────────────────────────────────────
+# Export Scripts
+# ───────────────────────────────────────────────
+
+- name: Create db-export-default.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/db-export-default.sh
+    mode: '0700'
+    content: |
+      #!/bin/bash
+      EXPORT_FILE="guac_export_default.sql"
+
+      docker exec guac-db pg_dump -U guacuser guacamole_db > "$EXPORT_FILE"
+
+      docker exec guac-db psql -U guacuser -d guacamole_db -tAc \
+      "SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name;" \
+      > schema_signature.txt
+
+      {
+        echo "-- SCHEMA_SIGNATURE_START"
+        sed 's/^/-- /' schema_signature.txt
+        echo "-- SCHEMA_SIGNATURE_END"
+      } >> "$EXPORT_FILE"
+
+      echo "Export complete: $EXPORT_FILE"
+      echo "Copy this file to /opt/ansible/files/avocado/guacdb/"
+
+- name: Create db-export-ptek.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/db-export-ptek.sh
+    mode: '0700'
+    content: |
+      #!/bin/bash
+      EXPORT_FILE="guac_export_ptek.sql"
+
+      docker exec guac-db pg_dump -U guacuser guacamole_db > "$EXPORT_FILE"
+
+      docker exec guac-db psql -U guacuser -d guacamole_db -tAc \
+      "SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name;" \
+      > schema_signature.txt
+
+      {
+        echo "-- SCHEMA_SIGNATURE_START"
+        sed 's/^/-- /' schema_signature.txt
+        echo "-- SCHEMA_SIGNATURE_END"
+      } >> "$EXPORT_FILE"
+
+      echo "Export complete: $EXPORT_FILE"
+      echo "Copy this file to /opt/ansible/files/avocado/guacdb/"
+
+# ───────────────────────────────────────────────
+# Import Scripts (NEW)
+# ───────────────────────────────────────────────
+
+- name: Create db-import-default.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/db-import-default.sh
+    mode: '0700'
+    content: |
+      #!/bin/bash
+      set -e
+      IMPORT_FILE="/var/lib/containers/guacdb/guac_export_default.sql"
+      if [[ ! -f "$IMPORT_FILE" ]]; then
+          echo "ERROR: $IMPORT_FILE not found"
+          exit 1
+      fi
+      echo "Importing Guacamole DB (default profile)..."
+      docker exec -i guac-db psql -U guacuser -d guacamole_db < "$IMPORT_FILE"
+      echo "Default profile import complete."
+
+- name: Create db-import-ptek.sh
+  ansible.builtin.copy:
+    dest: /var/lib/containers/compose/db-import-ptek.sh
+    mode: '0700'
+    content: |
+      #!/bin/bash
+      set -e
+      IMPORT_FILE="/var/lib/containers/guacdb/guac_export_ptek.sql"
+      if [[ ! -f "$IMPORT_FILE" ]]; then
+          echo "ERROR: $IMPORT_FILE not found"
+          exit 1
+      fi
+      echo "Importing Guacamole DB (ptek profile)..."
+      docker exec -i guac-db psql -U guacuser -d guacamole_db < "$IMPORT_FILE"
+      echo "PTEK profile import complete."
+
+# ───────────────────────────────────────────────
+# Image Copy
+# ───────────────────────────────────────────────
+
+- name: Copy ALL container images
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/var/lib/containers/images/"
+    mode: '0644'
+  with_fileglob:
+    - "/opt/ansible/files/avocado/{{ quarter }}/images/*.tar.gz"
+
+# ───────────────────────────────────────────────
+# Image Load
+# ───────────────────────────────────────────────
+
+- name: Load ALL container images
+  ansible.builtin.shell: |
+    docker load -i {{ item }}
+  args:
+    executable: /bin/bash
+  with_fileglob:
+    - "/var/lib/containers/images/*.tar.gz"
+
+# ───────────────────────────────────────────────
+# Firewall Configuration
+# ───────────────────────────────────────────────
+
+- name: Ensure firewalld is installed
+  ansible.builtin.package:
+    name: firewalld
+    state: present
+
+- name: Ensure firewalld is running
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: Allow HTTP/HTTPS in public zone
+  ansible.builtin.firewalld:
+    service: "{{ item }}"
+    zone: public
+    permanent: true
+    state: enabled
+  loop:
+    - http
+    - https
+  notify: reload firewalld
+
+- name: Add Guacamole ports to internal zone
+  ansible.builtin.firewalld:
+    port: "{{ item }}"
+    zone: internal
+    permanent: true
+    state: enabled
+  loop:
+    - "4822/tcp"
+    - "5432/tcp"
+  notify: reload firewalld
+
+# ───────────────────────────────────────────────
+# nginx config (standalone only)
+# ───────────────────────────────────────────────
+
+- name: Generate DH params file
+  command: openssl dhparam -out /var/lib/containers/nginx/ssl-dhparams.pem 2048
+  args:
+    creates: /var/lib/containers/nginx/ssl-dhparams.pem
+  when: compose_template == "docker-compose.yml.j2"
+
+- name: Copy nginx.conf
+  ansible.builtin.copy:
+    src: "/opt/ansible/files/avocado/{{ quarter }}/nginx/nginx.conf"
+    dest: "/var/lib/containers/nginx/nginx.conf"
+    mode: '0644'
+    owner: '101'
+    group: '101'
+  when: compose_template == "docker-compose.yml.j2"
+
+- name: Copy mime.types
+  ansible.builtin.copy:
+    src: "/opt/ansible/files/avocado/{{ quarter }}/nginx/mime.types"
+    dest: "/var/lib/containers/nginx/mime.types"
+    mode: '0644'
+    owner: '101'
+    group: '101'
+  when: compose_template == "docker-compose.yml.j2"
+
+- name: Copy server certs
+  ansible.builtin.copy:
+    src: "/opt/ansible/files/avocado/{{ quarter }}/nginx/certs/{{ item }}"
+    dest: "/var/lib/containers/nginx/certs/{{ item }}"
+    mode: '0644'
+    owner: '101'
+    group: '101'
+  loop:
+    - fullchain.pem
+    - privkey.pem
+  when: compose_template == "docker-compose.yml.j2"
+
+# ───────────────────────────────────────────────
+# guacamole.conf must ALWAYS be copied
+# ───────────────────────────────────────────────
+
+- name: Copy guacamole.conf vhost
+  ansible.builtin.copy:
+    src: "/opt/ansible/files/avocado/{{ quarter }}/nginx/conf.d/guacamole.conf"
+    dest: "/var/lib/containers/nginx/conf.d/guacamole.conf"
+    mode: '0644'
+    owner: '101'
+    group: '101'
+
+# ───────────────────────────────────────────────
+# Copy selected profile SQL file
+# ───────────────────────────────────────────────
+
+      #- name: Copy selected profile SQL file for import
+      #ansible.builtin.copy:
+      #src: "{{ guac_profile_sql }}"
+      #dest: "{{ guac_import_dest }}"
+      #mode: '0644'
+
+# ───────────────────────────────────────────────
+# Stack Control
+# ───────────────────────────────────────────────
+
+- name: Stop existing stack
+  ansible.builtin.shell: /var/lib/containers/compose/stop.sh
+  ignore_errors: true
+
+# ───────────────────────────────────────────────
+# Start Postgres only
+# ───────────────────────────────────────────────
+
+- name: Start only Postgres container
+  ansible.builtin.shell: |
+    docker compose -f /var/lib/containers/compose/docker-compose.yml up -d postgres
+  changed_when: true
+
+- name: Wait for Postgres to be ready
+  ansible.builtin.command: docker exec guac-db pg_isready -U {{ guac_db_user }} -d postgres
+  register: pg_ready
+  retries: 60
+  delay: 2
+  until: pg_ready.rc == 0
+
+
+# ───────────────────────────────────────────────
+# Ensure DB exists
+# ───────────────────────────────────────────────
+
+- name: Ensure Guacamole database exists
+  ansible.builtin.shell: |
+    docker exec guac-db psql -U {{ guac_db_user }} -d postgres -tc "SELECT 1 FROM pg_database WHERE datname='{{ guac_db_name }}'" | grep -q 1 \
+    || docker exec guac-db psql -U {{ guac_db_user }} -d postgres -c "CREATE DATABASE {{ guac_db_name }} OWNER {{ guac_db_user }};"
+  changed_when: false
+
+# ───────────────────────────────────────────────
+# SQL Import
+# ───────────────────────────────────────────────
+
+- name: Check for copied SQL dump file
+  ansible.builtin.stat:
+    path: "{{ guac_import_dest }}"
+  register: guac_import_stat
+
+- name: Abort if copied SQL dump file is missing
+  ansible.builtin.fail:
+    msg: "guac_import.sql not found after copy. Import cannot continue."
+  when: not guac_import_stat.stat.exists
+
+- name: Import Guacamole database dump
+  ansible.builtin.shell: |
+    docker exec -i guac-db psql -U {{ guac_db_user }} -d {{ guac_db_name }} < {{ guac_import_dest }}
+  args:
+    executable: /bin/bash
+  register: import_result
+  failed_when: import_result.rc != 0
+
+# ───────────────────────────────────────────────
+# Optional: Extract schema signature
+# ───────────────────────────────────────────────
+
+- name: Extract schema signature from SQL dump
+  ansible.builtin.shell: |
+    grep -A 999 "-- SCHEMA_SIGNATURE_START" {{ guac_import_dest }} \
+    | grep -B 999 "-- SCHEMA_SIGNATURE_END" \
+    | sed 's/^-- //'
+  register: schema_signature
+  changed_when: false
+
+- name: Display schema signature
+  ansible.builtin.debug:
+    msg: "{{ schema_signature.stdout_lines }}"
+
+# ───────────────────────────────────────────────
+# Start full stack
+# ───────────────────────────────────────────────
+
+- name: Start full Guacamole stack
+  ansible.builtin.shell: /var/lib/containers/compose/run.sh
