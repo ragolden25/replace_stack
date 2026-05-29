@@ -1,4 +1,3 @@
-main.yml
 ---
 # tasks file for configure_guacamole
 
@@ -38,7 +37,7 @@ main.yml
   ansible.builtin.shell: |
     for net in $(docker network ls --format '{{'{{'}}.Name{{'}}'}}'); do
       case "$net" in
-        bridge|host|none) ;;   # skip defaults
+        bridge|host|none) ;;
         *) docker network rm "$net" || true ;;
       esac
     done
@@ -93,7 +92,6 @@ main.yml
     path: /var/lib/containers/guacdb
     state: directory
     mode: '0755'
-
 
 # GUACDB COPY
 - name: copy guac_export_ptek.sql
@@ -179,7 +177,7 @@ main.yml
       echo "Copy this file to /opt/ansible/files/avocado/guacdb/"
 
 # ───────────────────────────────────────────────
-# Import Scripts (NEW)
+# Import Scripts
 # ───────────────────────────────────────────────
 
 - name: Create db-import-default.sh
@@ -215,8 +213,14 @@ main.yml
       echo "PTEK profile import complete."
 
 # ───────────────────────────────────────────────
-# Image Copy
+# Image Copy (controller → target)
 # ───────────────────────────────────────────────
+
+- name: Ensure image destination directory exists
+  ansible.builtin.file:
+    path: "/var/lib/containers/images"
+    state: directory
+    mode: '0755'
 
 - name: Copy ALL container images
   ansible.builtin.copy:
@@ -225,18 +229,36 @@ main.yml
     mode: '0644'
   with_fileglob:
     - "/opt/ansible/files/avocado/{{ quarter }}/images/*.tar.gz"
+  register: copied_images
+
+- name: Fail if no images were copied
+  ansible.builtin.fail:
+    msg: "No container images found in /opt/ansible/files/avocado/{{ quarter }}/images/"
+  when: copied_images.results | length == 0
 
 # ───────────────────────────────────────────────
-# Image Load
+# Image Load (target host)
 # ───────────────────────────────────────────────
+
+- name: Find container images on target
+  ansible.builtin.find:
+    paths: "/var/lib/containers/images"
+    patterns: "*.tar.gz"
+  register: found_images
+
+- name: Fail if no images found on target
+  ansible.builtin.fail:
+    msg: "No images found in /var/lib/containers/images on target host."
+  when: found_images.files | length == 0
 
 - name: Load ALL container images
   ansible.builtin.shell: |
-    docker load -i {{ item }}
+    docker load -i "{{ item.path }}"
   args:
     executable: /bin/bash
-  with_fileglob:
-    - "/var/lib/containers/images/*.tar.gz"
+  loop: "{{ found_images.files }}"
+  loop_control:
+    label: "{{ item.path }}"
 
 # ───────────────────────────────────────────────
 # Firewall Configuration
@@ -328,16 +350,6 @@ main.yml
     group: '101'
 
 # ───────────────────────────────────────────────
-# Copy selected profile SQL file
-# ───────────────────────────────────────────────
-
-      #- name: Copy selected profile SQL file for import
-      #ansible.builtin.copy:
-      #src: "{{ guac_profile_sql }}"
-      #dest: "{{ guac_import_dest }}"
-      #mode: '0644'
-
-# ───────────────────────────────────────────────
 # Stack Control
 # ───────────────────────────────────────────────
 
@@ -360,7 +372,6 @@ main.yml
   retries: 60
   delay: 2
   until: pg_ready.rc == 0
-
 
 # ───────────────────────────────────────────────
 # Ensure DB exists
