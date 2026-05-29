@@ -1,0 +1,533 @@
+# export-image.sh
+#!/bin/bash
+set -euo pipefail
+
+# Directories
+BASE_DIR="/var/lib/containers/trivy"
+IMAGE_DIR="$BASE_DIR/images"
+DB_DIR="$BASE_DIR/db"
+EXPORT_DB_DIR="$BASE_DIR/db_exports"
+
+timestamp=$(date +"%Y%m%d-%H%M")
+image="aquasec/trivy:latest"
+
+mkdir -p "$IMAGE_DIR"
+mkdir -p "$EXPORT_DB_DIR"
+
+echo "=== Trivy Export Script ==="
+echo "Timestamp: $timestamp"
+echo
+
+# --- Get Trivy version from the container ---
+echo "Detecting Trivy version..."
+version=$(docker run --rm "$image" --version | awk '/Version:/ {print $2}')
+
+if [[ -z "$version" ]]; then
+    echo "ERROR: Unable to detect Trivy version."
+    exit 1
+fi
+
+echo "Detected Trivy version: $version"
+echo
+
+# --- Save Trivy image (still using :latest tag) ---
+image_output="$IMAGE_DIR/trivy-${version}-${timestamp}.tar.gz"
+echo "Saving Trivy image (tag: latest) to: $image_output"
+docker save "aquasec/trivy:latest" | gzip > "$image_output"
+echo "Image saved."
+echo
+
+# --- Zip the DB directory ---
+if [[ ! -d "$DB_DIR" ]]; then
+    echo "ERROR: Trivy DB directory not found at $DB_DIR"
+    exit 1
+fi
+
+db_output="$EXPORT_DB_DIR/trivy-db-${timestamp}.zip"
+echo "Zipping Trivy DB to: $db_output"
+cd "$DB_DIR"
+zip -r "$db_output" . >/dev/null
+cd - >/dev/null
+echo "DB zipped."
+echo
+
+# --- Cleanup older image files ---
+echo "Cleaning older image files..."
+find "$IMAGE_DIR" -type f -name "trivy-*.tar.gz" ! -name "$(basename "$image_output")" -exec rm -f {} \;
+echo "Old images removed."
+echo
+
+# --- Cleanup older DB zip files ---
+echo "Cleaning older DB zip files..."
+find "$EXPORT_DB_DIR" -type f -name "trivy-db-*.zip" ! -name "$(basename "$db_output")" -exec rm -f {} \;
+echo "Old DB zips removed."
+echo
+
+echo "=== Export Complete ==="
+echo "Image: $image_output"
+echo "DB:    $db_output"
+echo
+
+
+# export-reports.sh
+#!/bin/bash
+
+timestamp=$(date +"%Y%m%d-%H%M")
+export_dir="/var/lib/containers/trivy/exports"
+report_dir="/var/lib/containers/trivy/reports"
+
+mkdir -p "$export_dir"
+
+output="${export_dir}/trivy-reports-${timestamp}.zip"
+
+zip -j "$output" "$report_dir"/*
+
+echo "Export complete."
+echo "ZIP file created at: $output"
+
+
+# image-import.sh
+#!/bin/bash
+set -euo pipefail
+
+BASE_DIR="/var/lib/containers/trivy"
+IMAGE_DIR="$BASE_DIR/images"
+DB_EXPORT_DIR="$BASE_DIR/db_exports"
+DB_DIR="$BASE_DIR/db"
+
+echo "=== Trivy Import Script ==="
+echo
+
+# --- Find newest image file ---
+newest_image=$(ls -1t "$IMAGE_DIR"/trivy-*.tar.gz 2>/dev/null | head -n 1 || true)
+
+if [[ -z "$newest_image" ]]; then
+    echo "ERROR: No Trivy image files found in $IMAGE_DIR"
+    exit 1
+fi
+
+echo "Newest image file: $newest_image"
+echo
+
+# --- Find newest DB zip ---
+newest_db_zip=$(ls -1t "$DB_EXPORT_DIR"/trivy-db-*.zip 2>/dev/null | head -n 1 || true)
+
+if [[ -z "$newest_db_zip" ]]; then
+    echo "ERROR: No Trivy DB zip files found in $DB_EXPORT_DIR"
+    exit 1
+fi
+
+echo "Newest DB zip: $newest_db_zip"
+echo
+
+# --- Remove old Trivy images from Docker ---
+echo "Removing old Trivy images from Docker..."
+docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' \
+    | grep '^aquasec/trivy:' \
+    | awk '{print $2}' \
+    | xargs -r docker rmi -f || true
+echo "Old images removed."
+echo
+
+# --- Load the new image ---
+echo "Loading new Trivy image..."
+gunzip -c "$newest_image" | docker load
+echo "Image loaded."
+echo
+
+# --- Clean DB directory ---
+echo "Cleaning old DB contents..."
+rm -rf "$DB_DIR"/*
+echo "DB directory cleared."
+echo
+
+# --- Extract new DB ---
+echo "Extracting new DB..."
+unzip -o "$newest_db_zip" -d "$DB_DIR" >/dev/null
+echo "DB extracted."
+echo
+
+# --- Cleanup artifacts ---
+echo "Removing imported artifacts..."
+rm -f "$newest_image"
+rm -f "$newest_db_zip"
+echo "Artifacts removed."
+echo
+
+echo "=== Import Complete ==="
+echo "Trivy image and DB updated successfully."
+echo
+
+
+# import-latest.sh
+#!/bin/bash
+# Wrapper for menu-driven import of the latest Trivy image + DB
+
+/var/lib/containers/trivy/scripts/image-import.sh
+
+
+# run-trivy.sh
+#!/bin/bash
+
+docker run --rm \
+  -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy:latest "$@"
+
+
+# scan-all-sbom.sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+report_dir="/var/lib/containers/trivy/reports"
+template_dir="/var/lib/containers/trivy/templates"
+timestamp=$(date +"%Y%m%d-%H%M%S")
+hostname=$(hostname)
+
+# Auto-detect running container images
+images=$(docker ps --format '{{.Image}}' | sort -u)
+
+for img in $images; do
+  safe_name=$(echo "$img" | tr '/:' '_')
+  sbom_json="${report_dir}/${safe_name}-sbom-${timestamp}.json"
+  sbom_cdx="${report_dir}/${safe_name}-sbom-${timestamp}.cdx"
+  sbom_html="${report_dir}/${safe_name}-sbom-${timestamp}.html"
+
+  # CycloneDX SBOM
+  docker run --rm \
+    -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+    -v "$report_dir":/reports \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    aquasec/trivy:latest image \
+      --skip-db-update \
+      --skip-version-check \
+      --format cyclonedx \
+      --output "/reports/$(basename "$sbom_cdx")" \
+      "$img"
+
+  # JSON SBOM
+  docker run --rm \
+    -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+    -v "$report_dir":/reports \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    aquasec/trivy:latest image \
+      --skip-db-update \
+      --skip-version-check \
+      --format json \
+      --output "/reports/$(basename "$sbom_json")" \
+      "$img"
+
+  # HTML SBOM with hostname
+  docker run --rm \
+    -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+    -v "$report_dir":/reports \
+    -v "$template_dir":/templates \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    aquasec/trivy:latest image \
+      --skip-db-update \
+      --skip-version-check \
+      --format template \
+      --template "@/templates/html.tpl" \
+      --output "/reports/$(basename "$sbom_html")" \
+      "$img"
+done
+
+# scan-all-vuln.sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+report_dir="/var/lib/containers/trivy/reports"
+template_dir="/var/lib/containers/trivy/templates"
+timestamp=$(date +"%Y%m%d-%H%M%S")
+hostname=$(hostname)
+
+# Auto-detect running container images
+images=$(docker ps --format '{{.Image}}' | sort -u)
+
+for img in $images; do
+  safe_name=$(echo "$img" | tr '/:' '_')
+  json_output="${report_dir}/${safe_name}-vuln-${timestamp}.json"
+  html_output="${report_dir}/${safe_name}-vuln-${timestamp}.html"
+
+  # JSON scan
+  docker run --rm \
+    -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+    -v "$report_dir":/reports \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    aquasec/trivy:latest image \
+      --skip-db-update \
+      --skip-version-check \
+      --format json \
+      --output "/reports/$(basename "$json_output")" \
+      "$img"
+
+  # HTML scan with hostname
+  docker run --rm \
+    -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+    -v "$report_dir":/reports \
+    -v "$template_dir":/templates \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    aquasec/trivy:latest image \
+      --skip-db-update \
+      --skip-version-check \
+      --format template \
+      --template "@/templates/html.tpl" \
+      --output "/reports/$(basename "$html_output")" \
+      "$img"
+done
+
+
+
+# scan-menu.sh
+#!/bin/bash
+
+SCRIPTS_DIR="$(dirname "$0")"
+
+clear
+echo "==============================================="
+echo "           Trivy Scanning Menu"
+echo "==============================================="
+echo ""
+echo " 1) Run Vulnerability Scan (All Images)"
+echo " 2) Run SBOM Scan (All Images)"
+echo " 3) Update Trivy DB"
+echo " 4) Export Scan Reports"
+echo " 5) Import Latest Image + DB"
+echo " 6) Exit"
+echo ""
+read -rp "Select an option: " choice
+
+case "$choice" in
+    1)
+        "${SCRIPTS_DIR}/scan-all-vuln.sh"
+        ;;
+    2)
+        "${SCRIPTS_DIR}/scan-all-sbom.sh"
+        ;;
+    3)
+        "${SCRIPTS_DIR}/update-db.sh"
+        ;;
+    4)
+        "${SCRIPTS_DIR}/export-reports.sh"
+        ;;
+    5)
+        "${SCRIPTS_DIR}/import-latest.sh"
+        ;;
+    6)
+        echo "Exiting..."
+        exit 0
+        ;;
+    *)
+        echo "Invalid option. Please try again."
+        ;;
+esac
+
+
+
+
+# update-db.sh
+#!/bin/bash
+
+echo "Updating Trivy vulnerability database..."
+docker run --rm \
+  -v /var/lib/containers/trivy/db:/root/.cache/trivy/db \
+  aquasec/trivy:latest db update
+
+echo "Database update complete."
+
+
+
+# Trivy templates directory on ansible
+/opt/ansible/nucleus/roles/install_trivy/files/templates
+# templates directory on VM with Docker
+/var/lib/containers/trivy/templates
+trivy.yaml
+template:
+  data:
+    hostname: "{{ env.HOSTNAME }}"
+
+
+# html.tpl
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{{- if . }}
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      .group-header th {
+        font-size: 200%;
+      }
+      .sub-header th {
+        font-size: 150%;
+      }
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        white-space: nowrap;
+        padding: .3em;
+      }
+      table {
+        margin: 0 auto;
+      }
+      .severity {
+        text-align: center;
+        font-weight: bold;
+        color: #fafafa;
+      }
+      .severity-LOW .severity { background-color: #5fbb31; }
+      .severity-MEDIUM .severity { background-color: #e9c600; }
+      .severity-HIGH .severity { background-color: #ff8800; }
+      .severity-CRITICAL .severity { background-color: #e40000; }
+      .severity-UNKNOWN .severity { background-color: #747474; }
+      .severity-LOW { background-color: #5fbb3160; }
+      .severity-MEDIUM { background-color: #e9c60060; }
+      .severity-HIGH { background-color: #ff880060; }
+      .severity-CRITICAL { background-color: #e4000060; }
+      .severity-UNKNOWN { background-color: #74747460; }
+      table tr td:first-of-type {
+        font-weight: bold;
+      }
+      .links a,
+      .links[data-more-links=on] a {
+        display: block;
+      }
+      .links[data-more-links=off] a:nth-of-type(1n+5) {
+        display: none;
+      }
+      a.toggle-more-links { cursor: pointer; }
+    </style>
+    <title>{{- escapeXML ( index . 0 ).Target }} - Trivy Report - {{ now }} </title>
+    <script>
+      window.onload = function() {
+        document.querySelectorAll('td.links').forEach(function(linkCell) {
+          var links = [].concat.apply([], linkCell.querySelectorAll('a'));
+          [].sort.apply(links, function(a, b) {
+            return a.href > b.href ? 1 : -1;
+          });
+          links.forEach(function(link, idx) {
+            if (links.length > 3 && 3 === idx) {
+              var toggleLink = document.createElement('a');
+              toggleLink.innerText = "Toggle more links";
+              toggleLink.href = "#toggleMore";
+              toggleLink.setAttribute("class", "toggle-more-links");
+              linkCell.appendChild(toggleLink);
+            }
+            linkCell.appendChild(link);
+          });
+        });
+        document.querySelectorAll('a.toggle-more-links').forEach(function(toggleLink) {
+          toggleLink.onclick = function() {
+            var expanded = toggleLink.parentElement.getAttribute("data-more-links");
+            toggleLink.parentElement.setAttribute("data-more-links", "on" === expanded ? "off" : "on");
+            return false;
+          };
+        });
+      };
+    </script>
+  </head>
+  <body>
+
+{{/* Initialize counters */}}
+{{ $critical := 0 }}
+{{ $high := 0 }}
+{{ $medium := 0 }}
+{{ $low := 0 }}
+{{ $unknown := 0 }}
+
+{{/* Loop over each result object */}}
+{{ range . }}
+  {{/* Loop over vulnerabilities inside this result */}}
+  {{ range .Vulnerabilities }}
+    {{ if eq .Vulnerability.Severity "CRITICAL" }}{{ $critical = add $critical 1 }}{{ end }}
+    {{ if eq .Vulnerability.Severity "HIGH" }}{{ $high = add $high 1 }}{{ end }}
+    {{ if eq .Vulnerability.Severity "MEDIUM" }}{{ $medium = add $medium 1 }}{{ end }}
+    {{ if eq .Vulnerability.Severity "LOW" }}{{ $low = add $low 1 }}{{ end }}
+    {{ if eq .Vulnerability.Severity "UNKNOWN" }}{{ $unknown = add $unknown 1 }}{{ end }}
+  {{ end }}
+{{ end }}
+
+
+<h2>Vulnerability Summary</h2>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>Severity</th><th>Count</th></tr>
+  <tr><td>Critical</td><td>{{ $critical }}</td></tr>
+  <tr><td>High</td><td>{{ $high }}</td></tr>
+  <tr><td>Medium</td><td>{{ $medium }}</td></tr>
+  <tr><td>Low</td><td>{{ $low }}</td></tr>
+  <tr><td>Unknown</td><td>{{ $unknown }}</td></tr>
+</table>
+<br/>
+
+
+    <h1>{{- escapeXML ( index . 0 ).Target }} - Trivy Report - {{ now }}</h1>
+    <table>
+    {{- range . }}
+      <tr class="group-header"><th colspan="6">{{ .Type | toString | escapeXML }}</th></tr>
+      {{- if (eq (len .Vulnerabilities) 0) }}
+      <tr><th colspan="6">No Vulnerabilities found</th></tr>
+      {{- else }}
+      <tr class="sub-header">
+        <th>Package</th>
+        <th>Vulnerability ID</th>
+        <th>Severity</th>
+        <th>Installed Version</th>
+        <th>Fixed Version</th>
+        <th>Links</th>
+      </tr>
+        {{- range .Vulnerabilities }}
+      <tr class="severity-{{ escapeXML .Vulnerability.Severity }}">
+        <td class="pkg-name">{{ escapeXML .PkgName }}</td>
+        <td>{{ escapeXML .VulnerabilityID }}</td>
+        <td class="severity">{{ escapeXML .Vulnerability.Severity }}</td>
+        <td class="pkg-version">{{ escapeXML .InstalledVersion }}</td>
+        <td>{{ escapeXML .FixedVersion }}</td>
+        <td class="links" data-more-links="off">
+          {{- range .Vulnerability.References }}
+          <a href={{ escapeXML . | printf "%q" }}>{{ escapeXML . }}</a>
+          {{- end }}
+        </td>
+      </tr>
+        {{- end }}
+      {{- end }}
+      {{- if (eq (len .Misconfigurations ) 0) }}
+      <tr><th colspan="6">No Misconfigurations found</th></tr>
+      {{- else }}
+      <tr class="sub-header">
+        <th>Type</th>
+        <th>Misconf ID</th>
+        <th>Check</th>
+        <th>Severity</th>
+        <th>Message</th>
+      </tr>
+        {{- range .Misconfigurations }}
+      <tr class="severity-{{ escapeXML .Severity }}">
+        <td class="misconf-type">{{ escapeXML .Type }}</td>
+        <td>{{ escapeXML .ID }}</td>
+        <td class="misconf-check">{{ escapeXML .Title }}</td>
+        <td class="severity">{{ escapeXML .Severity }}</td>
+        <td class="link" data-more-links="off"  style="white-space:normal;">
+          {{ escapeXML .Message }}
+          <br>
+            <a href={{ escapeXML .PrimaryURL | printf "%q" }}>{{ escapeXML .PrimaryURL }}</a>
+          </br>
+        </td>
+      </tr>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+    </table>
+{{- else }}
+  </head>
+  <body>
+    <h1>Trivy Returned Empty Report</h1>
+{{- end }}
+  </body>
+</html>
+
+
