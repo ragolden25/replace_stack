@@ -1,0 +1,198 @@
+main.yml
+---
+# tasks file for install_trivy
+
+# ============================================================
+# Fail-fast prerequisite checks
+# ============================================================
+
+- name: Check if /var/lib/containers exists
+  ansible.builtin.stat:
+    path: /var/lib/containers
+  register: containers_dir
+
+- name: Fail if /var/lib/containers does not exist
+  ansible.builtin.fail:
+    msg: >
+      /var/lib/containers is missing. This system is not container-ready.
+      Run the install_docker_python role first.
+  when: not containers_dir.stat.exists
+
+- name: Check if Docker service is running
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+  register: docker_service
+  failed_when: docker_service.status.ActiveState != "active"
+  changed_when: false
+
+- name: Fail if Docker service is not active
+  ansible.builtin.fail:
+    msg: >
+      Docker service is not running. Ensure install_docker_python has completed
+      and Docker is installed and started before running install_trivy.
+  when: docker_service.status.ActiveState != "active"
+
+
+# ============================================================
+# Directory structure
+# ============================================================
+
+- name: Ensure /var/lib/containers/trivy exists
+  ansible.builtin.file:
+    path: /var/lib/containers/trivy
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure Trivy config directory exists
+  ansible.builtin.file:
+    path: /var/lib/containers/trivy/config
+    state: directory
+    mode: '0755'
+
+- name: Copy Trivy config files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/var/lib/containers/trivy/config/"
+    mode: '0644'
+  loop:
+    - "{{ trivy_base_dir }}/config/trivy.yaml"
+    - "{{ trivy_base_dir }}/config/cve-filter-debian.jq"
+
+- name: Ensure scripts directory exists
+  ansible.builtin.file:
+    path: "{{ trivy_base_dir }}/scripts"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure templates directory exists
+  ansible.builtin.file:
+    path: "{{ trivy_base_dir }}/templates"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure db_exports directory exists
+  ansible.builtin.file:
+    path: "{{ trivy_base_dir }}/db_exports"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure images directory exists
+  ansible.builtin.file:
+    path: "{{ trivy_base_dir }}/images"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+
+# ============================================================
+# Copy static assets
+# ============================================================
+
+- name: Copy Trivy scripts
+  ansible.builtin.copy:
+    src: scripts/
+    dest: "{{ trivy_base_dir }}/scripts/"
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Reload profile
+
+- name: Copy Trivy templates
+  ansible.builtin.copy:
+    src: templates/
+    dest: "{{ trivy_base_dir }}/templates/"
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Reload profile
+
+- name: Copy operator README
+  ansible.builtin.copy:
+    src: README.md
+    dest: "{{ trivy_base_dir }}/README.md"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy Trivy Dockerfile
+  ansible.builtin.copy:
+    src: Dockerfile
+    dest: "{{ trivy_base_dir }}/Dockerfile"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy profile.d script for menu alias
+  ansible.builtin.copy:
+    dest: /etc/profile.d/trivy-menu.sh
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # alias for Trivy scanning suite
+      alias trivy='/var/lib/containers/trivy/scripts/scan-menu.sh'
+
+- name: Copy DB exports directory (empty or preloaded)
+  ansible.builtin.copy:
+    src: db_exports/
+    dest: "{{ trivy_base_dir }}/db_exports/"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy images directory (contains offline bundle)
+  ansible.builtin.copy:
+    src: images/
+    dest: "{{ trivy_base_dir }}/images/"
+    owner: root
+    group: root
+    mode: '0755'
+
+# ============================================================
+# Load Trivy image
+# ============================================================
+
+- name: Load Trivy image from offline bundle
+  ansible.builtin.command: >
+    docker load -i {{ trivy_base_dir }}/images/{{ bundle_filename }}
+  register: docker_load_result
+  changed_when: "'Loaded image' in docker_load_result.stdout"
+
+
+# ============================================================
+# Version metadata
+# ============================================================
+
+- name: Write current Trivy version file
+  ansible.builtin.copy:
+    dest: "{{ trivy_base_dir }}/version"
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      trivy_version={{ trivy_version }}
+      image_tag=aquasec/trivy:latest
+      install_date={{ ansible_date_time.date }}
+      install_method={{ install_method }}
+      bundle_filename={{ bundle_filename }}
+      ansible_role_version={{ ansible_role_version }}
+
+- name: Append to Trivy version history
+  ansible.builtin.lineinfile:
+    path: "{{ trivy_base_dir }}/version_history"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+    line: "{{ ansible_date_time.date }} | trivy {{ trivy_version }} | aquasec/trivy:latest | {{ install_method }}"
+    insertafter: EOF
