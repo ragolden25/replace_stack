@@ -156,3 +156,16 @@ Supported formats:
 - `.json` – CycloneDX JSON
 - `.xml`  – CycloneDX XML
 - `.html` - Human‑readable SBOM report (recommended for IA)
+
+
+## 🛡️ Vulnerability Report Enhancements (May 2026)
+✔ Debian‑only CVE filtering
+Removes:
+- RHEL CVEs
+- Alpine CVEs
+- Ubuntu CVEs
+- Amazon Linux CVEs
+- SUSE CVEs
+- Photon CVEs
+- "Not Affected" CVEs
+- Backported-but-same-version CVEs
