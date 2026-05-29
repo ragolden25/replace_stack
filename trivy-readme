@@ -1,0 +1,113 @@
+# Trivy README
+
+## 🧰 Prerequisites
+- Docker installed on the host
+- Outbound network access for initial Trivy DB download, or saved image with latest definitions.
+- Directory structure located at /var/lib/containers/trivy
+- Trivy image built locally or imported for offline use
+
+
+## 📝 Description
+An operator-friendly container scanning environment built around the latest Trivy image.
+Provides vulnerability reports, CycloneDX SBOMs, and exportable ZIP bundles for IA review.
+Designed for reproducibility, auditability, and future offline support.
+For this to work offline, the latest Trivy image would need to be saved,
+exported and imported into an offline container environment.
+
+```menu
+===============================================
+           Trivy Scanning Menu
+===============================================
+
+ 1) Run Vulnerability Scan (All Images)
+ 2) Run SBOM Scan (All Images)
+ 3) Update Trivy DB
+ 4) Export Scan Reports
+ 5) Import Latest Image + DB
+ 6) Exit
+
+Select an option:
+```
+
+## 📂 Purpose
+This suite standardizes how container images are scanned across environments.
+All scans run inside a controlled Docker container with host-mounted directories.
+Output includes JSON vulnerability reports and CycloneDX SBOMs in .cdx, .json,
+or .xml formats. The workflow supports IA compliance, evidence generation, and
+modernization planning. Added html reporting in March 2026 with summary counts.
+
+
+## 📖 Notes
+All scans run inside a container using docker run --rm for isolation.
+All output is written to host-mounted directories for auditability.
+Filenames include timestamps for traceability.
+The workflow is designed to support future offline environments by allowing
+the Trivy DB to be pre-downloaded and stored under db/.
+
+
+## 🚀 Usage
+The operator menu is available via the `menu` alias (configured in /etc/profile.d).
+Type `menu` to use it.
+
+- build_image: docker build -t trivy-local:latest .
+
+- update_db: ./scripts/update-db.sh
+
+- scan_single_vulnerability: ./scripts/scan-vuln.sh <container-name>
+
+- scan_all_vulnerabilities: ./scripts/scan-all-vuln.sh
+
+- scan_single_sbom: ./scripts/scan-sbom.sh <container-name>
+
+- scan_all_sboms: ./scripts/scan-all-sbom.sh
+
+- export_reports: ./scripts/export-reports.sh
+
+- scan_menu: ./scripts/scan-menu.sh
+
+- Scripts saved in /var/lib/containers/trivy/scripts.
+
+## directory structure /var/lib/containers/trivy:
+
+```tree
+├── db
+│   ├── metadata.json
+│   └── trivy.db
+├── Dockerfile
+├── reports
+└── scripts
+    ├── export-image.sh
+    ├── export-reports.sh
+    ├── run-trivy.sh
+    ├── scan-all-sbom.sh
+    ├── scan-all-vuln.sh
+    ├── scan-menu.sh
+    └── update-db.sh
+```
+
+## scripts:
+
+scan-vuln.sh: "Runs a vulnerability scan for a single container."
+
+scan-all-vuln.sh: "Runs vulnerability scans for all defined containers."
+
+scan-sbom.sh: "Generates a CycloneDX SBOM for a single container."
+
+scan-all-sbom.sh: "Generates SBOMs for all defined containers."
+
+trivy-menu.sh: "Saved in /etc/profile.d to create the menu alias.
+
+update-db.sh: "Updates the Trivy vulnerability database stored under db/."
+
+export-reports.sh: "Creates a timestamped ZIP file of all reports."
+
+scan-menu.sh: "Provides an operator-friendly menu interface."
+
+
+## 📦 SBOM Format Options
+SBOMs default to CycloneDX `.cdx`. To change formats, modify the output extension in the SBOM scripts.
+
+Supported formats:
+- `.cdx`  – CycloneDX JSON (default)
+- `.json` – CycloneDX JSON
+- `.xml`  – CycloneDX XML
