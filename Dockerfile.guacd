@@ -1,3 +1,4 @@
+Dockerfile.guacd
 FROM debian:13-slim AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -86,7 +87,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsystemd0 \
     libicu76 \
     libusb-1.0-0 \
-    libfuse3-3 \
+    libfuse3-4 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=freerdp-builder /usr/local /usr/local
