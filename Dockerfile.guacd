@@ -1,42 +1,34 @@
-Dockerfile.guacd
+# -------------------------
+# Stage 1: Build FreeRDP
+# -------------------------
 FROM debian:13-slim AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # toolchain
     build-essential \
     git \
     cmake \
     ninja-build \
     pkg-config \
     ca-certificates \
-    # crypto
     libssl-dev \
-    # graphics/input (harmless even if disabled)
     libxkbcommon-dev \
     libwayland-dev \
     libjpeg-dev \
     libpng-dev \
-    # FFmpeg
     libavcodec-dev \
     libavutil-dev \
     libavformat-dev \
     libswscale-dev \
-    # Kerberos (MIT only)
     libkrb5-dev \
     krb5-multidev \
-    # JSON
     libjson-c-dev \
     libjansson-dev \
     libcjson-dev \
-    # URI parser
     liburiparser-dev \
-    # systemd
     libsystemd-dev \
-    # ICU (Debian 13 = ICU 76)
     libicu-dev \
-    # USB + FUSE (required for urbdrc)
     libusb-1.0-0-dev \
     libfuse3-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -64,10 +56,27 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
       .. && \
     ninja && ninja install
 
-# -------------------------
-# Runtime stage
-# -------------------------
 
+# -------------------------
+# Stage 2: Build guacamole-server (guacd)
+# -------------------------
+FROM freerdp-builder AS guacd-builder
+
+WORKDIR /tmp/guacd
+
+# Copy your guacamole-server source tarball into the build context
+COPY guacamole-server-1.6.0.tar.gz ./
+
+RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
+    autoreconf -fi && \
+    ./configure --prefix=/usr/local && \
+    make -j$(nproc) && \
+    make install
+
+
+# -------------------------
+# Stage 3: Runtime image
+# -------------------------
 FROM debian:13-slim AS stage-2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -90,6 +99,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfuse3-4 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=freerdp-builder /usr/local /usr/local
+# Copy BOTH FreeRDP and guacd artifacts
+COPY --from=guacd-builder /usr/local /usr/local
 
+# guacd entrypoint
 CMD ["/usr/local/sbin/guacd"]
