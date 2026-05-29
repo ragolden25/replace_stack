@@ -70,14 +70,37 @@ Type `menu` to use it.
 ## directory structure /var/lib/containers/trivy:
 
 ```tree
+/var/lib/containers/trivy
+├── config
+│   ├── cve-filter-debian.jq
+│   └── trivy.yaml
+│
 ├── db
-│   ├── metadata.json
-│   └── trivy.db
-├── Dockerfile
+│   ├── metadata.json
+│   └── trivy.db
+│
+├── images
+│   └── trivy-<version>-<timestamp>.tar.gz
+│
 ├── reports
+│   ├── <image>-vuln-<timestamp>.json
+│   ├── <image>-vuln-<timestamp>-filtered.json
+│   ├── <image>-vuln-<timestamp>.csv
+│   ├── <image>-vuln-<timestamp>.html
+│   ├── <image>-sbom-<timestamp>.cdx
+│   ├── <image>-sbom-<timestamp>.json
+│   └── <image>-sbom-<timestamp>.html
+│
+├── templates
+│   └── html.tpl
+│
 └── scripts
     ├── export-image.sh
     ├── export-reports.sh
+    ├── filter-cves.sh
+    ├── generate-csv.sh
+    ├── image-import.sh
+    ├── import-latest.sh
     ├── run-trivy.sh
     ├── scan-all-sbom.sh
     ├── scan-all-vuln.sh
@@ -87,27 +110,49 @@ Type `menu` to use it.
 
 ## scripts:
 
+export-image.sh: "Exports the current Trivy image and the Trivy DB into timestamped files under images/ and db_exports/."
+Used to prepare offline bundles for air‑gapped environments.
+
+export-reports.sh: "Creates a timestamped ZIP file of all reports."
+Used for IA evidence submission.
+
+filter-cves.sh: "Applies the Debian‑aware CVE filter (config/cve-filter-debian.jq) to a raw Trivy JSON vulnerability report."
+Removes non‑Debian CVEs, “not affected” CVEs, and backported‑fixed CVEs.
+
+generate-csv.sh: "Converts a filtered JSON vulnerability report into a CSV file suitable for IA checklists."
+
+image-import.sh: "Loads the newest exported Trivy image and DB bundle into the local environment."
+Used when updating offline enclaves.
+
+import-latest.sh: "Wrapper script that simply calls image-import.sh."
+
+run-trivy.sh: "Convenience wrapper for running Trivy with the correct DB mount and Docker socket access."
+
+scan-all-sbom.sh: "Generates SBOMs for all running container images in three formats:"
+- CycloneDX .cdx
+- JSON .json
+- HTML .html (using the unified template)
+
 scan-vuln.sh: "Runs a vulnerability scan for a single container."
 
-scan-all-vuln.sh: "Runs vulnerability scans for all defined containers."
+scan-all-vuln.sh: "Runs vulnerability scans for all running container images."
+"Automatically performs:"
+- raw JSON scan
+- Debian‑only CVE filtering
+- CSV generation
+- HTML report generation
 
-scan-sbom.sh: "Generates a CycloneDX SBOM for a single container."
-
-scan-all-sbom.sh: "Generates SBOMs for all defined containers."
+scan-menu.sh: "Operator‑friendly menu interface for running scans and exports."
 
 trivy-menu.sh: "Saved in /etc/profile.d to create the menu alias.
 
 update-db.sh: "Updates the Trivy vulnerability database stored under db/."
-
-export-reports.sh: "Creates a timestamped ZIP file of all reports."
-
-scan-menu.sh: "Provides an operator-friendly menu interface."
-
+Used when online access is available.
 
 ## 📦 SBOM Format Options
 SBOMs default to CycloneDX `.cdx`. To change formats, modify the output extension in the SBOM scripts.
-
 Supported formats:
 - `.cdx`  – CycloneDX JSON (default)
 - `.json` – CycloneDX JSON
 - `.xml`  – CycloneDX XML
+- `.html` - Human‑readable SBOM report (recommended for IA)
