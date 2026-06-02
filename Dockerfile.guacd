@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-file update \
     && rm -rf /var/lib/apt/lists/*
 
-# Simple strict resolver: fail if no dev package found
 RUN cat >/usr/local/bin/resolve-dev-pkg.sh << 'EOF' && chmod +x /usr/local/bin/resolve-dev-pkg.sh
 #!/bin/sh
 set -e
@@ -29,16 +28,14 @@ EOF
 
 
 ###############################
-# Stage 2: FreeRDP builder
+# Stage 2: FreeRDP builder (3.6.0)
 ###############################
 FROM resolver-base AS freerdp-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Battle-tested FreeRDP deps (from all our debugging)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     cmake \
     ninja-build \
     pkg-config \
@@ -66,10 +63,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-# Apache-pinned FreeRDP version
-ARG FREERDP_VERSION=2.11.2
-
-RUN git clone --branch ${FREERDP_VERSION} --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
+COPY FreeRDP-3.6.0.tar.gz ./
+RUN tar xf FreeRDP-3.6.0.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
@@ -92,7 +87,7 @@ RUN git clone --branch ${FREERDP_VERSION} --depth 1 https://github.com/FreeRDP/F
 
 
 ###############################
-# Stage 3: libssh2 builder
+# Stage 3: libssh2 builder (1.11.0)
 ###############################
 FROM resolver-base AS libssh2-builder
 
@@ -100,7 +95,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     pkg-config \
     ca-certificates \
     libssl-dev \
@@ -108,17 +102,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libssh2
 
-ARG LIBSSH2_VERSION=1.11.0
-
-RUN git clone --branch libssh2-${LIBSSH2_VERSION} --depth 1 https://github.com/libssh2/libssh2.git . && \
-    ./buildconf && \
+COPY libssh2-1.11.0.tar.gz ./
+RUN tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && \
     make install
 
 
 ###############################
-# Stage 4: libtelnet builder
+# Stage 4: libtelnet builder (0.23)
 ###############################
 FROM resolver-base AS libtelnet-builder
 
@@ -126,16 +118,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     pkg-config \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libtelnet
 
-ARG LIBTELNET_VERSION=1.2
-
-RUN git clone --branch ${LIBTELNET_VERSION} --depth 1 https://github.com/seanmiddleditch/libtelnet.git . && \
+COPY libtelnet-0.23.tar.gz ./
+RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
     ./bootstrap && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && \
@@ -143,7 +133,7 @@ RUN git clone --branch ${LIBTELNET_VERSION} --depth 1 https://github.com/seanmid
 
 
 ###############################
-# Stage 5: libvncserver builder
+# Stage 5: libvncserver builder (0.9.14)
 ###############################
 FROM resolver-base AS libvncserver-builder
 
@@ -151,7 +141,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     cmake \
     pkg-config \
     ca-certificates \
@@ -161,9 +150,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libvncserver
 
-ARG LIBVNCSERVER_VERSION=LibVNCServer-0.9.14
-
-RUN git clone --branch ${LIBVNCSERVER_VERSION} --depth 1 https://github.com/LibVNC/libvncserver.git . && \
+COPY LibVNCServer-0.9.14.tar.gz ./
+RUN tar xf LibVNCServer-0.9.14.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
     make -j"$(nproc)" && \
@@ -171,7 +159,7 @@ RUN git clone --branch ${LIBVNCSERVER_VERSION} --depth 1 https://github.com/LibV
 
 
 ###############################
-# Stage 6: libwebsockets builder
+# Stage 6: libwebsockets builder (4.5.8)
 ###############################
 FROM resolver-base AS libwebsockets-builder
 
@@ -179,7 +167,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
     cmake \
     pkg-config \
     ca-certificates \
@@ -188,9 +175,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libwebsockets
 
-ARG LIBWEBSOCKETS_VERSION=v4.3.2
-
-RUN git clone --branch ${LIBWEBSOCKETS_VERSION} --depth 1 https://github.com/warmcat/libwebsockets.git . && \
+COPY libwebsockets-4.5.8.tar.gz ./
+RUN tar xf libwebsockets-4.5.8.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
           -DLWS_WITH_SSL=ON -DLWS_WITH_SHARED=ON -DLWS_WITH_STATIC=OFF .. && \
@@ -199,13 +185,12 @@ RUN git clone --branch ${LIBWEBSOCKETS_VERSION} --depth 1 https://github.com/war
 
 
 ###############################
-# Stage 7: guacd (guacamole-server 1.6.0) builder
+# Stage 7: guacd builder (1.6.0)
 ###############################
 FROM resolver-base AS guacd-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Core build deps + guacd-specific dev libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     autoconf \
@@ -227,7 +212,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libuuid-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Bring in all built deps
 COPY --from=freerdp-builder      /usr/local /usr/local
 COPY --from=libssh2-builder      /usr/local /usr/local
 COPY --from=libtelnet-builder    /usr/local /usr/local
@@ -236,9 +220,7 @@ COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
 
-# Your tarball: guacamole-server-1.6.0.tar.gz
 COPY guacamole-server-1.6.0.tar.gz ./
-
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH \
@@ -258,7 +240,6 @@ FROM resolver-base AS runtime-base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Runtime libs only (Debian 13 names)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libcairo2 \
@@ -292,16 +273,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ###############################
-# Stage 9: Final runtime
+# Stage 9: FINAL RUNTIME
 ###############################
 FROM debian:13-slim AS final
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Copy runtime libs
 COPY --from=runtime-base / /
-
-# Copy guacd + all built deps
 COPY --from=guacd-builder /usr/local /usr/local
 
 EXPOSE 4822
