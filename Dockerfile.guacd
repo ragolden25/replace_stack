@@ -14,23 +14,36 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ###############################################
-# Stage 2: FreeRDP (release tarball)
+# Stage 2: FreeRDP (from local tarball)
 ###############################################
 FROM base AS freerdp-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake ninja-build git \
-    libssl-dev libxkbcommon-dev libwayland-dev \
-    libjpeg-dev libpng-dev \
-    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
-    libkrb5-dev libjson-c-dev libjansson-dev libcjson-dev \
-    liburiparser-dev libsystemd-dev libicu-dev \
-    libusb-1.0-0-dev libfuse3-dev \
+    cmake \
+    ninja-build \
+    libssl-dev \
+    libxkbcommon-dev \
+    libwayland-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libkrb5-dev \
+    libjson-c-dev \
+    libjansson-dev \
+    libcjson-dev \
+    liburiparser-dev \
+    libsystemd-dev \
+    libicu-dev \
+    libusb-1.0-0-dev \
+    libfuse3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
-RUN curl -LO https://github.com/FreeRDP/FreeRDP/archive/refs/tags/3.6.0.tar.gz && \
-    tar xf 3.6.0.tar.gz --strip-components=1 && \
+COPY sources/freerdp-3.6.0.tar.gz ./
+RUN tar xf freerdp-3.6.0.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
@@ -53,7 +66,7 @@ RUN curl -LO https://github.com/FreeRDP/FreeRDP/archive/refs/tags/3.6.0.tar.gz &
 
 
 ###############################################
-# Stage 3: libssh2 (release tarball)
+# Stage 3: libssh2 (from local tarball)
 ###############################################
 FROM base AS libssh2-builder
 
@@ -62,53 +75,56 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libssh2
-RUN curl -LO https://www.libssh2.org/download/libssh2-1.11.0.tar.gz && \
-    tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
+COPY sources/libssh2-1.11.0.tar.gz ./
+RUN tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && make install
 
 
 ###############################################
-# Stage 4: libtelnet (release tarball)
+# Stage 4: libtelnet (from local tarball)
 ###############################################
 FROM base AS libtelnet-builder
 
 WORKDIR /tmp/libtelnet
-RUN curl -LO https://github.com/seanmiddleditch/libtelnet/releases/download/1.2/libtelnet-1.2.tar.gz && \
-    tar xf libtelnet-1.2.tar.gz --strip-components=1 && \
+COPY sources/libtelnet-0.23.tar.gz ./
+RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && make install
 
 
 ###############################################
-# Stage 5: libvncserver (release tarball)
+# Stage 5: libvncserver (from local tarball)
 ###############################################
 FROM base AS libvncserver-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake libjpeg-dev libpng-dev \
+    cmake \
+    libjpeg-dev \
+    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libvncserver
-RUN curl -LO https://github.com/LibVNC/libvncserver/archive/refs/tags/LibVNCServer-0.9.14.tar.gz && \
-    tar xf LibVNCServer-0.9.14.tar.gz --strip-components=1 && \
+COPY sources/libvncserver-0.9.14.tar.gz ./
+RUN tar xf libvncserver-0.9.14.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
     make -j"$(nproc)" && make install
 
 
 ###############################################
-# Stage 6: libwebsockets (release tarball)
+# Stage 6: libwebsockets (from local tarball)
 ###############################################
 FROM base AS libwebsockets-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake libssl-dev \
+    cmake \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libwebsockets
-RUN curl -LO https://github.com/warmcat/libwebsockets/archive/refs/tags/v4.3.2.tar.gz && \
-    tar xf v4.3.2.tar.gz --strip-components=1 && \
+COPY sources/libwebsockets-4.3.2.tar.gz ./
+RUN tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -120,16 +136,27 @@ RUN curl -LO https://github.com/warmcat/libwebsockets/archive/refs/tags/v4.3.2.t
 
 
 ###############################################
-# Stage 7: guacd builder (release tarball)
+# Stage 7: guacd builder (from local tarball)
 ###############################################
 FROM base AS guacd-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake libtool \
-    libcairo2-dev libpango1.0-dev \
-    libjpeg-dev libpng-dev libwebp-dev \
-    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
-    libpulse-dev libvorbis-dev uuid-dev libssl-dev \
+    autoconf \
+    automake \
+    libtool \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libpulse-dev \
+    libvorbis-dev \
+    uuid-dev \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=freerdp-builder       /usr/local /usr/local
@@ -139,8 +166,8 @@ COPY --from=libvncserver-builder  /usr/local /usr/local
 COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
-RUN curl -LO https://apache.org/dyn/closer.lua/guacamole/1.6.0/source/guacamole-server-1.6.0.tar.gz && \
-    tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
+COPY sources/guacamole-server-1.6.0.tar.gz ./
+RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
     ./configure --prefix=/usr/local --disable-guacenc --disable-guaclog && \
     make -j"$(nproc)" && make install && ldconfig
@@ -150,16 +177,37 @@ RUN curl -LO https://apache.org/dyn/closer.lua/guacamole/1.6.0/source/guacamole-
 # Stage 8: Runtime
 ###############################################
 FROM debian:13-slim AS final
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    libcairo2 libjpeg62-turbo libpng16-16 libwebp7 \
-    libavcodec61 libavutil59 libavformat61 libswscale8 \
-    libpango-1.0-0 libpangocairo-1.0-0 \
-    libpulse0 libvorbis0a uuid-runtime \
-    libssl3 libkrb5-3 libjson-c5 libjansson4 libcjson1 \
-    liburiparser1 libsystemd0 libicu76 libusb-1.0-0 \
-    libfuse3-4 libssh2-1 libtelnet2 libvncserver1 libwebsockets19 \
+    libcairo2 \
+    libjpeg62-turbo \
+    libpng16-16 \
+    libwebp7 \
+    libavcodec61 \
+    libavutil59 \
+    libavformat61 \
+    libswscale8 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libpulse0 \
+    libvorbis0a \
+    uuid-runtime \
+    libssl3 \
+    libkrb5-3 \
+    libjson-c5 \
+    libjansson4 \
+    libcjson1 \
+    liburiparser1 \
+    libsystemd0 \
+    libicu76 \
+    libusb-1.0-0 \
+    libfuse3-4 \
+    libssh2-1 \
+    libtelnet2 \
+    libvncserver1 \
+    libwebsockets19 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=guacd-builder /usr/local /usr/local
