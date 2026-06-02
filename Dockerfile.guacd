@@ -6,7 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    curl \
     xz-utils \
     build-essential \
     pkg-config \
@@ -14,31 +13,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ###############################################
-# Stage 2: FreeRDP (from local tarball)
+# Stage 2: FreeRDP (local tarball)
 ###############################################
 FROM base AS freerdp-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake \
-    ninja-build \
-    libssl-dev \
-    libxkbcommon-dev \
-    libwayland-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libavcodec-dev \
-    libavutil-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libkrb5-dev \
-    libjson-c-dev \
-    libjansson-dev \
-    libcjson-dev \
-    liburiparser-dev \
-    libsystemd-dev \
-    libicu-dev \
-    libusb-1.0-0-dev \
-    libfuse3-dev \
+    cmake ninja-build \
+    libssl-dev libxkbcommon-dev libwayland-dev \
+    libjpeg-dev libpng-dev \
+    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
+    libkrb5-dev libjson-c-dev libjansson-dev libcjson-dev \
+    liburiparser-dev libsystemd-dev libicu-dev \
+    libusb-1.0-0-dev libfuse3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
@@ -66,7 +52,7 @@ RUN tar xf freerdp-3.6.0.tar.gz --strip-components=1 && \
 
 
 ###############################################
-# Stage 3: libssh2 (from local tarball)
+# Stage 3: libssh2 (local tarball)
 ###############################################
 FROM base AS libssh2-builder
 
@@ -82,9 +68,13 @@ RUN tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
 
 
 ###############################################
-# Stage 4: libtelnet (from local tarball)
+# Stage 4: libtelnet (local tarball + zlib fix)
 ###############################################
 FROM base AS libtelnet-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libtelnet
 COPY sources/libtelnet-0.23.tar.gz ./
@@ -94,14 +84,12 @@ RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
 
 
 ###############################################
-# Stage 5: libvncserver (from local tarball)
+# Stage 5: libvncserver (local tarball)
 ###############################################
 FROM base AS libvncserver-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake \
-    libjpeg-dev \
-    libpng-dev \
+    cmake libjpeg-dev libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libvncserver
@@ -113,13 +101,12 @@ RUN tar xf libvncserver-0.9.14.tar.gz --strip-components=1 && \
 
 
 ###############################################
-# Stage 6: libwebsockets (from local tarball)
+# Stage 6: libwebsockets (local tarball)
 ###############################################
 FROM base AS libwebsockets-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake \
-    libssl-dev \
+    cmake libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libwebsockets
@@ -136,27 +123,16 @@ RUN tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 && \
 
 
 ###############################################
-# Stage 7: guacd builder (from local tarball)
+# Stage 7: guacd builder (your tarball location)
 ###############################################
 FROM base AS guacd-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf \
-    automake \
-    libtool \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libwebp-dev \
-    libavcodec-dev \
-    libavutil-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libpulse-dev \
-    libvorbis-dev \
-    uuid-dev \
-    libssl-dev \
+    autoconf automake libtool \
+    libcairo2-dev libpango1.0-dev \
+    libjpeg-dev libpng-dev libwebp-dev \
+    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
+    libpulse-dev libvorbis-dev uuid-dev libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=freerdp-builder       /usr/local /usr/local
@@ -166,7 +142,10 @@ COPY --from=libvncserver-builder  /usr/local /usr/local
 COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
-COPY sources/guacamole-server-1.6.0.tar.gz ./
+
+# YOUR ACTUAL LOCATION — DO NOT MOVE IT
+COPY guacamole-server-1.6.0.tar.gz ./
+
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
     ./configure --prefix=/usr/local --disable-guacenc --disable-guaclog && \
@@ -181,33 +160,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    libcairo2 \
-    libjpeg62-turbo \
-    libpng16-16 \
-    libwebp7 \
-    libavcodec61 \
-    libavutil59 \
-    libavformat61 \
-    libswscale8 \
-    libpango-1.0-0 \
-    libpangocairo-1.0-0 \
-    libpulse0 \
-    libvorbis0a \
-    uuid-runtime \
-    libssl3 \
-    libkrb5-3 \
-    libjson-c5 \
-    libjansson4 \
-    libcjson1 \
-    liburiparser1 \
-    libsystemd0 \
-    libicu76 \
-    libusb-1.0-0 \
-    libfuse3-4 \
-    libssh2-1 \
-    libtelnet2 \
-    libvncserver1 \
-    libwebsockets19 \
+    libcairo2 libjpeg62-turbo libpng16-16 libwebp7 \
+    libavcodec61 libavutil59 libavformat61 libswscale8 \
+    libpango-1.0-0 libpangocairo-1.0-0 \
+    libpulse0 libvorbis0a uuid-runtime \
+    libssl3 libkrb5-3 libjson-c5 libjansson4 libcjson1 \
+    liburiparser1 libsystemd0 libicu76 libusb-1.0-0 \
+    libfuse3-4 libssh2-1 libtelnet2 libvncserver1 libwebsockets19 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=guacd-builder /usr/local /usr/local
