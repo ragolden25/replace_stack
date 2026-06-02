@@ -1,9 +1,22 @@
-# -------------------------
-# Stage 1: Build FreeRDP
-# -------------------------
-FROM debian:13-slim AS freerdp-builder
+###############################
+# Stage 1: Base resolver
+###############################
+FROM debian:13-slim AS resolver-base
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    apt-utils \
+    curl \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+
+###############################
+# Stage 2: FreeRDP builder
+###############################
+FROM resolver-base AS freerdp-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -11,7 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake \
     ninja-build \
     pkg-config \
-    ca-certificates \
     libssl-dev \
     libxkbcommon-dev \
     libwayland-dev \
@@ -22,7 +34,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libavformat-dev \
     libswscale-dev \
     libkrb5-dev \
-    krb5-multidev \
     libjson-c-dev \
     libjansson-dev \
     libcjson-dev \
@@ -57,37 +68,157 @@ RUN git clone --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     ninja && ninja install
 
 
-# -------------------------
-# Stage 2: Build guacamole-server (guacd)
-# -------------------------
-FROM freerdp-builder AS guacd-builder
+###############################
+# Stage 3: libssh2 builder
+###############################
+FROM resolver-base AS libssh2-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp/libssh2
+
+RUN git clone --depth 1 https://github.com/libssh2/libssh2.git . && \
+    ./buildconf && \
+    ./configure --prefix=/usr/local && \
+    make -j"$(nproc)" && make install
+
+
+###############################
+# Stage 4: libtelnet builder
+###############################
+FROM resolver-base AS libtelnet-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp/libtelnet
+
+RUN git clone --depth 1 https://github.com/seanmiddleditch/libtelnet.git . && \
+    ./bootstrap && \
+    ./configure --prefix=/usr/local && \
+    make -j"$(nproc)" && make install
+
+
+###############################
+# Stage 5: libvncserver builder
+###############################
+FROM resolver-base AS libvncserver-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    cmake \
+    pkg-config \
+    libjpeg-dev \
+    libpng-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp/libvncserver
+
+RUN git clone --depth 1 https://github.com/LibVNC/libvncserver.git . && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
+    make -j"$(nproc)" && make install
+
+
+###############################
+# Stage 6: libwebsockets builder
+###############################
+FROM resolver-base AS libwebsockets-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    cmake \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp/libwebsockets
+
+RUN git clone --depth 1 https://github.com/warmcat/libwebsockets.git . && \
+    mkdir build && cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX=/usr/local \
+          -DLWS_WITH_SSL=ON \
+          -DLWS_WITH_SHARED=ON \
+          -DLWS_WITH_STATIC=OFF \
+          .. && \
+    make -j"$(nproc)" && make install
+
+
+###############################
+# Stage 7: guacd builder
+###############################
+FROM resolver-base AS guacd-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libpulse-dev \
+    libvorbis-dev \
+    uuid-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=freerdp-builder       /usr/local /usr/local
+COPY --from=libssh2-builder       /usr/local /usr/local
+COPY --from=libtelnet-builder     /usr/local /usr/local
+COPY --from=libvncserver-builder  /usr/local /usr/local
+COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
 
-# Copy your guacamole-server source tarball into the build context
 COPY guacamole-server-1.6.0.tar.gz ./
 
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
-    ./configure --prefix=/usr/local && \
-    make -j$(nproc) && \
-    make install
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig \
+    ./configure --prefix=/usr/local --disable-guacenc --disable-guaclog && \
+    make -j"$(nproc)" && make install && ldconfig
 
 
-# -------------------------
-# Stage 3: Runtime image
-# -------------------------
-FROM debian:13-slim AS stage-2
+###############################
+# Stage 8: Runtime
+###############################
+FROM debian:13-slim AS final
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    libssl3 \
+    libcairo2 \
     libjpeg62-turbo \
     libpng16-16 \
+    libwebp7 \
     libavcodec61 \
     libavutil59 \
     libavformat61 \
     libswscale8 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libpulse0 \
+    libvorbis0a \
+    uuid-runtime \
+    libssl3 \
     libkrb5-3 \
     libjson-c5 \
     libjansson4 \
@@ -97,10 +228,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu76 \
     libusb-1.0-0 \
     libfuse3-4 \
+    libssh2-1 \
+    libtelnet2 \
+    libvncserver1 \
+    libwebsockets19 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy BOTH FreeRDP and guacd artifacts
 COPY --from=guacd-builder /usr/local /usr/local
 
-# guacd entrypoint
+EXPOSE 4822
+
 CMD ["/usr/local/sbin/guacd"]
