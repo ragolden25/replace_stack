@@ -1,0 +1,37 @@
+       " > [libwebsockets-builder 4/4] RUN tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 &&     mkdir build && cd build &&     cmake -DCMAKE_BUILD_TYPE=Release           -DCMAKE_INSTALL_PREFIX=/usr/local           -DLWS_WITH_SSL=ON           -DLWS_WITH_SHARED=ON           -DLWS_WITH_STATIC=ON           -DLWS_WITH_WERROR=OFF           .. &&     make -j\"$(nproc)\" && make install:",
+        "83.63                  from /tmp/libwebsockets/lib/tls/openssl/openssl-server.c:25:",
+        "83.63 /tmp/libwebsockets/lib/tls/./private-network.h:171:1: note: previous declaration of 'lws_tls_server_abort_connection' with type 'enum lws_ssl_capable_status(struct lws *)'",
+        "83.63   171 | lws_tls_server_abort_connection(struct lws *wsi);",
+        "83.63       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "84.19 [ 20%] Building C object lib/CMakeFiles/websockets_shared.dir/tls/openssl/openssl-client.c.o",
+        "84.32 cc1: all warnings being treated as errors",
+        "84.33 make[2]: *** [lib/CMakeFiles/websockets_shared.dir/build.make:303: lib/CMakeFiles/websockets_shared.dir/tls/openssl/openssl-server.c.o] Error 1",
+        "84.33 make[2]: *** Waiting for unfinished jobs....",
+        "85.47 make[1]: *** [CMakeFiles/Makefile2:1610: lib/CMakeFiles/websockets_shared.dir/all] Error 2",
+        "85.47 make: *** [Makefile:166: all] Error 2",
+        "------",
+        "Dockerfile.guacd:114",
+        "--------------------",
+        " 113 |     COPY sources/libwebsockets-4.3.2.tar.gz ./",
+        " 114 | >>> RUN tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 && \\",
+        " 115 | >>>     mkdir build && cd build && \\",
+        " 116 | >>>     cmake -DCMAKE_BUILD_TYPE=Release \\",
+        " 117 | >>>           -DCMAKE_INSTALL_PREFIX=/usr/local \\",
+        " 118 | >>>           -DLWS_WITH_SSL=ON \\",
+        " 119 | >>>           -DLWS_WITH_SHARED=ON \\",
+        " 120 | >>>           -DLWS_WITH_STATIC=ON \\",
+        " 121 | >>>           -DLWS_WITH_WERROR=OFF \\",
+        " 122 | >>>           .. && \\",
+        " 123 | >>>     make -j\"$(nproc)\" && make install",
+        " 124 |     ",
+        "--------------------",
+        "ERROR: failed to build: failed to solve: process \"/bin/sh -c tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 &&     mkdir build && cd build &&     cmake -DCMAKE_BUILD_TYPE=Release           -DCMAKE_INSTALL_PREFIX=/usr/local           -DLWS_WITH_SSL=ON           -DLWS_WITH_SHARED=ON           -DLWS_WITH_STATIC=ON           -DLWS_WITH_WERROR=OFF           .. &&     make -j\\\"$(nproc)\\\" && make install\" did not complete successfully: exit code: 2"
+    ],
+    "stdout": "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3...",
+    "stdout_lines": [
+        "Building guacd 1.6.0 for fy26q3 in /opt/ansible/files/build/guacd/fy26q3..."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=44   changed=18   unreachable=0    failed=1    skipped=3    rescued=0    ignored=0
