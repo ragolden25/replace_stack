@@ -63,7 +63,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-COPY FreeRDP-3.6.0.tar.gz ./
+COPY sources/FreeRDP-3.6.0.tar.gz ./
 RUN tar xf FreeRDP-3.6.0.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -G Ninja \
@@ -102,7 +102,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libssh2
 
-COPY libssh2-1.11.0.tar.gz ./
+COPY sources/libssh2-1.11.0.tar.gz ./
 RUN tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && \
@@ -124,7 +124,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libtelnet
 
-COPY libtelnet-0.23.tar.gz ./
+COPY sources/libtelnet-0.23.tar.gz ./
 RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
     ./bootstrap && \
     ./configure --prefix=/usr/local && \
@@ -150,7 +150,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libvncserver
 
-COPY LibVNCServer-0.9.14.tar.gz ./
+COPY sources/LibVNCServer-0.9.14.tar.gz ./
 RUN tar xf LibVNCServer-0.9.14.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
@@ -175,7 +175,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libwebsockets
 
-COPY libwebsockets-4.5.8.tar.gz ./
+COPY sources/libwebsockets-4.5.8.tar.gz ./
 RUN tar xf libwebsockets-4.5.8.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -220,7 +220,9 @@ COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
 
+# ONLY guacamole-server is in the build root — correct
 COPY guacamole-server-1.6.0.tar.gz ./
+
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH \
