@@ -1,35 +1,75 @@
-###############################################
-# Stage 1: Base
-###############################################
-FROM debian:13-slim AS base
+###############################
+# Stage 1: Base resolver
+###############################
+FROM debian:13-slim AS resolver-base
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    xz-utils \
-    build-essential \
-    pkg-config \
+    apt-file \
+    apt-utils \
+    gnupg \
+    && apt-file update \
     && rm -rf /var/lib/apt/lists/*
 
+# Simple strict resolver: fail if no dev package found
+RUN cat >/usr/local/bin/resolve-dev-pkg.sh << 'EOF' && chmod +x /usr/local/bin/resolve-dev-pkg.sh
+#!/bin/sh
+set -e
+name="$1"
+pattern="^${name}.*-dev$"
+pkg="$(apt-cache search "${pattern}" | awk '{print $1}' | head -n1)"
+if [ -z "$pkg" ]; then
+  echo "ERROR: Could not resolve dev package for ${name} (pattern: ${pattern})" >&2
+  exit 1
+fi
+echo "${pkg}"
+EOF
 
-###############################################
-# Stage 2: FreeRDP (local tarball)
-###############################################
-FROM base AS freerdp-builder
 
+###############################
+# Stage 2: FreeRDP builder
+###############################
+FROM resolver-base AS freerdp-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Battle-tested FreeRDP deps (from all our debugging)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake ninja-build \
-    libssl-dev libxkbcommon-dev libwayland-dev \
-    libjpeg-dev libpng-dev \
-    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
-    libkrb5-dev libjson-c-dev libjansson-dev libcjson-dev \
-    liburiparser-dev libsystemd-dev libicu-dev \
-    libusb-1.0-0-dev libfuse3-dev \
+    build-essential \
+    git \
+    cmake \
+    ninja-build \
+    pkg-config \
+    ca-certificates \
+    libssl-dev \
+    libxkbcommon-dev \
+    libwayland-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libkrb5-dev \
+    krb5-multidev \
+    libjson-c-dev \
+    libjansson-dev \
+    libcjson-dev \
+    liburiparser-dev \
+    libsystemd-dev \
+    libicu-dev \
+    libusb-1.0-0-dev \
+    libfuse3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/freerdp
-COPY sources/freerdp-3.6.0.tar.gz ./
-RUN tar xf freerdp-3.6.0.tar.gz --strip-components=1 && \
+
+# Apache-pinned FreeRDP version
+ARG FREERDP_VERSION=2.11.2
+
+RUN git clone --branch ${FREERDP_VERSION} --depth 1 https://github.com/FreeRDP/FreeRDP.git . && \
     mkdir build && cd build && \
     cmake -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
@@ -51,125 +91,220 @@ RUN tar xf freerdp-3.6.0.tar.gz --strip-components=1 && \
     ninja && ninja install
 
 
-###############################################
-# Stage 3: libssh2 (local tarball)
-###############################################
-FROM base AS libssh2-builder
+###############################
+# Stage 3: libssh2 builder
+###############################
+FROM resolver-base AS libssh2-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    pkg-config \
+    ca-certificates \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libssh2
-COPY sources/libssh2-1.11.0.tar.gz ./
-RUN tar xf libssh2-1.11.0.tar.gz --strip-components=1 && \
+
+ARG LIBSSH2_VERSION=1.11.0
+
+RUN git clone --branch libssh2-${LIBSSH2_VERSION} --depth 1 https://github.com/libssh2/libssh2.git . && \
+    ./buildconf && \
     ./configure --prefix=/usr/local && \
-    make -j"$(nproc)" && make install
+    make -j"$(nproc)" && \
+    make install
 
 
-###############################################
-# Stage 4: libtelnet (local tarball + zlib fix)
-###############################################
-FROM base AS libtelnet-builder
+###############################
+# Stage 4: libtelnet builder
+###############################
+FROM resolver-base AS libtelnet-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    zlib1g-dev \
+    build-essential \
+    git \
+    pkg-config \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libtelnet
-COPY sources/libtelnet-0.23.tar.gz ./
-RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
+
+ARG LIBTELNET_VERSION=1.2
+
+RUN git clone --branch ${LIBTELNET_VERSION} --depth 1 https://github.com/seanmiddleditch/libtelnet.git . && \
+    ./bootstrap && \
     ./configure --prefix=/usr/local && \
-    make -j"$(nproc)" && make install
+    make -j"$(nproc)" && \
+    make install
 
 
-###############################################
-# Stage 5: libvncserver (local tarball)
-###############################################
-FROM base AS libvncserver-builder
+###############################
+# Stage 5: libvncserver builder
+###############################
+FROM resolver-base AS libvncserver-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake libjpeg-dev libpng-dev \
+    build-essential \
+    git \
+    cmake \
+    pkg-config \
+    ca-certificates \
+    libjpeg-dev \
+    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libvncserver
-COPY sources/libvncserver-0.9.14.tar.gz ./
-RUN tar xf libvncserver-0.9.14.tar.gz --strip-components=1 && \
+
+ARG LIBVNCSERVER_VERSION=LibVNCServer-0.9.14
+
+RUN git clone --branch ${LIBVNCSERVER_VERSION} --depth 1 https://github.com/LibVNC/libvncserver.git . && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
-    make -j"$(nproc)" && make install
+    make -j"$(nproc)" && \
+    make install
 
 
-###############################################
-# Stage 6: libwebsockets (local tarball)
-###############################################
-FROM base AS libwebsockets-builder
+###############################
+# Stage 6: libwebsockets builder
+###############################
+FROM resolver-base AS libwebsockets-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cmake libssl-dev \
+    build-essential \
+    git \
+    cmake \
+    pkg-config \
+    ca-certificates \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libwebsockets
-COPY sources/libwebsockets-4.3.2.tar.gz ./
-RUN tar xf libwebsockets-4.3.2.tar.gz --strip-components=1 && \
+
+ARG LIBWEBSOCKETS_VERSION=v4.3.2
+
+RUN git clone --branch ${LIBWEBSOCKETS_VERSION} --depth 1 https://github.com/warmcat/libwebsockets.git . && \
     mkdir build && cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_INSTALL_PREFIX=/usr/local \
-          -DLWS_WITH_SSL=ON \
-          -DLWS_WITH_SHARED=ON \
-          -DLWS_WITH_STATIC=OFF \
-          .. && \
-    make -j"$(nproc)" && make install
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
+          -DLWS_WITH_SSL=ON -DLWS_WITH_SHARED=ON -DLWS_WITH_STATIC=OFF .. && \
+    make -j"$(nproc)" && \
+    make install
 
 
-###############################################
-# Stage 7: guacd builder (your tarball location)
-###############################################
-FROM base AS guacd-builder
+###############################
+# Stage 7: guacd (guacamole-server 1.6.0) builder
+###############################
+FROM resolver-base AS guacd-builder
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Core build deps + guacd-specific dev libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake libtool \
-    libcairo2-dev libpango1.0-dev \
-    libjpeg-dev libpng-dev libwebp-dev \
-    libavcodec-dev libavutil-dev libavformat-dev libswscale-dev \
-    libpulse-dev libvorbis-dev uuid-dev libssl-dev \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    ca-certificates \
+    libcairo2-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    libavcodec-dev \
+    libavutil-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libpango1.0-dev \
+    libpulse-dev \
+    libvorbis-dev \
+    libuuid-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=freerdp-builder       /usr/local /usr/local
-COPY --from=libssh2-builder       /usr/local /usr/local
-COPY --from=libtelnet-builder     /usr/local /usr/local
-COPY --from=libvncserver-builder  /usr/local /usr/local
+# Bring in all built deps
+COPY --from=freerdp-builder      /usr/local /usr/local
+COPY --from=libssh2-builder      /usr/local /usr/local
+COPY --from=libtelnet-builder    /usr/local /usr/local
+COPY --from=libvncserver-builder /usr/local /usr/local
 COPY --from=libwebsockets-builder /usr/local /usr/local
 
 WORKDIR /tmp/guacd
 
-# YOUR ACTUAL LOCATION — DO NOT MOVE IT
+# Your tarball: guacamole-server-1.6.0.tar.gz
 COPY guacamole-server-1.6.0.tar.gz ./
 
 RUN tar xf guacamole-server-1.6.0.tar.gz --strip-components=1 && \
     autoreconf -fi && \
-    ./configure --prefix=/usr/local --disable-guacenc --disable-guaclog && \
-    make -j"$(nproc)" && make install && ldconfig
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH \
+    ./configure \
+        --prefix=/usr/local \
+        --disable-guaclog \
+        --disable-guacenc \
+    && make -j"$(nproc)" && \
+    make install && \
+    ldconfig
 
 
-###############################################
-# Stage 8: Runtime
-###############################################
-FROM debian:13-slim AS final
+###############################
+# Stage 8: Runtime base
+###############################
+FROM resolver-base AS runtime-base
+
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Runtime libs only (Debian 13 names)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    libcairo2 libjpeg62-turbo libpng16-16 libwebp7 \
-    libavcodec61 libavutil59 libavformat61 libswscale8 \
-    libpango-1.0-0 libpangocairo-1.0-0 \
-    libpulse0 libvorbis0a uuid-runtime \
-    libssl3 libkrb5-3 libjson-c5 libjansson4 libcjson1 \
-    liburiparser1 libsystemd0 libicu76 libusb-1.0-0 \
-    libfuse3-4 libssh2-1 libtelnet2 libvncserver1 libwebsockets19 \
+    libcairo2 \
+    libjpeg62-turbo \
+    libpng16-16 \
+    libwebp7 \
+    libavcodec61 \
+    libavutil59 \
+    libavformat61 \
+    libswscale8 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libpulse0 \
+    libvorbis0a \
+    libuuid1 \
+    libssl3 \
+    libkrb5-3 \
+    libjson-c5 \
+    libjansson4 \
+    libcjson1 \
+    liburiparser1 \
+    libsystemd0 \
+    libicu76 \
+    libusb-1.0-0 \
+    libfuse3-4 \
+    libssh2-1 \
+    libtelnet2 \
+    libvncserver1 \
+    libwebsockets19 \
     && rm -rf /var/lib/apt/lists/*
 
+
+###############################
+# Stage 9: Final runtime
+###############################
+FROM debian:13-slim AS final
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Copy runtime libs
+COPY --from=runtime-base / /
+
+# Copy guacd + all built deps
 COPY --from=guacd-builder /usr/local /usr/local
 
 EXPOSE 4822
-CMD ["/usr/local/sbin/guacd"]
+
+ENTRYPOINT ["/usr/local/sbin/guacd"]
+CMD ["-f"]
