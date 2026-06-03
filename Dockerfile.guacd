@@ -63,8 +63,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/freerdp
 
-COPY sources/FreeRDP-3.6.0.tar.gz ./
-RUN tar xf FreeRDP-3.6.0.tar.gz --strip-components=1 && \
+COPY sources/freerdp-3.6.0.tar.gz ./
+RUN tar xf freerdp-3.6.0.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
@@ -120,13 +120,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     pkg-config \
     ca-certificates \
+    zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libtelnet
 
 COPY sources/libtelnet-0.23.tar.gz ./
 RUN tar xf libtelnet-0.23.tar.gz --strip-components=1 && \
-    ./bootstrap && \
     ./configure --prefix=/usr/local && \
     make -j"$(nproc)" && \
     make install
@@ -150,8 +150,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /tmp/libvncserver
 
-COPY sources/LibVNCServer-0.9.14.tar.gz ./
-RUN tar xf LibVNCServer-0.9.14.tar.gz --strip-components=1 && \
+COPY sources/libvncserver-0.9.14.tar.gz ./
+RUN tar xf libvncserver-0.9.14.tar.gz --strip-components=1 && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
     make -j"$(nproc)" && \
@@ -161,28 +161,36 @@ RUN tar xf LibVNCServer-0.9.14.tar.gz --strip-components=1 && \
 ###############################
 # Stage 6: libwebsockets builder (4.5.8)
 ###############################
-FROM resolver-base AS libwebsockets-builder
+FROM debian:13-slim AS libwebsockets-builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    cmake \
     pkg-config \
     ca-certificates \
+    cmake \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/libwebsockets
 
-COPY sources/libwebsockets-4.5.8.tar.gz ./
+COPY sources/libwebsockets-4.5.8.tar.gz .
+
 RUN tar xf libwebsockets-4.5.8.tar.gz --strip-components=1 && \
-    mkdir build && cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
-          -DLWS_WITH_SSL=ON -DLWS_WITH_SHARED=ON -DLWS_WITH_STATIC=OFF .. && \
+    rm -rf build && mkdir build && cd build && \
+    cmake \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DLWS_WITH_SSL=ON \
+      -DLWS_WITH_SHARED=ON \
+      -DLWS_WITH_STATIC=ON \
+      -DLWS_WITH_MINIMAL_EXAMPLES=OFF \
+      -DLWS_WITH_SECURE_STREAMS=OFF \
+      -DLWS_WITH_LIBUV=OFF \
+      .. && \
     make -j"$(nproc)" && \
     make install
-
 
 ###############################
 # Stage 7: guacd builder (1.6.0)
@@ -209,7 +217,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpango1.0-dev \
     libpulse-dev \
     libvorbis-dev \
-    libuuid-dev \
+    uuid-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=freerdp-builder      /usr/local /usr/local
@@ -280,7 +288,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM debian:13-slim AS final
 
 ENV DEBIAN_FRONTEND=noninteractive
-
+ENV LD_LIBRARY_PATH="/usr/local/lib"
 COPY --from=runtime-base / /
 COPY --from=guacd-builder /usr/local /usr/local
 
