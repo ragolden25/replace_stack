@@ -1,0 +1,52 @@
+FROM nucleus/tomcat:9.0.118
+
+ARG GUAC_VERSION=1.6.0
+
+ENV CATALINA_HOME=/usr/local/tomcat
+ENV JAVA_HOME=/opt/java
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+USER root
+
+# Create Guacamole directories with correct permissions
+RUN mkdir -p \
+      ${CATALINA_HOME}/.guacamole/extensions \
+      ${CATALINA_HOME}/.guacamole/lib && \
+    chown -R tomcat:tomcat ${CATALINA_HOME}/.guacamole
+
+# Copy Guacamole artifacts (WAR, extensions, JDBC libs)
+COPY 1.6.0/web-archive/guacamole-${GUAC_VERSION}.war \
+     ${CATALINA_HOME}/webapps/guacamole.war
+
+COPY 1.6.0/extensions/*.jar \
+     ${CATALINA_HOME}/.guacamole/extensions/
+
+COPY 1.6.0/lib/*.jar \
+     ${CATALINA_HOME}/.guacamole/lib/
+
+# Permissions hardening
+RUN chown -R tomcat:tomcat ${CATALINA_HOME}/webapps && \
+    chmod -R 755 ${CATALINA_HOME}/webapps && \
+    chmod -R 755 ${CATALINA_HOME}/.guacamole
+
+# Remove unnecessary files (no shells, no package managers, no docs)
+RUN rm -f /bin/sh /bin/bash || true && \
+    rm -f /usr/bin/apt* /usr/bin/dpkg || true && \
+    rm -rf /usr/share/man/* /usr/share/doc/* /usr/share/info/*
+
+USER tomcat
+
+WORKDIR ${CATALINA_HOME}
+
+EXPOSE 8080
+
+# Use hardened Tomcat's Java bootstrap entrypoint
+CMD ["java", \
+ "-Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties", \
+ "-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager", \
+ "-Djava.security.egd=file:/dev/urandom", \
+ "-classpath", "/usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar", \
+ "-Dcatalina.base=/usr/local/tomcat", \
+ "-Dcatalina.home=/usr/local/tomcat", \
+ "-Djava.io.tmpdir=/usr/local/tomcat/temp", \
+ "org.apache.catalina.startup.Bootstrap", "start"]
