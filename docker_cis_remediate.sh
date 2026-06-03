@@ -1,5 +1,5 @@
-docker_cis_remediate.sh
 #!/usr/bin/env bash
+# docker_cis_remediate.sh
 
 set -euo pipefail
 
