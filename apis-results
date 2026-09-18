@@ -1,0 +1,568 @@
+==============================================================
+==> MAPPING ROOT /APIS INDEX GROUP NAMESPACES
+==============================================================
+{
+  "kind": "APIGroupList",
+  "groups": [
+    {
+      "name": "features.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "features.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "features.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "dashboard.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "dashboard.grafana.app/v2",
+          "version": "v2"
+        },
+        {
+          "groupVersion": "dashboard.grafana.app/v2beta1",
+          "version": "v2beta1"
+        },
+        {
+          "groupVersion": "dashboard.grafana.app/v2alpha1",
+          "version": "v2alpha1"
+        },
+        {
+          "groupVersion": "dashboard.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        },
+        {
+          "groupVersion": "dashboard.grafana.app/v1",
+          "version": "v1"
+        },
+        {
+          "groupVersion": "dashboard.grafana.app/v1beta1",
+          "version": "v1beta1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "dashboard.grafana.app/v2",
+        "version": "v2"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "folder.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "folder.grafana.app/v1",
+          "version": "v1"
+        },
+        {
+          "groupVersion": "folder.grafana.app/v1beta1",
+          "version": "v1beta1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "folder.grafana.app/v1",
+        "version": "v1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "userstorage.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "userstorage.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "userstorage.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "preferences.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "preferences.grafana.app/v1",
+          "version": "v1"
+        },
+        {
+          "groupVersion": "preferences.grafana.app/v1alpha1",
+          "version": "v1alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "preferences.grafana.app/v1",
+        "version": "v1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "collections.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "collections.grafana.app/v1alpha1",
+          "version": "v1alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "collections.grafana.app/v1alpha1",
+        "version": "v1alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "provisioning.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "provisioning.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        },
+        {
+          "groupVersion": "provisioning.grafana.app/v1beta1",
+          "version": "v1beta1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "provisioning.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "playlist.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "playlist.grafana.app/v1",
+          "version": "v1"
+        },
+        {
+          "groupVersion": "playlist.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "playlist.grafana.app/v1",
+        "version": "v1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "plugins.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "plugins.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "plugins.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "example.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "example.grafana.app/v1alpha1",
+          "version": "v1alpha1"
+        },
+        {
+          "groupVersion": "example.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "example.grafana.app/v1alpha1",
+        "version": "v1alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "quotas.grafana.app",
+      "versions": [],
+      "preferredVersion": {
+        "groupVersion": "quotas.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "shorturl.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "shorturl.grafana.app/v1beta1",
+          "version": "v1beta1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "shorturl.grafana.app/v1beta1",
+        "version": "v1beta1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "rules.alerting.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "rules.alerting.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "rules.alerting.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "notifications.alerting.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "notifications.alerting.grafana.app/v1beta1",
+          "version": "v1beta1"
+        },
+        {
+          "groupVersion": "notifications.alerting.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "notifications.alerting.grafana.app/v1beta1",
+        "version": "v1beta1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    },
+    {
+      "name": "advisor.grafana.app",
+      "versions": [
+        {
+          "groupVersion": "advisor.grafana.app/v0alpha1",
+          "version": "v0alpha1"
+        }
+      ],
+      "preferredVersion": {
+        "groupVersion": "advisor.grafana.app/v0alpha1",
+        "version": "v0alpha1"
+      },
+      "serverAddressByClientCIDRs": [
+        {
+          "clientCIDR": "0.0.0.0/0",
+          "serverAddress": "0.0.0.0:3000"
+        }
+      ]
+    }
+  ]
+}
+
+==============================================================
+==> RAW SCHEMA CAPACITY DEFINITIONS FOR: RECEIVERS/CONTACT POINTS
+    Endpoint: http://localhost:3000/apis/notifications.alerting.grafana.app/v1beta1
+==============================================================
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "notifications.alerting.grafana.app/v1beta1",
+  "resources": [
+    {
+      "name": "configs",
+      "singularName": "config",
+      "namespaced": true,
+      "kind": "Config",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update",
+        "watch"
+      ]
+    },
+    {
+      "name": "configs/status",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "Config",
+      "verbs": [
+        "get",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "inhibitionrules",
+      "singularName": "inhibitionrule",
+      "namespaced": true,
+      "kind": "InhibitionRule",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "receivers",
+      "singularName": "receiver",
+      "namespaced": true,
+      "kind": "Receiver",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "receivers/test",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "ResourceCallOptions",
+      "verbs": [
+        "create"
+      ]
+    },
+    {
+      "name": "routingtrees",
+      "singularName": "routingtree",
+      "namespaced": true,
+      "kind": "RoutingTree",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "templategroups",
+      "singularName": "templategroup",
+      "namespaced": true,
+      "kind": "TemplateGroup",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "timeintervals",
+      "singularName": "timeinterval",
+      "namespaced": true,
+      "kind": "TimeInterval",
+      "verbs": [
+        "create",
+        "delete",
+        "deletecollection",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    }
+  ]
+}
+
+==============================================================
+==> RAW SCHEMA CAPACITY DEFINITIONS FOR: DATASOURCES
+    Endpoint: http://localhost:3000/apis/datasource.grafana.app/v1
+==============================================================
+
+
+==============================================================
+==> RAW SCHEMA CAPACITY DEFINITIONS FOR: DASHBOARDS
+    Endpoint: http://localhost:3000/apis/dashboard.grafana.app/v1
+==============================================================
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "dashboard.grafana.app/v1",
+  "resources": [
+    {
+      "name": "dashboards",
+      "singularName": "dashboard",
+      "namespaced": true,
+      "kind": "Dashboard",
+      "verbs": [
+        "create",
+        "delete",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "dashboards/dto",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "DashboardWithAccessInfo",
+      "verbs": [
+        "get"
+      ]
+    }
+  ]
+}
+
+==============================================================
+==> RAW SCHEMA CAPACITY DEFINITIONS FOR: FOLDERS
+    Endpoint: http://localhost:3000/apis/folder.grafana.app/v1
+==============================================================
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "folder.grafana.app/v1",
+  "resources": [
+    {
+      "name": "folders",
+      "singularName": "folder",
+      "namespaced": true,
+      "kind": "Folder",
+      "verbs": [
+        "create",
+        "delete",
+        "get",
+        "list",
+        "patch",
+        "update"
+      ]
+    },
+    {
+      "name": "folders/access",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "FolderAccessInfo",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "folders/children",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "FolderList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "folders/counts",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "DescendantCounts",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "folders/parents",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "FolderInfoList",
+      "verbs": [
+        "get"
+      ]
+    }
+  ]
+}
+
+==============================================================
+==> RAW SCHEMA CAPACITY DEFINITIONS FOR: ALERT RULES
+    Endpoint: http://localhost:3000/apis/alerting.grafana.app/v1
+==============================================================
+
+
+==============================================================
+                      END OF SCHEMAS
+==============================================================
