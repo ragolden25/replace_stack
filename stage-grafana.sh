@@ -179,20 +179,22 @@ timeout --signal=KILL 20m docker run --rm --network host \
   -e GOMODCACHE=/opt/go-mod \
   -e TMPDIR=/opt/tmp \
   -e CGO_ENABLED=0 \
+  -e GOOS=linux \
+  -e GOARCH=amd64 \
   -e GOFLAGS="-ldflags=-s\ -w" \
   -e GRAFANA_TAGS=oss \
   container-forge/debian13-go:latest \
   bash -c "make build-go" 2>&1 | tee -a "${LOG_FILE}"
 
 # ------------------------------------------------------------
-# CLEAN-STAGE
-# ------------------------------------------------------------
-echo "--- Running clean-stage.sh ---" | tee -a "${LOG_FILE}"
-/opt/ansible/staged/grafana/scripts/clean-stage.sh "${GRAFANA_VERSION}"
-
-# ------------------------------------------------------------
 # STAGE ARTIFACTS
 # ------------------------------------------------------------
+# FIX: this now runs BEFORE clean-stage.sh, not after. clean-stage.sh
+# strips/deletes files inside staged/ (public/*.map, storybook/demo
+# bundles, stray node_modules, extra locales) — it operates on content
+# that has to already be there. Running it first meant $STAGED/public
+# didn't exist yet, so its first `find` call failed and killed the
+# whole script under `set -e` before artifacts were ever copied.
 echo "--- Staging Grafana artifacts ---" | tee -a "${LOG_FILE}"
 
 cp -r "${SRC_DIR}/public" "${STAGED_DIR}/public"
@@ -202,6 +204,12 @@ cp -r "${SRC_DIR}/conf" "${STAGED_DIR}/conf"
 [[ -d "${SRC_DIR}/plugins" ]] && cp -r "${SRC_DIR}/plugins" "${STAGED_DIR}/plugins"
 
 find "${SRC_DIR}/bin" -type f -name 'grafana*' -exec cp {} "${STAGED_DIR}/" \;
+
+# ------------------------------------------------------------
+# CLEAN-STAGE
+# ------------------------------------------------------------
+echo "--- Running clean-stage.sh ---" | tee -a "${LOG_FILE}"
+/opt/ansible/staged/grafana/scripts/clean-stage.sh "${GRAFANA_VERSION}"
 
 # ------------------------------------------------------------
 # WRITE VERSION INVENTORY
