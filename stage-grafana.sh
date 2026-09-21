@@ -26,7 +26,10 @@ SRC_DIR="${BASE_DIR}/src"
 STAGED_DIR="${BASE_DIR}/staged"
 LOG_DIR="${BASE_DIR}/logs"
 LOG_FILE="${LOG_DIR}/stage_grafana_${GRAFANA_VERSION}.log"
-VERSION_INVENTORY="${BASE_DIR}/inventory.env"
+# sync-latest-version.sh reads inventory.env from inside staged/ (it
+# copies that directory tree into the build area and wants the version
+# marker to travel with it) — write it there, not at BASE_DIR.
+VERSION_INVENTORY="${STAGED_DIR}/inventory.env"
 
 mkdir -p "${SRC_DIR}" "${STAGED_DIR}" "${LOG_DIR}"
 
