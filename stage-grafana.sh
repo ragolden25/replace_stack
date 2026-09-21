@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+export PATH="/usr/local/bin:$PATH"
 
 # ------------------------------------------------------------
 # CONFIG
@@ -32,54 +33,65 @@ mkdir -p "${SRC_DIR}" "${STAGED_DIR}" "${LOG_DIR}"
 echo "=== Grafana ${GRAFANA_VERSION} Staging ===" | tee "${LOG_FILE}"
 
 # ------------------------------------------------------------
+# COMPLETENESS CHECK
+# ------------------------------------------------------------
+is_complete() {
+    [[ -d "${STAGED_DIR}/public" ]] || return 1
+    [[ -d "${STAGED_DIR}/conf" ]] || return 1
+    [[ -f "${STAGED_DIR}/grafana-server" ]] || return 1
+    [[ -f "${STAGED_DIR}/grafana-cli" ]] || return 1
+    return 0
+}
+
+# ------------------------------------------------------------
 # VERSION GATE
 # ------------------------------------------------------------
-# Only skip staging when the recorded version matches this run AND
-# both binaries are actually present on disk. If either binary is
-# missing, fall through and re-stage regardless of what inventory.env
-# says — a partial/interrupted prior run can leave a stale inventory
-# file behind that no longer reflects what's on disk.
+# FIX: was checking ${INVENTORY_FILE}, never defined anywhere in this
+# script (the variable is VERSION_INVENTORY) — under `set -u` that's
+# an immediate "unbound variable" crash before the clone even starts.
 if [[ -f "${VERSION_INVENTORY}" ]]; then
-    # shellcheck disable=SC1090
+    echo "--- Found existing inventory.env ---" | tee -a "${LOG_FILE}"
     source "${VERSION_INVENTORY}"
 
-    if [[ "${STAGED_GRAFANA_VERSION:-}" == "${GRAFANA_VERSION}" ]] \
-       && [[ -f "${STAGED_DIR}/grafana-server" ]] \
-       && [[ -f "${STAGED_DIR}/grafana-cli" ]]; then
+    if [[ "${STAGED_GRAFANA_VERSION:-}" == "${GRAFANA_VERSION}" ]]; then
+        echo "--- Version matches; checking completeness ---" | tee -a "${LOG_FILE}"
 
-        echo "--- Grafana ${GRAFANA_VERSION} already staged and valid ---" | tee -a "${LOG_FILE}"
-        echo "--- Syncing into build structure ---" | tee -a "${LOG_FILE}"
-
-        "${BUILD_SYNC}" "${GRAFANA_VERSION}" | tee -a "${LOG_FILE}"
-        exit 0
+        if is_complete; then
+            echo "--- Staging complete; skipping rebuild ---" | tee -a "${LOG_FILE}"
+            exit 0
+        else
+            echo "--- Staging incomplete; clearing old staging ---" | tee -a "${LOG_FILE}"
+            rm -rf "${SRC_DIR:?}" "${STAGED_DIR:?}"
+        fi
     else
-        echo "--- Inventory found for ${GRAFANA_VERSION} but binaries missing/incomplete; re-staging ---" | tee -a "${LOG_FILE}"
+        echo "--- Version mismatch; clearing old staging ---" | tee -a "${LOG_FILE}"
+        rm -rf "${SRC_DIR:?}" "${STAGED_DIR:?}"
     fi
+else
+    echo "--- No inventory.env found; staging required ---" | tee -a "${LOG_FILE}"
+    rm -rf "${SRC_DIR:?}" "${STAGED_DIR:?}"
 fi
 
-echo "--- Staging required for Grafana ${GRAFANA_VERSION} ---" | tee -a "${LOG_FILE}"
-
-# Remove and recreate the directories themselves rather than globbing
-# their contents. `dir/*` does not match dotfiles (e.g. a leftover
-# .git/ from an interrupted prior clone), so a glob-based cleanup can
-# leave SRC_DIR non-empty; `git clone` then refuses to clone into it
-# ("destination path already exists and is not an empty directory"),
-# which — under `set -euo pipefail` — kills the whole script. This is
-# almost certainly what "stops all work" when a version directory
-# already exists.
-rm -rf "${SRC_DIR:?}" "${STAGED_DIR:?}"
+# FIX: "dir"/* doesn't match dotfiles (.git, .yarn), so a leftover
+# .git/ from an interrupted prior clone survives a glob-based cleanup
+# and makes `git clone` below fail ("already exists and is not an
+# empty directory"). Removing+recreating the directories (above and
+# here) avoids that regardless of what's left behind.
 mkdir -p "${SRC_DIR}" "${STAGED_DIR}"
 
 # ------------------------------------------------------------
-# CLONE SOURCE
+# SHALLOW CLONE
 # ------------------------------------------------------------
-echo "--- Cloning Grafana v${GRAFANA_VERSION} ---" | tee -a "${LOG_FILE}"
-git clone --branch "v${GRAFANA_VERSION}" --depth 1 \
-    "${REPO_URL}" \
-    "${SRC_DIR}" 2>&1 | tee -a "${LOG_FILE}"
+echo "--- Cloning Grafana v${GRAFANA_VERSION} (shallow) ---" | tee -a "${LOG_FILE}"
+
+git clone --depth 1 --branch "v${GRAFANA_VERSION}" \
+    "${REPO_URL}" "${SRC_DIR}" \
+    2>&1 | tee -a "${LOG_FILE}"
+
+echo "--- Clone complete ---" | tee -a "${LOG_FILE}"
 
 # ------------------------------------------------------------
-# RELOCATE BUILD CACHES
+# RELOCATE GO BUILD CACHE
 # ------------------------------------------------------------
 export GOCACHE="/opt/ansible/go-cache"
 export GOMODCACHE="/opt/ansible/go-mod"
@@ -87,29 +99,30 @@ export TMPDIR="/opt/ansible/tmp"
 
 mkdir -p "$GOCACHE" "$GOMODCACHE" "$TMPDIR"
 
+echo "--- Go build cache relocated ---" | tee -a "${LOG_FILE}"
+
+# ------------------------------------------------------------
+# APPLY YARN/NX OVERRIDES
+# ------------------------------------------------------------
+echo "--- Applying Yarn/Nx overrides ---" | tee -a "${LOG_FILE}"
+
+jq '.resolutions += { "node-gyp": "^10.0.0" }' "${SRC_DIR}/package.json" > "${SRC_DIR}/package.new.json"
+mv "${SRC_DIR}/package.new.json" "${SRC_DIR}/package.json"
+
 # ------------------------------------------------------------
 # INSTALL UI DEPENDENCIES
 # ------------------------------------------------------------
-# Debian's yarnpkg package cannot be installed at all in an image that
-# also has NodeSource's Node 22 (its own apt dependency is literally
-# `nodejs (<21) | node-chalk`) — so it's not usable here regardless of
-# install order. Fortunately Grafana vendors the exact Yarn release its
-# build needs directly in its own repo: v12.4.11's .yarnrc.yml sets
-# `yarnPath: .yarn/releases/yarn-4.11.0.cjs`, which lands in SRC_DIR
-# the moment the clone above finishes. Running that file with `node`
-# directly is functionally identical to `yarn <args>` for this project,
-# needs no system-wide yarn/yarnpkg install, and never touches the
-# network — the exact pinned version is already on disk. This also
-# explains the earlier Corepack error: Corepack ignores yarnPath and
-# manages its own version cache off the "packageManager" field, so it
-# tried to fetch 4.11.0 from repo.yarnpkg.com even though the identical
-# file was already sitting in the checkout.
-# COREPACK_ENABLE_NETWORK=0 / COREPACK_ENABLE_DOWNLOAD_PROMPT=0 stay on
-# as a defensive guard in case any postinstall script shells out to
-# `yarn`/`corepack` indirectly; harmless either way since Corepack
-# isn't invoked by the commands below.
+# container-forge/debian13-node22 has no yarn/yarnpkg installed at all
+# (Debian's yarnpkg package depends on nodejs (<21), incompatible with
+# Node 22 no matter the install order) — and Corepack, the other
+# candidate, ignores this project's vendored yarnPath and tries to
+# fetch its pinned version from the network instead. Grafana ships the
+# exact Yarn release it needs directly in its own repo
+# (.yarn/releases/yarn-4.11.0.cjs, per .yarnrc.yml's yarnPath), so we
+# run that file with `node` directly — same result as `yarn install`,
+# no system yarn required, no network fetch needed.
 echo "--- Installing Grafana UI dependencies ---" | tee -a "${LOG_FILE}"
-timeout --signal=KILL 30m docker run --rm \
+timeout --signal=KILL 30m docker run --rm --network host \
   -v "${SRC_DIR}:/workspace" \
   -w /workspace \
   -e NODE_OPTIONS=--max_old_space_size=8000 \
@@ -130,7 +143,7 @@ timeout --signal=KILL 30m docker run --rm \
 # BUILD FRONTEND
 # ------------------------------------------------------------
 echo "--- Building Grafana frontend ---" | tee -a "${LOG_FILE}"
-timeout --signal=KILL 30m docker run --rm \
+timeout --signal=KILL 30m docker run --rm --network host \
   -v "${SRC_DIR}:/workspace" \
   -w /workspace \
   -e NODE_OPTIONS=--max_old_space_size=8000 \
@@ -151,7 +164,12 @@ timeout --signal=KILL 30m docker run --rm \
 # BACKEND BUILD
 # ------------------------------------------------------------
 echo "--- Building Grafana backend ---" | tee -a "${LOG_FILE}"
-timeout --signal=KILL 20m docker run --rm \
+# FIX: GOFLAGS space-splits on whitespace, so an unescaped
+# "-ldflags=-s -w" parses as two flags — "-ldflags=-s" (fine) and a
+# bare "-w" (not a valid top-level go build flag), which would fail
+# this step outright. Escaping the internal space keeps "-s -w"
+# together as one -ldflags value.
+timeout --signal=KILL 20m docker run --rm --network host \
   -v "${SRC_DIR}:/workspace" \
   -v /opt/ansible/go-cache:/opt/go-cache \
   -v /opt/ansible/go-mod:/opt/go-mod \
@@ -161,9 +179,16 @@ timeout --signal=KILL 20m docker run --rm \
   -e GOMODCACHE=/opt/go-mod \
   -e TMPDIR=/opt/tmp \
   -e CGO_ENABLED=0 \
+  -e GOFLAGS="-ldflags=-s\ -w" \
   -e GRAFANA_TAGS=oss \
   container-forge/debian13-go:latest \
   bash -c "make build-go" 2>&1 | tee -a "${LOG_FILE}"
+
+# ------------------------------------------------------------
+# CLEAN-STAGE
+# ------------------------------------------------------------
+echo "--- Running clean-stage.sh ---" | tee -a "${LOG_FILE}"
+/opt/ansible/staged/grafana/scripts/clean-stage.sh "${GRAFANA_VERSION}"
 
 # ------------------------------------------------------------
 # STAGE ARTIFACTS
@@ -173,18 +198,10 @@ echo "--- Staging Grafana artifacts ---" | tee -a "${LOG_FILE}"
 cp -r "${SRC_DIR}/public" "${STAGED_DIR}/public"
 cp -r "${SRC_DIR}/conf" "${STAGED_DIR}/conf"
 
-[[ -d "${SRC_DIR}/provisioning" ]] \
-  && cp -r "${SRC_DIR}/provisioning" "${STAGED_DIR}/provisioning"
-[[ -d "${SRC_DIR}/plugins" ]] \
-  && cp -r "${SRC_DIR}/plugins" "${STAGED_DIR}/plugins"
+[[ -d "${SRC_DIR}/provisioning" ]] && cp -r "${SRC_DIR}/provisioning" "${STAGED_DIR}/provisioning"
+[[ -d "${SRC_DIR}/plugins" ]] && cp -r "${SRC_DIR}/plugins" "${STAGED_DIR}/plugins"
 
 find "${SRC_DIR}/bin" -type f -name 'grafana*' -exec cp {} "${STAGED_DIR}/" \;
-
-# ------------------------------------------------------------
-# CLEAN-STAGE
-# ------------------------------------------------------------
-echo "--- Running clean-stage.sh ---" | tee -a "${LOG_FILE}"
-/opt/ansible/staged/grafana/scripts/clean-stage.sh "${GRAFANA_VERSION}"
 
 # ------------------------------------------------------------
 # WRITE VERSION INVENTORY
