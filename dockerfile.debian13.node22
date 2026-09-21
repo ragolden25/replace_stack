@@ -1,8 +1,8 @@
 # Dockerfile.debian13.node22
 FROM container-forge/debian13-slim:latest
- 
+
 ENV DEBIAN_FRONTEND=noninteractive
- 
+
 RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
@@ -11,15 +11,24 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     git \
     xz-utils \
-    yarnpkg \
     yq \
     && rm -rf /var/lib/apt/lists/*
- 
+
+# Install NodeSource's nodejs BEFORE yarnpkg, not after. yarnpkg
+# previously installed here first, pulling in whatever nodejs Debian's
+# own repo provided as its dependency; the NodeSource swap that
+# followed then replaced that nodejs out from under it, which is the
+# most likely reason yarnpkg ended up missing/non-functional by the
+# end of the build. Resolving yarnpkg's dependency against the nodejs
+# version this image actually ships avoids that.
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
- 
+
+RUN apt-get update && apt-get install -y yarnpkg \
+    && rm -rf /var/lib/apt/lists/*
+
 # Corepack intentionally NOT enabled. Enabling it installs shims for
 # yarn/yarnpkg/pnpm/pnpx into /usr/local/bin, which resolves ahead of
 # /usr/bin on PATH — so those shims silently shadow the apt-installed,
@@ -32,11 +41,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 # Corepack off means yarn/yarnpkg always resolve to the one real,
 # signed, locally-repo'd package installed above — deterministic
 # across every build that uses this image.
- 
+
 # Symlink yarn -> yarnpkg: Debian packages the classic Yarn CLI as
 # `yarnpkg` (the `yarn` name collides with an unrelated Debian
 # package), but some projects' build tooling invokes the bare `yarn`
 # command. This makes both names resolve to the same real binary.
 RUN ln -sf /usr/bin/yarnpkg /usr/bin/yarn
- 
+
 WORKDIR /src
