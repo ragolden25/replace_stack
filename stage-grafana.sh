@@ -9,7 +9,6 @@ REPO_URL=https://github.com/grafana/grafana.git
 REPO_MODULE="github.com/grafana/grafana"
 
 STAGED_ROOT="/opt/ansible/staged/grafana"
-GLOBAL_INVENTORY="/opt/ansible/staged/grafana/inventory.env"
 BUILD_SYNC="/opt/ansible/build/grafana_stack/grafana/scripts/sync-latest-version.sh"
 
 # ------------------------------------------------------------
@@ -29,7 +28,13 @@ LOG_FILE="${LOG_DIR}/stage_grafana_${GRAFANA_VERSION}.log"
 # sync-latest-version.sh reads inventory.env from inside staged/ (it
 # copies that directory tree into the build area and wants the version
 # marker to travel with it) — write it there, not at BASE_DIR.
+# FIX: GLOBAL_INVENTORY was a fixed, non-versioned path
+# (/opt/ansible/staged/grafana/inventory.env) set before GRAFANA_VERSION
+# was even known — it never pointed inside any version's staged/ dir.
+# Both inventory files now live in the same place the sync script
+# actually reads from: STAGED_DIR.
 VERSION_INVENTORY="${STAGED_DIR}/inventory.env"
+GLOBAL_INVENTORY="${STAGED_DIR}/inventory.env"
 
 mkdir -p "${SRC_DIR}" "${STAGED_DIR}" "${LOG_DIR}"
 
@@ -215,15 +220,16 @@ echo "--- Running clean-stage.sh ---" | tee -a "${LOG_FILE}"
 /opt/ansible/staged/grafana/scripts/clean-stage.sh "${GRAFANA_VERSION}"
 
 # ------------------------------------------------------------
-# WRITE VERSION INVENTORY
+# WRITE INVENTORY
 # ------------------------------------------------------------
+# FIX: VERSION_INVENTORY and GLOBAL_INVENTORY now resolve to the same
+# path (STAGED_DIR/inventory.env), so this used to be two separate
+# `cat >` writes to the same file — the second (GLOBAL_INVENTORY) would
+# silently clobber the first and drop STAGED_GRAFANA_VERSION, which the
+# VERSION GATE check above depends on via `source`. Written once, with
+# both keys, instead.
 cat << EOF > "${VERSION_INVENTORY}"
 STAGED_GRAFANA_VERSION=${GRAFANA_VERSION}
-STAGED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-EOF
-
-# Also write global inventory for build sync
-cat << EOF > "${GLOBAL_INVENTORY}"
 LATEST_STAGED_GRAFANA_VERSION=${GRAFANA_VERSION}
 STAGED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 EOF
