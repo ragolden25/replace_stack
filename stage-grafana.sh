@@ -109,7 +109,7 @@ mkdir -p "$GOCACHE" "$GOMODCACHE" "$TMPDIR"
 # `yarn`/`corepack` indirectly; harmless either way since Corepack
 # isn't invoked by the commands below.
 echo "--- Installing Grafana UI dependencies ---" | tee -a "${LOG_FILE}"
-docker run --rm \
+timeout --signal=KILL 30m docker run --rm \
   -v "${SRC_DIR}:/workspace" \
   -w /workspace \
   -e NODE_OPTIONS=--max_old_space_size=8000 \
@@ -130,7 +130,7 @@ docker run --rm \
 # BUILD FRONTEND
 # ------------------------------------------------------------
 echo "--- Building Grafana frontend ---" | tee -a "${LOG_FILE}"
-docker run --rm \
+timeout --signal=KILL 30m docker run --rm \
   -v "${SRC_DIR}:/workspace" \
   -w /workspace \
   -e NODE_OPTIONS=--max_old_space_size=8000 \
@@ -151,7 +151,7 @@ docker run --rm \
 # BACKEND BUILD
 # ------------------------------------------------------------
 echo "--- Building Grafana backend ---" | tee -a "${LOG_FILE}"
-docker run --rm \
+timeout --signal=KILL 20m docker run --rm \
   -v "${SRC_DIR}:/workspace" \
   -v /opt/ansible/go-cache:/opt/go-cache \
   -v /opt/ansible/go-mod:/opt/go-mod \
