@@ -14,38 +14,30 @@ RUN apt-get update && apt-get install -y \
     yq \
     && rm -rf /var/lib/apt/lists/*
 
-# Install NodeSource's nodejs BEFORE yarnpkg, not after. yarnpkg
-# previously installed here first, pulling in whatever nodejs Debian's
-# own repo provided as its dependency; the NodeSource swap that
-# followed then replaced that nodejs out from under it, which is the
-# most likely reason yarnpkg ended up missing/non-functional by the
-# end of the build. Resolving yarnpkg's dependency against the nodejs
-# version this image actually ships avoids that.
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y yarnpkg \
-    && rm -rf /var/lib/apt/lists/*
-
-# Corepack intentionally NOT enabled. Enabling it installs shims for
-# yarn/yarnpkg/pnpm/pnpx into /usr/local/bin, which resolves ahead of
-# /usr/bin on PATH — so those shims silently shadow the apt-installed,
-# dpkg-tracked yarnpkg above, and any build step that invokes yarn (by
-# either name) ends up routed through Corepack instead. Corepack then
-# tries to fetch whatever package-manager version a project's
-# package.json happens to pin from the network (repo.yarnpkg.com),
-# which is both a network dependency this pipeline can't rely on and a
-# source of version drift outside local-repo/dpkg provenance. Keeping
-# Corepack off means yarn/yarnpkg always resolve to the one real,
-# signed, locally-repo'd package installed above — deterministic
-# across every build that uses this image.
-
-# Symlink yarn -> yarnpkg: Debian packages the classic Yarn CLI as
-# `yarnpkg` (the `yarn` name collides with an unrelated Debian
-# package), but some projects' build tooling invokes the bare `yarn`
-# command. This makes both names resolve to the same real binary.
-RUN ln -sf /usr/bin/yarnpkg /usr/bin/yarn
+# No system-wide yarn/yarnpkg install, and Corepack intentionally NOT
+# enabled. Debian's yarnpkg package depends on `nodejs (<21) |
+# node-chalk` — it cannot be installed in this image at all once Node
+# 22 is present, no matter the install order, so there's no version of
+# "install yarnpkg here" that works. Corepack was the other candidate
+# (it can fetch any pinned Yarn/pnpm version on demand), but that
+# requires reaching the network at build time, which this pipeline
+# can't rely on, and it also ignores a project's own vendored
+# `yarnPath` release, fetching from the network even when the exact
+# pinned version is already sitting in the checkout.
+#
+# The pattern that actually works, used by this image's downstream
+# staging scripts: modern Yarn Berry / Corepack-driven projects
+# (Grafana included) vendor their own pinned package-manager binary in
+# the repo itself (.yarn/releases/*.cjs, referenced by .yarnrc.yml's
+# yarnPath). Invoke that file directly with `node` from the staging
+# script — it's the exact version the project needs, already on disk
+# from the git clone, no network and no system-wide yarn required.
+# `npm` ships with the nodejs package above for anything that only
+# needs npm.
 
 WORKDIR /src
