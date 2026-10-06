@@ -1,3 +1,7 @@
+namei -l /var/lib/node_exporter/textfile; ls -dZ /var/lib/node_exporter /var/lib/node_exporter/textfile /usr/local/bin/node_exporter; ausearch -m avc -ts today 2>/dev/null | tail -5
+
+
+
 [root@ansible-forge lib]# journalctl -u node_exporter --no-pager -n 40 | grep -i textfile
 Oct 06 08:25:24 ansible-forge node_exporter[1732878]: ts=2026-10-06T12:25:24.790Z caller=textfile.go:210 level=error collector=textfile msg="failed to read textfile collector directory" path=/var/lib/node_exporter/textfile err="open /var/lib/node_exporter/textfile: permission denied"
 Oct 06 08:25:29 ansible-forge node_exporter[1732878]: ts=2026-10-06T12:25:29.784Z caller=textfile.go:210 level=error collector=textfile msg="failed to read textfile collector directory" path=/var/lib/node_exporter/textfile err="open /var/lib/node_exporter/textfile: permission denied"
