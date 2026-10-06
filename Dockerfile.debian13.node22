@@ -1,0 +1,43 @@
+# Dockerfile.debian13.node22
+FROM container-forge/debian13-slim:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    python3 \
+    python3-pip \
+    build-essential \
+    git \
+    xz-utils \
+    yq \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get update \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# No system-wide yarn/yarnpkg install, and Corepack intentionally NOT
+# enabled. Debian's yarnpkg package depends on `nodejs (<21) |
+# node-chalk` — it cannot be installed in this image at all once Node
+# 22 is present, no matter the install order, so there's no version of
+# "install yarnpkg here" that works. Corepack was the other candidate
+# (it can fetch any pinned Yarn/pnpm version on demand), but that
+# requires reaching the network at build time, which this pipeline
+# can't rely on, and it also ignores a project's own vendored
+# `yarnPath` release, fetching from the network even when the exact
+# pinned version is already sitting in the checkout.
+#
+# The pattern that actually works, used by this image's downstream
+# staging scripts: modern Yarn Berry / Corepack-driven projects
+# (Grafana included) vendor their own pinned package-manager binary in
+# the repo itself (.yarn/releases/*.cjs, referenced by .yarnrc.yml's
+# yarnPath). Invoke that file directly with `node` from the staging
+# script — it's the exact version the project needs, already on disk
+# from the git clone, no network and no system-wide yarn required.
+# `npm` ships with the nodejs package above for anything that only
+# needs npm.
+
+WORKDIR /src
