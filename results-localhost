@@ -1,0 +1,26 @@
+root@container-forge:~/bin# curl -s localhost:9100/metrics | grep -E 'node_textfile_scrape_error|pipeline_info.*postgres18'
+# HELP node_textfile_scrape_error 1 if there was an error opening or reading a file, 0 otherwise
+# TYPE node_textfile_scrape_error gauge
+node_textfile_scrape_error 0
+pipeline_info{host="container-forge",target="debian13-postgres18",type="build",version="f4c0ee3c6bd7"} 1
+
+
+
+[root@ansible-forge playbooks]# curl -s localhost:9100/metrics | grep -E 'node_textfile_scrape_error|pipeline_info.*postgres18'
+# HELP node_textfile_scrape_error 1 if there was an error opening or reading a file, 0 otherwise
+# TYPE node_textfile_scrape_error gauge
+node_textfile_scrape_error 1
+
+[root@ansible-forge playbooks]# cd /var/lib/node_exporter/
+[root@ansible-forge node_exporter]# cd ..
+[root@ansible-forge lib]# ll node_exporter/
+total 4
+drwxrwxr-t. 2 ansible node_exporter 4096 Oct  6 06:02 textfile
+[root@ansible-forge lib]# ll node_exporter/textfile/
+total 24
+-rw-r--r--. 1 ansible node_exporter 1124 Oct  6 06:00 pipeline_sync_debian13_base.prom
+-rw-r--r--. 1 ansible node_exporter 1114 Oct  6 06:00 pipeline_sync_debian13_go.prom
+-rw-r--r--. 1 ansible node_exporter 1134 Oct  6 06:01 pipeline_sync_debian13_node20.prom
+-rw-r--r--. 1 ansible node_exporter 1134 Oct  6 06:01 pipeline_sync_debian13_node22.prom
+-rw-r--r--. 1 ansible node_exporter 1154 Oct  6 06:02 pipeline_sync_debian13_postgres18.prom
+-rw-r--r--. 1 ansible node_exporter 1072 Oct  6 06:00 pipeline_sync_setup.prom
