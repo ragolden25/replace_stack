@@ -24,14 +24,14 @@
     },
     {
       "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
+      "id": "table",
+      "name": "Table",
       "version": ""
     },
     {
       "type": "panel",
-      "id": "table",
-      "name": "Table",
+      "id": "text",
+      "name": "Text",
       "version": ""
     },
     {
@@ -42,8 +42,8 @@
     }
   ],
   "uid": "pipeline-status",
-  "title": "Nucleus Pipeline Status",
-  "description": "Build, sync, package and vulnerability status for the Debian 13 image pipeline. Fed by emit_event.sh via node_exporter textfile collector.",
+  "title": "Nucleus Pipelines Status",
+  "description": "Trixie packages -> container-forge base images -> ansible-forge staging, sync, builds and scans. Fed by emit_event.sh and the scan/build metric scripts via node_exporter's textfile collector.",
   "tags": [
     "pipeline",
     "containers"
@@ -51,7 +51,7 @@
   "timezone": "browser",
   "editable": true,
   "graphTooltip": 1,
-  "refresh": "5m",
+  "refresh": "1m",
   "schemaVersion": 39,
   "version": 1,
   "time": {
@@ -64,7 +64,7 @@
         "name": "severity",
         "label": "Severity (over-time panels)",
         "type": "custom",
-        "query": "Critical,High,Medium,Low,Negligible",
+        "query": "Critical,High,Medium,Low",
         "multi": false,
         "includeAll": false,
         "options": [
@@ -87,11 +87,6 @@
             "text": "Low",
             "value": "Low",
             "selected": false
-          },
-          {
-            "text": "Negligible",
-            "value": "Negligible",
-            "selected": false
           }
         ],
         "current": {
@@ -109,8 +104,8 @@
     {
       "id": 1,
       "type": "stat",
-      "title": "Base image builds (container-forge, daily 0500)",
-      "description": "Result of the last build of each base image.",
+      "title": "Current date / time",
+      "description": "Time of the last dashboard refresh (refreshes every minute).",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
@@ -118,8 +113,8 @@
       "gridPos": {
         "x": 0,
         "y": 0,
-        "w": 8,
-        "h": 6
+        "w": 6,
+        "h": 3
       },
       "targets": [
         {
@@ -127,54 +122,21 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "pipeline_last_status{type=\"build\"} or on(target) label_replace(vector(-1), \"target\", \"debian13-base\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-go\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node20\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node22\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-postgres18\", \"\", \"\")",
+          "expr": "time() * 1000",
           "instant": true,
           "range": false,
-          "legendFormat": "{{target}}",
+          "legendFormat": "",
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "1": {
-                  "text": "✔ OK",
-                  "color": "#0ca30c",
-                  "index": 0
-                },
-                "0": {
-                  "text": "✖ FAILED",
-                  "color": "#d03b3b",
-                  "index": 1
-                },
-                "-1": {
-                  "text": "… NOT REPORTING YET",
-                  "color": "#fab219",
-                  "index": 2
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#d03b3b",
-                "value": null
-              },
-              {
-                "color": "#0ca30c",
-                "value": 1
-              }
-            ]
-          },
+          "unit": "dateTimeAsLocal",
           "color": {
-            "mode": "thresholds"
+            "mode": "fixed",
+            "fixedColor": "#8b8b85"
           },
-          "noValue": "no data yet"
+          "noValue": "-"
         },
         "overrides": []
       },
@@ -186,8 +148,8 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
-        "colorMode": "background",
+        "textMode": "value",
+        "colorMode": "none",
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto"
@@ -195,18 +157,33 @@
     },
     {
       "id": 2,
+      "type": "text",
+      "title": "Pipeline flow",
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 14,
+        "h": 3
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "**1. Trixie** builds nginx / openssl packages (weekly) &nbsp;→&nbsp; **2. container-forge** builds the base images (daily 0500) &nbsp;→&nbsp; **3. ansible-forge** stages binaries (weekly), syncs base images (0600), builds the Guacamole / Grafana stacks and scans every image."
+      }
+    },
+    {
+      "id": 3,
       "type": "stat",
-      "title": "Base image syncs (ansible-forge, daily 0600)",
-      "description": "Result of the last sync/load of each base image. A 'setup' tile (GPG key / quarter step) appears only if that step fails.",
+      "title": "Pipeline hosts",
+      "description": "Exporter reachable? A red host means the metrics beside it may be stale. Filter is HOST_REGEX at the top of build_dashboard.py.",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
-        "x": 8,
+        "x": 20,
         "y": 0,
-        "w": 8,
-        "h": 6
+        "w": 4,
+        "h": 24
       },
       "targets": [
         {
@@ -214,10 +191,10 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "pipeline_last_status{type=\"sync\",target!=\"setup\"} or (pipeline_last_status{type=\"sync\",target=\"setup\"} == 0) or on(target) label_replace(vector(-1), \"target\", \"debian13-base\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-go\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node20\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node22\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-postgres18\", \"\", \"\")",
+          "expr": "up{job=~\"(?i).*(trixie|ansible.?forge|container.?forge).*\"}",
           "instant": true,
           "range": false,
-          "legendFormat": "{{target}}",
+          "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
@@ -228,12 +205,12 @@
               "type": "value",
               "options": {
                 "1": {
-                  "text": "✔ OK",
+                  "text": "✔ UP",
                   "color": "#0ca30c",
                   "index": 0
                 },
                 "0": {
-                  "text": "✖ FAILED",
+                  "text": "✖ DOWN",
                   "color": "#d03b3b",
                   "index": 1
                 },
@@ -277,23 +254,23 @@
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "center",
-        "orientation": "auto"
+        "orientation": "vertical"
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "type": "stat",
-      "title": "Trixie package builds (weekly, Wednesday)",
-      "description": "Result of the last weekly nginx / openssl package job on Trixie.",
+      "title": "TRIXIE · package builds (weekly, Wednesday)",
+      "description": "Result of the last weekly nginx / openssl package job.",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
-        "x": 16,
-        "y": 0,
-        "w": 8,
-        "h": 6
+        "x": 0,
+        "y": 3,
+        "w": 6,
+        "h": 7
       },
       "targets": [
         {
@@ -368,257 +345,19 @@
       }
     },
     {
-      "id": 4,
-      "type": "stat",
-      "title": "Base image in sync?",
-      "description": "Green when container-forge's build digest equals the digest ansible-forge synced. Red if they differ, or if either side hasn't reported (or a failed run reported no digest).",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "gridPos": {
-        "x": 0,
-        "y": 6,
-        "w": 8,
-        "h": 8
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "(count by (target) (pipeline_info{type=~\"build|sync\", target=~\"debian13-.+\"}) == bool 2) * (count by (target) (count by (target, version) (pipeline_info{type=~\"build|sync\", target=~\"debian13-.+\"})) == bool 1) or on(target) label_replace(vector(0), \"target\", \"debian13-base\", \"\", \"\") or on(target) label_replace(vector(0), \"target\", \"debian13-go\", \"\", \"\") or on(target) label_replace(vector(0), \"target\", \"debian13-node20\", \"\", \"\") or on(target) label_replace(vector(0), \"target\", \"debian13-node22\", \"\", \"\") or on(target) label_replace(vector(0), \"target\", \"debian13-postgres18\", \"\", \"\")",
-          "instant": true,
-          "range": false,
-          "legendFormat": "{{target}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "1": {
-                  "text": "✔ IN SYNC",
-                  "color": "#0ca30c",
-                  "index": 0
-                },
-                "0": {
-                  "text": "✖ DIFFERENT / MISSING",
-                  "color": "#d03b3b",
-                  "index": 1
-                },
-                "-1": {
-                  "text": "… NOT REPORTING YET",
-                  "color": "#fab219",
-                  "index": 2
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#d03b3b",
-                "value": null
-              },
-              {
-                "color": "#0ca30c",
-                "value": 1
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          },
-          "noValue": "no data yet"
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value_and_name",
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto"
-      }
-    },
-    {
       "id": 5,
-      "type": "bargauge",
-      "title": "How overdue is each job?  (1.0 = one full expected interval since last run)",
-      "description": "Time since the job last ran, divided by how often it should run. Daily jobs use 24h, weekly jobs 7 days. Amber past 1.25, red past 2.",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "gridPos": {
-        "x": 8,
-        "y": 6,
-        "w": 16,
-        "h": 8
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "(time() - pipeline_last_run_timestamp_seconds{target!=\"setup\"}) / (pipeline_expected_interval_seconds{target!=\"setup\"} > 0)",
-          "instant": true,
-          "range": false,
-          "legendFormat": "{{type}} / {{target}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "decimals": 2,
-          "min": 0,
-          "max": 3,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#0ca30c",
-                "value": null
-              },
-              {
-                "color": "#fab219",
-                "value": 1.25
-              },
-              {
-                "color": "#d03b3b",
-                "value": 2
-              }
-            ]
-          },
-          "noValue": "no data yet"
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "orientation": "horizontal",
-        "displayMode": "basic",
-        "valueMode": "color",
-        "showUnfilled": true,
-        "minVizHeight": 16,
-        "minVizWidth": 8
-      }
-    },
-    {
-      "id": 6,
       "type": "table",
-      "title": "Time since last successful run",
-      "description": "For a job that is currently failing, this is how long ago it last worked.",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "gridPos": {
-        "x": 0,
-        "y": 14,
-        "w": 12,
-        "h": 8
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "(time() - pipeline_last_success_timestamp_seconds{target!=\"setup\"}) and (pipeline_last_success_timestamp_seconds{target!=\"setup\"} > 0)",
-          "instant": true,
-          "range": false,
-          "legendFormat": "",
-          "refId": "A",
-          "format": "table"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true,
-              "__name__": true,
-              "job": true,
-              "instance": true
-            },
-            "renameByName": {
-              "Value": "Since last success",
-              "type": "Step",
-              "target": "Target",
-              "host": "Host"
-            }
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "noValue": "no data yet"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Since last success"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "dtdurations"
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "showHeader": true,
-        "sortBy": [
-          {
-            "displayName": "Since last success",
-            "desc": true
-          }
-        ]
-      }
-    },
-    {
-      "id": 7,
-      "type": "table",
-      "title": "Trixie package versions",
+      "title": "TRIXIE · package versions",
       "description": "'repo' = newest upstream version seen on the last weekly run. 'repo-new' = version of the last package that was actually built.",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
-        "x": 12,
-        "y": 14,
-        "w": 6,
-        "h": 8
+        "x": 6,
+        "y": 3,
+        "w": 7,
+        "h": 7
       },
       "targets": [
         {
@@ -665,18 +404,18 @@
       }
     },
     {
-      "id": 8,
+      "id": 6,
       "type": "table",
-      "title": "Last new package built",
+      "title": "TRIXIE · last new package built",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
-        "x": 18,
-        "y": 14,
-        "w": 6,
-        "h": 8
+        "x": 13,
+        "y": 3,
+        "w": 7,
+        "h": 7
       },
       "targets": [
         {
@@ -735,9 +474,503 @@
       }
     },
     {
-      "id": 9,
+      "id": 7,
+      "type": "stat",
+      "title": "CONTAINER-FORGE · base image builds (daily 0500)",
+      "description": "Result of the last build of each base image.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 10,
+        "w": 10,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_last_status{type=\"build\"} or on(target) label_replace(vector(-1), \"target\", \"debian13-base\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-go\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node20\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node22\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-postgres18\", \"\", \"\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "✔ OK",
+                  "color": "#0ca30c",
+                  "index": 0
+                },
+                "0": {
+                  "text": "✖ FAILED",
+                  "color": "#d03b3b",
+                  "index": 1
+                },
+                "-1": {
+                  "text": "… NOT REPORTING YET",
+                  "color": "#fab219",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d03b3b",
+                "value": null
+              },
+              {
+                "color": "#0ca30c",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto"
+      }
+    },
+    {
+      "id": 8,
       "type": "table",
-      "title": "Vulnerabilities by image - ccop (latest scan)",
+      "title": "CONTAINER-FORGE · digest of each base image built",
+      "description": "The digest the 0500 build produced. ansible-forge's sync should report the same one.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 10,
+        "y": 10,
+        "w": 10,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_info{type=\"build\"}",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true,
+              "host": true,
+              "type": true,
+              "Value": true
+            },
+            "renameByName": {
+              "target": "Image",
+              "version": "Digest"
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true
+      }
+    },
+    {
+      "id": 9,
+      "type": "stat",
+      "title": "ANSIBLE-FORGE · staged binaries (weekly)",
+      "description": "Result of the last staging run for each binary.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 5,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_last_status{type=\"stage\"} or on(target) label_replace(vector(-1), \"target\", \"grafana\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"idrac\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"postgres\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"prometheus\", \"\", \"\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "✔ OK",
+                  "color": "#0ca30c",
+                  "index": 0
+                },
+                "0": {
+                  "text": "✖ FAILED",
+                  "color": "#d03b3b",
+                  "index": 1
+                },
+                "-1": {
+                  "text": "… NOT REPORTING YET",
+                  "color": "#fab219",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d03b3b",
+                "value": null
+              },
+              {
+                "color": "#0ca30c",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto"
+      }
+    },
+    {
+      "id": 10,
+      "type": "stat",
+      "title": "ANSIBLE-FORGE · base image syncs (daily 0600)",
+      "description": "Result of the last sync/load of each base image. A 'setup' tile (GPG key / quarter step) appears only if that step fails.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 5,
+        "y": 17,
+        "w": 5,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_last_status{type=\"sync\",target!=\"setup\"} or (pipeline_last_status{type=\"sync\",target=\"setup\"} == 0) or on(target) label_replace(vector(-1), \"target\", \"debian13-base\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-go\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node20\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-node22\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"debian13-postgres18\", \"\", \"\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "✔ OK",
+                  "color": "#0ca30c",
+                  "index": 0
+                },
+                "0": {
+                  "text": "✖ FAILED",
+                  "color": "#d03b3b",
+                  "index": 1
+                },
+                "-1": {
+                  "text": "… NOT REPORTING YET",
+                  "color": "#fab219",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d03b3b",
+                "value": null
+              },
+              {
+                "color": "#0ca30c",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto"
+      }
+    },
+    {
+      "id": 11,
+      "type": "stat",
+      "title": "ANSIBLE-FORGE · stack builds",
+      "description": "Result of the last Guacamole / Grafana build.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 10,
+        "y": 17,
+        "w": 5,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_last_status{type=\"stack\"} or on(target) label_replace(vector(-1), \"target\", \"guacamole\", \"\", \"\") or on(target) label_replace(vector(-1), \"target\", \"grafana\", \"\", \"\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "✔ OK",
+                  "color": "#0ca30c",
+                  "index": 0
+                },
+                "0": {
+                  "text": "✖ FAILED",
+                  "color": "#d03b3b",
+                  "index": 1
+                },
+                "-1": {
+                  "text": "… NOT REPORTING YET",
+                  "color": "#fab219",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d03b3b",
+                "value": null
+              },
+              {
+                "color": "#0ca30c",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto"
+      }
+    },
+    {
+      "id": 12,
+      "type": "stat",
+      "title": "ANSIBLE-FORGE · image scans",
+      "description": "Result of the last scan of each image.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 15,
+        "y": 17,
+        "w": 5,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "pipeline_last_status{type=\"scan\"}",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{target}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "✔ OK",
+                  "color": "#0ca30c",
+                  "index": 0
+                },
+                "0": {
+                  "text": "✖ FAILED",
+                  "color": "#d03b3b",
+                  "index": 1
+                },
+                "-1": {
+                  "text": "… NOT REPORTING YET",
+                  "color": "#fab219",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d03b3b",
+                "value": null
+              },
+              {
+                "color": "#0ca30c",
+                "value": 1
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "no data yet"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto"
+      }
+    },
+    {
+      "id": 13,
+      "type": "table",
+      "title": "VULNERABILITIES by image · ccop (latest scan)",
       "description": "Findings from each image's most recent scan. One row per image; images are never added together.",
       "datasource": {
         "type": "prometheus",
@@ -745,7 +978,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 22,
+        "y": 24,
         "w": 8,
         "h": 9
       },
@@ -891,9 +1124,9 @@
       }
     },
     {
-      "id": 10,
+      "id": 14,
       "type": "table",
-      "title": "Vulnerabilities by image - nucleus (latest scan)",
+      "title": "VULNERABILITIES by image · nucleus (latest scan)",
       "description": "Findings from each image's most recent scan. One row per image; images are never added together.",
       "datasource": {
         "type": "prometheus",
@@ -901,7 +1134,7 @@
       },
       "gridPos": {
         "x": 8,
-        "y": 22,
+        "y": 24,
         "w": 8,
         "h": 9
       },
@@ -1047,9 +1280,9 @@
       }
     },
     {
-      "id": 11,
+      "id": 15,
       "type": "table",
-      "title": "Vulnerabilities by image - container-forge base images (latest scan)",
+      "title": "VULNERABILITIES by image · container-forge base images (latest scan)",
       "description": "Findings from each image's most recent scan. One row per image; images are never added together.",
       "datasource": {
         "type": "prometheus",
@@ -1057,7 +1290,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 22,
+        "y": 24,
         "w": 8,
         "h": 9
       },
@@ -1203,9 +1436,470 @@
       }
     },
     {
-      "id": 12,
+      "id": 16,
+      "type": "table",
+      "title": "TOP 10 vulnerabilities · ccop",
+      "description": "Worst findings across this pipeline's images, ranked by severity then CVSS. 'Package' says what it pertains to; 'Images' is how many images carry it.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "topk(10, max by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"ccop/.+\"}))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "count by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"ccop/.+\"}) and on(cve, package, severity, cvss, fix_state) topk(10, max by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"ccop/.+\"}))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "B",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Value #A",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true,
+              "image": true,
+              "host": true,
+              "Value #A": true
+            },
+            "renameByName": {
+              "cve": "CVE",
+              "package": "Package",
+              "severity": "Severity",
+              "cvss": "CVSS",
+              "fix_state": "Fix",
+              "Value #B": "Images"
+            },
+            "indexByName": {
+              "cve": 0,
+              "package": 1,
+              "severity": 2,
+              "cvss": 3,
+              "fix_state": 4,
+              "Value #B": 5
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "no scan data yet",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Severity"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "Critical": {
+                        "color": "#d03b3b",
+                        "index": 0
+                      },
+                      "High": {
+                        "color": "#ec835a",
+                        "index": 1
+                      },
+                      "Medium": {
+                        "color": "#fab219",
+                        "index": 2
+                      },
+                      "Low": {
+                        "color": "#8b8b85",
+                        "index": 3
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 17,
+      "type": "table",
+      "title": "TOP 10 vulnerabilities · nucleus",
+      "description": "Worst findings across this pipeline's images, ranked by severity then CVSS. 'Package' says what it pertains to; 'Images' is how many images carry it.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 33,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "topk(10, max by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"nucleus/.+\"}))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "count by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"nucleus/.+\"}) and on(cve, package, severity, cvss, fix_state) topk(10, max by (cve, package, severity, cvss, fix_state) (image_top_vuln{image=~\"nucleus/.+\"}))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "B",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Value #A",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true,
+              "image": true,
+              "host": true,
+              "Value #A": true
+            },
+            "renameByName": {
+              "cve": "CVE",
+              "package": "Package",
+              "severity": "Severity",
+              "cvss": "CVSS",
+              "fix_state": "Fix",
+              "Value #B": "Images"
+            },
+            "indexByName": {
+              "cve": 0,
+              "package": 1,
+              "severity": 2,
+              "cvss": 3,
+              "fix_state": 4,
+              "Value #B": 5
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "no scan data yet",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Severity"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "Critical": {
+                        "color": "#d03b3b",
+                        "index": 0
+                      },
+                      "High": {
+                        "color": "#ec835a",
+                        "index": 1
+                      },
+                      "Medium": {
+                        "color": "#fab219",
+                        "index": 2
+                      },
+                      "Low": {
+                        "color": "#8b8b85",
+                        "index": 3
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 18,
+      "type": "table",
+      "title": "JOB FRESHNESS · when did each job last run?",
+      "description": "Last run / last success are 'how long ago'. 'Due every' is how often the job should run (on demand = no schedule). 'Overdue by' stays 0 until a scheduled job misses its slot.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 33,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "label_join(time() - pipeline_last_run_timestamp_seconds{target!=\"setup\"}, \"job_step\", \" / \", \"type\", \"target\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "label_join((time() - pipeline_last_success_timestamp_seconds{target!=\"setup\"}) and (pipeline_last_success_timestamp_seconds{target!=\"setup\"} > 0), \"job_step\", \" / \", \"type\", \"target\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "B",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "label_join(pipeline_expected_interval_seconds{target!=\"setup\"} + 0, \"job_step\", \" / \", \"type\", \"target\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "C",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "label_join(clamp_min(time() - pipeline_last_run_timestamp_seconds{target!=\"setup\"} - pipeline_expected_interval_seconds{target!=\"setup\"}, 0) and (pipeline_expected_interval_seconds{target!=\"setup\"} > 0), \"job_step\", \" / \", \"type\", \"target\")",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "D",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Value #D",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true,
+              "type": true,
+              "target": true,
+              "host": true
+            },
+            "renameByName": {
+              "job_step": "Job",
+              "Value #A": "Last run",
+              "Value #B": "Last success",
+              "Value #C": "Due every",
+              "Value #D": "Overdue by"
+            },
+            "indexByName": {
+              "job_step": 0,
+              "Value #A": 1,
+              "Value #B": 2,
+              "Value #C": 3,
+              "Value #D": 4
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "no data yet",
+          "unit": "s",
+          "decimals": 1
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Due every"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "on demand",
+                        "index": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Overdue by"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#0ca30c",
+                      "value": null
+                    },
+                    {
+                      "color": "#d03b3b",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 19,
       "type": "timeseries",
-      "title": "$severity findings over time by image - ccop",
+      "title": "$severity findings over time by image · ccop",
       "description": "One line per image, at each scan. Pick the severity with the dropdown at the top.",
       "datasource": {
         "type": "prometheus",
@@ -1213,7 +1907,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 31,
+        "y": 43,
         "w": 8,
         "h": 8
       },
@@ -1261,9 +1955,9 @@
       }
     },
     {
-      "id": 13,
+      "id": 20,
       "type": "timeseries",
-      "title": "$severity findings over time by image - nucleus",
+      "title": "$severity findings over time by image · nucleus",
       "description": "One line per image, at each scan. Pick the severity with the dropdown at the top.",
       "datasource": {
         "type": "prometheus",
@@ -1271,7 +1965,7 @@
       },
       "gridPos": {
         "x": 8,
-        "y": 31,
+        "y": 43,
         "w": 8,
         "h": 8
       },
@@ -1319,9 +2013,9 @@
       }
     },
     {
-      "id": 14,
+      "id": 21,
       "type": "timeseries",
-      "title": "$severity findings over time by image - container-forge base images",
+      "title": "$severity findings over time by image · container-forge base images",
       "description": "One line per image, at each scan. Pick the severity with the dropdown at the top.",
       "datasource": {
         "type": "prometheus",
@@ -1329,7 +2023,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 31,
+        "y": 43,
         "w": 8,
         "h": 8
       },
@@ -1374,93 +2068,6 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
-    },
-    {
-      "id": 15,
-      "type": "stat",
-      "title": "Monitored hosts (exporter reachable)",
-      "description": "A red host here means its metrics above may be stale because the exporter is unreachable.",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "gridPos": {
-        "x": 0,
-        "y": 39,
-        "w": 24,
-        "h": 4
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "up",
-          "instant": true,
-          "range": false,
-          "legendFormat": "{{job}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "1": {
-                  "text": "✔ UP",
-                  "color": "#0ca30c",
-                  "index": 0
-                },
-                "0": {
-                  "text": "✖ DOWN",
-                  "color": "#d03b3b",
-                  "index": 1
-                },
-                "-1": {
-                  "text": "… NOT REPORTING YET",
-                  "color": "#fab219",
-                  "index": 2
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#d03b3b",
-                "value": null
-              },
-              {
-                "color": "#0ca30c",
-                "value": 1
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          },
-          "noValue": "no data yet"
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value_and_name",
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto"
       }
     }
   ]
