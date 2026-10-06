@@ -18,6 +18,9 @@
 #   image_vuln_fix_state{image,state}         findings by Grype fix state
 #   image_compensating_groups{image,disposition}  groups: accepted / not_mitigated / removable
 #   image_leftover_files{image,group}         files still PRESENT per package group
+#   image_top_vuln{image,cve,package,severity,cvss,fix_state}
+#                                             the 10 worst findings of this image (sort
+#                                             key as value: severity weight + cvss/100)
 #   image_scan_info{image,version}            version that was scanned
 #   image_scan_timestamp_seconds{image}       when metrics were written
 #
@@ -49,6 +52,26 @@ main() {
       | ["fixed","not-fixed","wont-fix","unknown"][] as $s
       | "\($s)\t\([$m[] | select((.vulnerability.fix.state // "unknown") == $s)] | length)"' "$vuln_json")" \
     || return 1
+
+  # Ten worst findings: unique per CVE+package, ranked by severity then CVSS.
+  # Best-effort -- a failure here only omits the top-10 series.
+  local top_lines
+  top_lines="$(jq -r '
+      def w: ({"Critical":4,"High":3,"Medium":2,"Low":1,"Negligible":0}[.] // 0);
+      [ (.matches // [])[] | {
+          cve: .vulnerability.id,
+          pkg: .artifact.name,
+          sev: (.vulnerability.severity // "Unknown"),
+          fix: (.vulnerability.fix.state // "unknown"),
+          cvss: ( [ ((.vulnerability.cvss // [])[] | .metrics.baseScore?),
+                    ((.relatedVulnerabilities // [])[] | (.cvss // [])[] | .metrics.baseScore?) ]
+                  | map(select(. != null)) | max ) } ]
+      | group_by([.cve, .pkg])
+      | map(max_by([(.sev | w), (.cvss // 0)]))
+      | map(. + {rank: ((.sev | w) + ((.cvss // 0) / 100))})
+      | sort_by(-.rank) | .[:10][]
+      | [.cve, .pkg, .sev, (if .cvss == null then "n/a" else (.cvss | tostring) end), .fix, (.rank | tostring)]
+      | @tsv' "$vuln_json" 2>/dev/null)" || top_lines=""
 
   # ---- 2. Compensating-control report (parsed from the scan log) ------
   local ctl_lines=""
@@ -96,6 +119,14 @@ main() {
     while IFS=$'\t' read -r k v; do
       [[ -n "$k" ]] && echo "image_vuln_fix_state{image=\"${e_img}\",state=\"${k}\"} ${v}"
     done <<< "$fix_lines"
+
+    if [[ -n "$top_lines" ]]; then
+      echo "# HELP image_top_vuln Ten worst findings of the latest scan (value = severity weight + cvss/100, for sorting)."
+      echo "# TYPE image_top_vuln gauge"
+      while IFS=$'\t' read -r cve pkg sev cvss fix rank; do
+        [[ -n "$cve" ]] && echo "image_top_vuln{image=\"${e_img}\",cve=\"$(esc "$cve")\",package=\"$(esc "$pkg")\",severity=\"${sev}\",cvss=\"${cvss}\",fix_state=\"${fix}\"} ${rank}"
+      done <<< "$top_lines"
+    fi
 
     if [[ -n "$ctl_lines" ]]; then
       echo "# HELP image_compensating_groups Package groups by compensating-control disposition."
